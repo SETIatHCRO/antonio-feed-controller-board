@@ -1,0 +1,12 @@
+
+SYNOPSIS
+    stty 
+    rimbox
+DESCRIPTION
+    sets line separator to vertical bar and end-of-line to carriage
+    return.  This is the default setting when the microcontroller
+    is powered up.  Using vertical bar as a line separator accomodates
+    returning multiple lines to the rimbox virtual asynchronous 
+    channel which terminates its request-response session when it
+    reads a carriage return.
+

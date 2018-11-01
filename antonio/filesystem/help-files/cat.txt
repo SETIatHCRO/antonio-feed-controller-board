@@ -1,0 +1,13 @@
+
+SYNOPSIS
+    cat filename
+    type filename 
+DESCRIPTION
+    show contents of filename 
+
+EXAMPLES
+    show contents of file STATE.TXT using unix-style command:
+      cat STATE.TXT 
+    show contents of file COMMANDS.TXT in subdirectory HELP using
+    windows-style command:
+      type HELP\COMMANDS.TXT 

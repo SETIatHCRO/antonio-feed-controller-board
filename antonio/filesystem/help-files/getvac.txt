@@ -1,0 +1,15 @@
+
+SYNOPSIS
+    getvac [options]
+        gv [options]
+DESCRIPTION
+    get Pfeiffer vacuum gauge reading in millibar units.  May also return
+    "underrange," "overrange," or "sensor error" (see manual). 
+
+    -v  return measured voltage (don't convert to millibar) 
+
+EXAMPLES
+    get vacuum gauge reading converted to millibar units:
+      getvac
+    get measured vacuum gauge voltage: 
+      getvac -v

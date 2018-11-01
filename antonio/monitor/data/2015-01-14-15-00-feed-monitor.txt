@@ -1,0 +1,2 @@
+           Vac   ----Vac Drv---- ---Temp TC7x--- ------Cryo----- Diode ---Fan--
+  Time    Guage  p316  p398 p346  A0  A1  A2  A3  TC Max Min Cur  (V)  PWM  RPM

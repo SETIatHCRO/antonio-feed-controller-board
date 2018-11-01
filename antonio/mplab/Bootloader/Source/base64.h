@@ -1,0 +1,1 @@
+unsigned int base64_decode(char* out, char* in);

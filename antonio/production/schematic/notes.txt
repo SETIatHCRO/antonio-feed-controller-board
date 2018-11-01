@@ -1,0 +1,3 @@
+
+gs -sDEVICE=pdfwrite -sPAPERSIZE=letter -sOutputFile="filename.pdf" -dNOPAUSE -dBATCH page1.eps page2.eps page3.eps
+

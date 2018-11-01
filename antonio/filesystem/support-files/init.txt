@@ -1,0 +1,19 @@
+min_fan_pwm         20
+cold_fan_pwm        30
+warm_fan_pwm        66
+default_fan_pwm     90
+hot_fan_pwm        100
+
+max_reject_temp     70
+hot_reject_temp     55
+warm_reject_temp    40
+cold_reject_temp     0
+
+max_case_temp       80
+hot_case_temp       65
+warm_case_temp      50
+cold_case_temp       0
+
+vac_power_threshold 25
+
+auto_start_retries   3

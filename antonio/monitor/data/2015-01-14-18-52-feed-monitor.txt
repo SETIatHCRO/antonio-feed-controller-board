@@ -1,0 +1,3 @@
+           Vac   ----Vac Drv---- ---Temp TC7x--- ------Cryo----- Diode ---Fan--
+  Time    Guage  p316  p398 p346  A0  A1  A2  A3  TC Max Min Cur  (V)  PWM  RPM
+18:53:43 9.5e-09   12 90029   18   5  29 --- --- --- --- 240  70 1.032  28 2124

@@ -1,0 +1,6 @@
+
+SYNOPSIS
+    get24v
+DESCRIPTION
+    returns mean 24V supply measurement.
+

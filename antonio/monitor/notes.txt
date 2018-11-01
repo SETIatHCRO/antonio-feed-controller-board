@@ -1,0 +1,48 @@
+
+rackrman@x200ca:~/temp/seti$ cut 2015-01-14-19-29-feed-monitor.txt -c 35-36,61-61,62-64,72-72,73-74 | sed -n '/ *[0-9]\+ \+[0-9]\+/p' > 2015-01-19-temp-vs-power.txt
+rackrman@x200ca:~/temp/seti$ cut 2015-01-18-12-00-feed-monitor.txt -c 35-36,61-61,62-64,72-72,73-74 | sed -n '/ *[0-9]\+ \+[0-9]\+/p' >> 2015-01-19-temp-vs-power.txt
+rackrman@x200ca:~/temp/seti$ less 2015-01-19-temp-vs-power.txt
+
+octave> d = load('2015-01-19-temp-vs-power.txt');
+octave> coef = polyfit(d(:,1), d(:,2), 1);
+octave> m = coef(1)
+octave> b = coef(2)
+octave> r = [];
+octave> r(1:31) = 0:30;
+octave> r(1:31, 2) =  r(1:31) .* m + b;
+octave> r(1:31, 3) =  240;
+octave> save -ascii "2015-01-19-temp-vs-power-regression.txt" r
+
+gnuplot> set ytics nomirror
+gnuplot> set y2tics
+
+gnuplot> plot [0:30] [100:260] "2015-01-19-temp-vs-power.txt" u 1:2 t "Cryo Power" axes x1y1  w p pt 6 ps 1.75 lc rgb "#2020c0",  "2015-01-19-temp-vs-power-regression.txt" u 1:2 notitle axes x1y1 w l lw 1.25 lt 2  lc rgb "#800080", "2015-01-19-temp-vs-power-regression.txt" u 1:3 notitle axes x1y1 w l lw 1.5 lc rgb "#f00000", "2015-01-19-temp-vs-power.txt" u 1:3 t "Fan PWM" axes x1y2 w p pt 6 ps 1.75 lc rgb "#00a000"
+
+gnuplot> set xlabel "Ambient Temperature (centigrade) -- measured by control board (A0)"
+gnuplot> set ylabel "Cryocooler Power (watts)"
+gnuplot> set y2label "Fan PWM"
+gnuplot> set title "ant2e Antonio Feed Ambient Temperature vs. Cryocooler Power\n(January 14-18, 2015)"
+set grid
+
+set terminal pngcairo size 1024,800 fontscale 1.1
+set output "test.png"
+
+replot
+
+--------------------------------------------------------------------------
+
+$ cut data/2015-01-23-11-24-feed-monitor.txt -c 35-36,50-50,51-52,61-61,62-64,72-72,73-74 | sed -n '/ *[0-9]\+ \+[0-9]\+/p' > 2015-01-23-temp-vs-power.txt
+$ awk '{if ($2 > 65) print $1,$2,$3,$4}' 2015-01-23-temp-vs-power.txt  > 2015-01-23-temp-vs-power-no-reg.txt
+$ awk '{if ($2 <= 65) print $1,$2,$3,$4}' 2015-01-23-temp-vs-power.txt  > 2015-01-23-temp-vs-power-reg.txt
+
+plot [-5:35] [100:260] "2015-01-23-temp-vs-power-reg.txt" using 1:3 t "TC <= 65K" w p pt 6 ps 1.5 lc rgb "#2020c0", "2015-01-23-temp-vs-power-no-reg.txt" using 1:3 t "TC  >  65K" w p pt 6 ps 1.5 lc rgb "#c02020"
+
+set title "ant2e Antonio Feed Ambient Temperature vs. Cryocooler Power\n(January 23-27, 2015)"
+set xlabel "Ambient Temperature (centigrade) -- measured by control board (A0)"
+set ylabel "Cryocooler Power (watts)"
+set grid
+set label "Fan PWM fixed @ 60%" at 1,230 tc rgb "#20c020"
+
+set terminal pngcairo size 1024,800 fontscale 1.1
+set output "2015-01-23-27-antonio-feed-temp-vs-power.png"
+

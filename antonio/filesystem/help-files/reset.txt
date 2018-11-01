@@ -1,0 +1,8 @@
+
+SYNOPSIS
+    reset 
+DESCRIPTION
+    restart the microcontroller.  This is done via the watchdog
+    mechanism, therefore, it may take up to one minute for the reset
+    to occur.
+

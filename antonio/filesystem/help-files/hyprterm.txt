@@ -1,0 +1,10 @@
+
+SYNOPSIS
+    minex
+    hyperterminal
+    ht 
+DESCRIPTION
+    sets line separator and end-of-line to carriage return and line
+    feed.  This will work with most terminals especially in the
+    Windows environment.
+

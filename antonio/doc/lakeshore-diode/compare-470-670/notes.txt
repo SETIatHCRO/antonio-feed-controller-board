@@ -1,0 +1,16 @@
+
+$ sed -n 's/^ *\([.0-9]\+\)[ \t]\+\([.0-9]\+\).*$/\1  \2/p' ../dt-470-response.txt >dt-470-response-fixed.txt
+
+$ sed -n 's/^ *\([.0-9]\+\)[ \t]\+\([.0-9]\+\).*$/\1  \2/p' ../dt-670-response.txt >dt-670-response-fixed.txt
+
+ipython --pylab
+plot(d470[:,0],d470[:,1],label='DT-470')
+hold(True)
+plot(d670[:,0],d670[:,1],label='DT-670')
+legend(loc='upper right')
+title('Comparison of LakeShore Diodes')
+xlabel('Temperature (K)')
+ylabel('Voltage (V)')
+xlim(0,350)
+savefig('dt-470-670-comparison.png')
+
