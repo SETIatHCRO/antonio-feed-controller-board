@@ -5,7 +5,10 @@ The original firmware project in antonio/mplab/antonio_feed_pic32_control_softwa
 
 Requirements for the feed controller project, as of Jan 18, 2019
 
-MPLab IDE 5.10
-Compiler v 2.15
+  MPLab IDE 5.10
+  Compiler v 2.15
+  Windows 10
+  Pickit4 programmer
+
 
 
