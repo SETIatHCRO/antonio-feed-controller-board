@@ -33,6 +33,8 @@ There are 3 UARTS, parameters defines in user.c
 
   - I2C1, TC74 temperature sensors, set to freq 50,000
   - I2C2, accelerometer, set to freq 50,000
+  - Cabling info: https://www.analog.com/media/en/technical-documentation/technical-articles/I2C-Cabling.pdf
+  - More cabling info: https://hackaday.com/2017/02/08/taking-the-leap-off-board-an-introduction-to-i2c-over-long-wires/
 
 
 ##Oscillator
