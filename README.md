@@ -42,7 +42,14 @@ There are 3 UARTS, parameters defines in user.c
   - Internal vs exteranl oscillator info: https://www.sciencedirect.com/topics/computer-science/internal-oscillator
   - Microchip Crystal Oscillator Basics and Crystal Selection http://ww1.microchip.com/downloads/en/appnotes/00826a.pdf
   - Internal Oscillator Calibration Using the Temperature Indicator Module (16bit PIC, but info is relevant) https://www.microchip.com/stellent/groups/picmicro_sg/documents/appnotes/jp588536.pdf
-  - The OSCTUN register can be used to adjust the internal oscillator frequency during run time. 
+  - The OSCTUNE register can be used to adjust the internal oscillator frequency during run time. 
+
+##Accerometer
+
+  - The accelerometer used: https://www.sparkfun.com/products/12756
+  - Tech manual: https://www.nxp.com/docs/en/data-sheet/MMA8452Q.pdf
+  - Board wiring: https://github.com/SETIatHCRO/antonio-feed-controller-board/blob/master/Items%20collected%20by%20MCF/accel.pdf
+
 
 
 
