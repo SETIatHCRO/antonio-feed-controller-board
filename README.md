@@ -10,7 +10,7 @@ Requirements for the feed controller project, as of Jan 18, 2019
   - Windows 10
   - Pickit4 programmer
 
-##Useful Links
+## Useful Links
 
 The processor is the Microchip 32MX795F512L
   - Product page: https://www.microchip.com/wwwproducts/en/PIC32MX795F512L
@@ -19,7 +19,7 @@ The processor is the Microchip 32MX795F512L
   - Falsh programming spec: http://ww1.microchip.com/downloads/en/DeviceDoc/PIC32-Flash-%20Programming-%20Specification-DS60001145W.pdf
   - Compiler User's Guide: http://hades.mech.northwestern.edu/images/c/cc/XC32_Compiler_Users_Guide.pdf
 
-##Notes
+## Notes
 
 The on-board temperature sensor sampled periodically since summer 2018 shows a variation of -6C to 46C degrees.
 
@@ -29,7 +29,7 @@ There are 3 UARTS, parameters defines in user.c
   - UART2, cryo contriller baud 4800
   - UART3, vacuum drive baud 9600
 
-##I2C 
+## I2C 
 
   - I2C1, TC74 temperature sensors, set to freq 50,000
   - I2C2, accelerometer, set to freq 50,000
@@ -37,14 +37,14 @@ There are 3 UARTS, parameters defines in user.c
   - More cabling info: https://hackaday.com/2017/02/08/taking-the-leap-off-board-an-introduction-to-i2c-over-long-wires/
 
 
-##Oscillator
+## Oscillator
 
   - Internal vs exteranl oscillator info: https://www.sciencedirect.com/topics/computer-science/internal-oscillator
   - Microchip Crystal Oscillator Basics and Crystal Selection http://ww1.microchip.com/downloads/en/appnotes/00826a.pdf
   - Internal Oscillator Calibration Using the Temperature Indicator Module (16bit PIC, but info is relevant) https://www.microchip.com/stellent/groups/picmicro_sg/documents/appnotes/jp588536.pdf
   - The OSCTUNE register can be used to adjust the internal oscillator frequency during run time. 
 
-##Accerometer
+## Accerometer
 
   - The accelerometer used: https://www.sparkfun.com/products/12756
   - Tech manual: https://www.nxp.com/docs/en/data-sheet/MMA8452Q.pdf
