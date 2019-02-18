@@ -21,6 +21,8 @@ The processor is the Microchip 32MX795F512L
 
 ##Notes
 
+The on-board temperature sensor sampled periodically since summer 2018 shows a variation of -6C to 46C degrees.
+
 There are 3 UARTS, parameters defines in user.c
 
   - UART1, rimbox baud 19200
