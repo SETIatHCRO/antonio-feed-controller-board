@@ -41,47 +41,7 @@ void getversion_command(char *args[]);
 void getfeedstartmode_command(char *args[]);
 void setfeedstartmode_command(char *args[]);
 
-/*
- * associate command names with their functions and help files
- */
-/*
-struct command_pair commands[] = {
-    {"help", help_command, NULL},
-    {"setfanpwm", setfanpwm_command, "sfpwm.txt"},
-    {"getfanpwm", getfanpwm_command, "gfpwm.txt"},
-    {"getfanrpm", getfanrpm_command, "gfrpm.txt"},
-    {"getfanspeed", getfanrpm_command, "gfrpm.txt"},
-    {"gettemp", gettemp_command, "gettemp.txt"},
-    {"gt", gettemp_command, "gettemp.txt"},
-    {"getvacuum", getvacuum_command, "getvac.txt"},
-    {"getvac", getvacuum_command, "getvac.txt"},
-    {"gv", getvacuum_command, "getvac.txt"},
-    {"getdiode", getdiode_command, "getdiode.txt"},
-    {"gd", getdiode_command, "getdiode.txt"},
-    {"getaccel", getaccel_command, "getaccel.txt"},
-    {"setrelay", setrelay_command, "setrelay.txt"},
-    {"getrelay", getrelay_command, "getrelay.txt"},
-    {"ls", ls_command, "ls.txt"},
-    {"dir", ls_command, "ls.txt"},
-    {"cat", cat_command, "cat.txt"},
-    {"type", cat_command, "cat.txt"},
-    {"get24v", get24v_command, "get24v.txt"},
-    {"get48v", get48v_command, "get48v.txt"},
-    {"getcryoattemp", getcryoattemp_command, "getattmp.txt"},
-    {"setfeedstartmode", setfeedstartmode_command, "setstart.txt"},
-    {"getfeedstartmode", getfeedstartmode_command, "getstart.txt"},
-    {"hyperterminal", hyperterminal_command, "hyprterm.txt"},
-    {"ht", hyperterminal_command, "hyprterm.txt"},
-    {"minex", hyperterminal_command, "hyprterm.txt"},
-    {"stty", stty_command, "stty.txt"},
-    {"rimbox", stty_command, "stty.txt"},
-    {"getversion", getversion_command, "getversn.txt"},
-    {"bootloader", bootloader_command, "bootload.txt"},
-    {"reset", reset_command, "reset.txt"}
-};
-*/
-
-#define NUMBER_OF_COMMANDS 34
+#define NUMBER_OF_COMMANDS 38
 struct command_pair *get_commands();
 
 //#define NUMBER_OF_COMMANDS (sizeof (commands) / sizeof(struct command_pair))

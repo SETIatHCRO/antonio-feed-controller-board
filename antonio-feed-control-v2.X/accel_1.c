@@ -196,9 +196,11 @@ static void accel_timeout_callback() {
 #ifdef MYACCELDEBUG
     strcat(accel_msg, " TIMEOUT");
 #endif
+    
     is_accel_timeout = true;
 
     accel_state = accel_timeout_state;
+    
 }
 
 void poll_accel() {
@@ -206,7 +208,7 @@ void poll_accel() {
 }
 
 static void accel_idle() {
-    if (!(is_accel_initialized)) {
+    if (is_accel_initialized == false) {
         return;
     }
 
@@ -230,6 +232,7 @@ static void accel_start() {
     I2C_RESULT i2c_result;
 
     if (I2CBusIsIdle(I2C2)) {
+        
 #ifdef MYACCELDEBUG
         strcpy(accel_msg, "START");
 #endif
@@ -496,6 +499,7 @@ static void accel_stop() {
 #ifdef MYACCELDEBUG
     strcat(accel_msg, " STOP");
 #endif
+    //send an I2C Stop condition to terminate a transfer
     I2CStop(I2C2);
 
     accel_state = accel_stop_wait;
@@ -550,7 +554,11 @@ static void accel_loop() {
         return;
     }
     else {
+        //JR debug
+        //if(is_accel_initialized == false)
+        //  accel_report_one_sec(true);
         is_accel_initialized = true;
+        
     }
 
     accel_state = accel_idle;
@@ -647,7 +655,13 @@ static void accel_accumulate_stats() {
 void accelonesec_command(char *args[]) {
 
     if (args[0] == NULL) {
-        send_to_rimbox("Syntax: accelonesec on/off\r\n");
+        //send_to_rimbox("Syntax: accelonesec on/off\r\n");
+        if(one_second_report == true) {
+            accel_report_one_sec(false);
+        }
+        else {
+            accel_report_one_sec(true);
+        }
         return;
     }
 

@@ -77,9 +77,12 @@
 /* Interrupt Routines                                                         */
 /******************************************************************************/
 
-
-void __ISR(_CORE_TIMER_VECTOR, ipl2) CoreTimerHandler(void) {
+// JR - Feb 18, 2019 - Compiler complained the following was deprecated ...
+//void __ISR(_CORE_TIMER_VECTOR, ipl2) CoreTimerHandler(void) {
+// ... The compiler suggested this context:
 //void __ISR(_CORE_TIMER_VECTOR, IPL2(AUTO|SOFT|SRS|SAVEALL)) CoreTimerHandler(void) {
+// ... so I changed it to this:
+void __ISR(_CORE_TIMER_VECTOR, IPL2AUTO) CoreTimerHandler(void) {
     mCTClearIntFlag();  // do this at end of ISR?
 
     tick_count++;  // ~ 1 millisecond per tick

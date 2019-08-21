@@ -1,3 +1,9 @@
+#ifdef __XC32
+    #include <xc.h>          /* Defines special funciton registers, CP0 regs  */
+#endif
+
+#include <plib.h>           /// Include to use PIC32 peripheral libraries
+
 #include <stdint.h>         /* For uint32_t definition                        */
 #include <stdbool.h>        /* For true/false definition     */
 #include <string.h>
@@ -13,10 +19,14 @@
 #include "file_utils.h"
 #include "voltages.h"
 #include "cryo.h"
+#include "internal_osc.h"
+#include "rs232_test.h"
 #include "commands.h"
 
 extern char OK[];
 extern char *EOL;
+
+void restart_command();
 
 
 struct command_pair commands[] = {
@@ -52,7 +62,11 @@ struct command_pair commands[] = {
     {"getversion", getversion_command, "getversn.txt"},
     {"bootloader", bootloader_command, "bootload.txt"},
     {"reset", reset_command, "reset.txt"},
-    {"accelonesec", accelonesec_command, NULL}
+    {"accelonesec", accelonesec_command, NULL},
+    {"aa", accelonesec_command, NULL},
+    {"osc", setosctun_command, NULL},
+    {"rs", rs232_test_command, NULL},
+    {"restart", restart_command, NULL}
     //,
    // {"setcryoprotect", setcryostopmode_command, NULL},
     //{"getcryoprotect", getcryostopmode_command, NULL}
@@ -137,4 +151,20 @@ void setfeedstartmode_command(char *args[]) {
     // command parameter not "manual" or "auto"
     send_to_rimbox(EOL);
     return;
+}
+
+void restart_command() {
+    /* perform a system unlock sequence */
+    SYSKEY = 0xAA996655; //Unlock Sequence KEY1
+    SYSKEY = 0x556699AA; //Unlock Sequence KEY2
+    // SYSTEMUnlock();
+    /* set SWRST bit to arm reset */
+    RSWRSTSET = 1;
+
+    /* read RSWRST register to trigger reset */
+    volatile int* p = &RSWRST;
+    *p;
+
+     /* prevent any unwanted code execution until reset occurs*/
+    while(1);
 }

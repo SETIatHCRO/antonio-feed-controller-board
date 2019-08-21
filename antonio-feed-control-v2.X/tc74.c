@@ -9,6 +9,10 @@
 #include "accel.h"
 #include "tc74.h"
 
+#include "rimbox.h"
+
+extern char *EOL;
+
 #ifdef MYTC74DEBUG
     char tc74_msg[99];
 #endif
@@ -65,6 +69,8 @@ static void tc74_start_callback() {
 }
 
 static void tc74_timeout_callback() {
+    send_to_rimbox("tc74 init error");
+    send_to_rimbox(EOL);
     tc74_devices[tc74_i].is_initialized = false;
     tc74_devices[tc74_i].is_valid_temp = false;
     tc74_timeout_state();
@@ -169,6 +175,7 @@ static void tc74_devices_send_read_cmnd() {
 }
 
 static void tc74_devices_send_read_cmnd_wait() {
+    
     if (I2CTransmissionHasCompleted(I2C1)) {
         if (I2CByteWasAcknowledged(I2C1)) {
 #ifdef MYTC74DEBUG
@@ -238,6 +245,7 @@ static void tc74_devices_stop_wait() {
 }
 
 static void tc74_devices_loop() {
+    
     stop_timer(&tc74_timeout_timer);
 #ifdef MYTC74DEBUG
     mylog(tc74_msg);
@@ -254,7 +262,7 @@ static void tc74_devices_loop() {
     else {
 #ifdef MYTC74DEBUG
         strcpy(tc74_msg, "");
-#endif
+#endif    
         tc74_timeout_state = tc74_devices_stop;
         start_timer(&tc74_timeout_timer, tc74_timeout_callback, 100);
         poll_tc74_devices_state = tc74_devices_start;

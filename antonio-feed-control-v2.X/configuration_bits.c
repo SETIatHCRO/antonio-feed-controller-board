@@ -19,6 +19,7 @@
 #pragma config FPLLODIV = DIV_1         // System PLL Output Clock Divider (PLL Divide by 1)
 
 // DEVCFG1
+/*
 #pragma config FNOSC = PRIPLL           // Oscillator Selection Bits (Primary Osc w/PLL (XT+,HS+,EC+PLL))
 #pragma config FSOSCEN = ON             // Secondary Oscillator Enable (Enabled)
 #pragma config IESO = ON                // Internal/External Switch Over (Enabled)
@@ -28,6 +29,18 @@
 #pragma config FCKSM = CSDCMD           // Clock Switching and Monitor Selection (Clock Switch Disable, FSCM Disabled)
 #pragma config WDTPS = PS65536          // Watchdog Timer Postscaler (1:65536)
 #pragma config FWDTEN = OFF             // Watchdog Timer Enable (WDT Disabled (SWDTEN Bit Controls))
+*/
+/* Internal oscillators settings.*/
+#pragma config FNOSC = FRCPLL // Oscillator Selection Bits (Fast RC Osc)
+#pragma config FSOSCEN = ON // Secondary Oscillator Enable (Disabled)
+#pragma config IESO = OFF // Internal/External Switch Over (Disabled)
+#pragma config POSCMOD = OFF // Primary Oscillator Configuration (Primary osc disabled)
+#pragma config OSCIOFNC = OFF // CLKO Output Signal Active on the OSCO Pin (Disabled)
+#pragma config FPBDIV = DIV_4 // Peripheral Clock Divisor (Pb_Clk is Sys_Clk/1)
+#pragma config WDTPS = PS65536 // Watchdog Timer Postscaler (1:1)
+#pragma config FWDTEN = OFF // Watchdog Timer Enable (WDT Disabled (SWDTEN Bit Controls))
+#pragma config FCKSM = CSDCMD 
+/**/
 
 // DEVCFG0
 #pragma config DEBUG = ON              // Background Debugger Enable (Debugger is disabled)

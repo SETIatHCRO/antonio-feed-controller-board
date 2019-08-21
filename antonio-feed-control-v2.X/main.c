@@ -30,7 +30,7 @@
 
 #define MYDEBUG
 
-float version = 4.0;
+float version = 4.2;
 static char init_string[] = "Antonio Feed Monitor and Control Firmware";
 
 bool echo_mode = false;
@@ -52,9 +52,10 @@ char *EOL = CR;
 void (*poll_auto_start)();
 void init_log();
 void toggle_watchdog();
+void stty_command(char *args[]);
 
 /*
- * 
+ * Z:\seti\antonio_v2\antonio_feed_control_v2.X\accel_1.c
  */
 int main(void) {
     
@@ -79,8 +80,10 @@ int main(void) {
     // times during programming.
     delayMs(3000);
     
-    echo_mode = true;
-    
+    // Init to stty mode. This is necessary because these values don't get
+    // re-initialized if a soft reset command is issued.
+    stty_command(NULL);
+     
     /* Initialize I/O and Peripherals for application */
     InitApp();
     
@@ -106,11 +109,12 @@ int main(void) {
     cryo_init();
     
     EnableWDT();
-
+    
     sprintf(msg, "%s %4.2f", init_string, version);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
     feedlog(msg);
+   
 
     //load_init();
 
@@ -131,8 +135,7 @@ int main(void) {
     
     while(1) {
         toggle_watchdog();
-        
-        
+    
 //mylog("0");
         poll_recv_from_rimbox();
         poll_accel();

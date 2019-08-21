@@ -56,7 +56,10 @@ void cryo_init() {
     save_relay_state();
     
     //Tell the cryo controller to not use the thermistor
-    command = "SET SSTOPM=0";
+    //command = "SET SSTOPM=0";
+    // Tell cryo controller to stop if power removed from controller board. 
+    // Requires the new cable
+    command = "SET TSTATM=1";
     poll_cryo_session = wait_cryo_not_busy;
 
 }
