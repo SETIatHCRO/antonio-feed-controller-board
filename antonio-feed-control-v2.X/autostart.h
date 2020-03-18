@@ -20,7 +20,78 @@ void auto_start_delay();
 
 void auto_start_timer_callback();
 
-void auto_start_000_p009_request();
+void autostart_command();
+void shutdown_command();
+
+//two generic functions to send a request to vaccum
+void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void));
+void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void));
+void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void));
+void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void));
+
+//Init sequence of auto start
+void auto_start_i000_request();
+void auto_start_i000_response();
+void auto_start_i001_request();
+void auto_start_i001_response();
+void auto_start_i002_request();
+void auto_start_i002_response();
+void auto_start_i003_request();
+void auto_start_i003_response();
+void auto_start_i004_request();
+void auto_start_i004_response();
+void auto_start_i005_request();
+void auto_start_i005_response();
+void auto_start_i006_request();
+void auto_start_i006_response();
+void auto_start_i007_request();
+void auto_start_i007_response();
+void auto_start_i008_request();
+void auto_start_i008_response();
+void auto_start_i009_request();
+void auto_start_i009_response();
+void auto_start_i010_request();
+void auto_start_i010_response();
+void auto_start_i011_request();
+void auto_start_i011_response();
+void auto_start_i012_request();
+void auto_start_i012_response();
+
+//autostart vacuum preparation
+void auto_start_v001_request();
+void auto_start_v001_response();
+void auto_start_v002_request();
+void auto_start_v002_response();
+void auto_start_v003_request();
+void auto_start_v003_response();
+void auto_start_v004_request();
+void auto_start_v004_response();
+void auto_start_v005_request();
+void auto_start_v005_response();
+void auto_start_v006_request();
+void auto_start_v006_response();
+void auto_start_v007_request();
+void auto_start_v007_response();
+void auto_start_v008_request();
+void auto_start_v008_response();
+
+//shutdown end steps
+void auto_start_s001_request();
+void auto_start_s001_response();
+void auto_start_s002_request();
+void auto_start_s002_response();
+void auto_start_s003_request();
+void auto_start_s003_response();
+
+//stepping temperature down
+void auto_start_d001_request();
+void auto_start_d001_response();
+
+//stepping temperature up
+void auto_start_u001_request();
+void auto_start_u001_response();
+
+/*void auto_start_000_p009_request();
 void auto_start_000_p009_response();
 void auto_start_001_p010_request();
 void auto_start_001_p010_response();
@@ -51,7 +122,7 @@ void auto_start_013_getdiode();
 
 void auto_start_999_sstop_request();
 void auto_start_999_sstop_response();
-
+*/
 void auto_start_send_request_to_vac();
 void auto_start_send_request_to_vac_delayed();
 void auto_start_get_response_from_vac();
@@ -63,6 +134,7 @@ void auto_start_get_response_from_cryo();
 void auto_start_error();
 
 void auto_start_complete();
+void shutdown_complete();
 
 float auto_start_getdiode();
 

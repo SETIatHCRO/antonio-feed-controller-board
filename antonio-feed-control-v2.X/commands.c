@@ -66,7 +66,9 @@ struct command_pair commands[] = {
     {"aa", accelonesec_command, NULL},
     {"osc", setosctun_command, NULL},
     {"rs", rs232_test_command, NULL},
-    {"restart", restart_command, NULL}
+    {"restart", restart_command, NULL},
+    {"shutdown", shutdown_command, NULL},
+    {"autostart", autostart_command, NULL}
     //,
    // {"setcryoprotect", setcryostopmode_command, NULL},
     //{"getcryoprotect", getcryostopmode_command, NULL}

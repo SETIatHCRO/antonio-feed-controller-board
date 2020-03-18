@@ -55,11 +55,19 @@ bool auto_start_state = false;
 
 bool should_report_complete = true;
 
+bool doing_startup = false;
+bool doing_shutdown = false;
+
+float lastTemp = 350.0;
+float targetTemp = 85.0;
+float highTemp = 273;
+
 
 // TODO: embed scripting engine for auto start procedure
 
 void auto_start_idle() {
     if (auto_start_state == true) {
+        doing_startup = true;
         start_timer(&auto_start_timer, auto_start_timer_callback,
                 AUTO_START_1_MIN);
         auto_start_next_state = auto_start_000_p009_request;
@@ -77,7 +85,64 @@ void auto_start_timer_callback() {
     poll_auto_start = auto_start_next_state;
 }
 
-void auto_start_000_p009_request() {
+void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
+    //strcpy(auto_start_request, vac_cmd);
+    strncpy(auto_start_request, vac_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
+
+    auto_start_cmnd_rspns_tries = 0;
+
+    auto_start_next_state = next_fun;
+    poll_auto_start = auto_start_send_request_to_vac;
+}
+
+void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void)) {
+    if (strcmp(auto_start_response, vac_resp) == 0) {
+        poll_auto_start = next_fun;
+        return;
+    }
+
+    auto_start_cmnd_rspns_tries += 1;
+
+    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
+        poll_auto_start = auto_start_send_request_to_vac;
+        return;
+    }
+
+    poll_auto_start = err_fun;
+}
+
+void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
+    //strcpy(auto_start_request, cryo_cmd);
+    strncpy(auto_start_request, cryo_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
+
+    auto_start_cmnd_rspns_tries = 0;
+
+    auto_start_next_state = next_fun;
+    poll_auto_start = auto_start_send_request_to_cryo;
+}
+
+void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void)) {
+    float cryo_flt_rspns;
+
+    int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
+
+    if ((N == 1) && (cryo_flt_rspns == cryo_resp)) {
+        poll_auto_start = next_fun;
+        return;
+    }
+
+    auto_start_cmnd_rspns_tries += 1;
+
+    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
+        poll_auto_start = auto_start_send_request_to_cryo;
+        return;
+    }
+
+    poll_auto_start = err_fun;
+}
+
+//This is commented out "old" part of the autostart routine
+/*void auto_start_000_p009_request() {
     
     send_to_rimbox("autostart starting\r\n");
     
@@ -500,7 +565,7 @@ void auto_start_999_sstop_response() {
 
     poll_auto_start = auto_start_error;
 }
-
+*/
 void auto_start_send_request_to_vac() {
     auto_start_save_next_state = auto_start_next_state;
     auto_start_next_state = auto_start_send_request_to_vac_delayed;
@@ -590,17 +655,55 @@ void auto_start_error() {
     if(should_report_complete) {
         send_to_rimbox("\r\nautostart error\r\n");
         should_report_complete = false;
+        doing_startup = false;
     }
-  
+    doing_shutdown = true;
 }
 
 void auto_start_complete() {
    
+    doing_startup = false;
     if(should_report_complete) {
         send_to_rimbox("\r\nautostart complete\r\n");
         should_report_complete = false;
     }
+    if(doing_shutdown) {
+        poll_auto_start = auto_start_u001_request;
+        should_report_complete = true;
+    }
    
+}
+
+void shutdown_complete() {
+    doing_shutdown = false;
+    if(should_report_complete) {
+        send_to_rimbox("\r\nshutdown complete\r\n")
+        should_report_complete = false;
+    }
+    if (doing_startup) {
+        poll_auto_start = auto_start_i000_request;
+        should_report_complete = true;
+    }
+}
+
+void autostart_command() {
+    send_to_rimbox("\rntoggling to auto start\r\n");
+    doing_startup = true;
+    doing_shutdown = false;
+    //if we were waiting for a timer - making sure timer ends in 3s
+    //it's not the most graceful part of the code though
+    if(auto_start_timer.countdown_ticks > 3000)
+        auto_start_timer.countdown_ticks = 3000;
+}
+
+void shutdown_command() {
+    send_to_rimbox("\rntoggling to shutdown\r\n");
+    doing_startup = false;
+    doing_shutdown = true;
+    //if we were waiting for a timer - making sure timer ends in 3s
+    //it's not the most graceful part of the code though
+    if(auto_start_timer.countdown_ticks > 3000)
+        auto_start_timer.countdown_ticks = 3000;
 }
 
 float auto_start_getdiode() {
