@@ -31,9 +31,6 @@ extern char cryo_response[99];
 
 struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 
-#define AUTO_START_1_MIN 60*1000
-#define AUTO_START_15_MIN 15*60*1000
-#define AUTO_START_45_MIN 45*60*1000
 
 #define AUTO_START_GETDIODE_THRESHOLD 250.0
 
@@ -41,7 +38,6 @@ struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 
 #define AUTO_START_CMND_RSPNS_MAX_TRIES 2
 
-#define AUTO_START_CMND_RSPNS_MAX_LEN 99
 
 unsigned int auto_start_tries = 0;
 
@@ -62,6 +58,8 @@ float lastTemp = 350.0;
 float targetTemp = 85.0;
 float highTemp = 273;
 
+int fore_vacuum_try = 0;
+int turbo_power_try = 0;
 
 // TODO: embed scripting engine for auto start procedure
 
@@ -70,7 +68,7 @@ void auto_start_idle() {
         doing_startup = true;
         start_timer(&auto_start_timer, auto_start_timer_callback,
                 AUTO_START_1_MIN);
-        auto_start_next_state = auto_start_000_p009_request;
+        auto_start_next_state = auto_start_i000_request;
         poll_auto_start = auto_start_delay;
         send_to_rimbox("\r\nautostart in 1 minute\r\n");
     }
@@ -98,6 +96,25 @@ void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
 void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void)) {
     if (strcmp(auto_start_response, vac_resp) == 0) {
         poll_auto_start = next_fun;
+        return;
+    }
+
+    auto_start_cmnd_rspns_tries += 1;
+
+    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
+        poll_auto_start = auto_start_send_request_to_vac;
+        return;
+    }
+
+    poll_auto_start = err_fun;
+}
+
+void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void), int32_t delayticks) {
+    if (strcmp(auto_start_response, vac_resp) == 0) {
+        feedlog("waiting...");
+        start_timer(&auto_start_timer, auto_start_timer_callback,delayticks);
+        auto_start_next_state = next_fun;
+        poll_auto_start = auto_start_delay;
         return;
     }
 
@@ -677,7 +694,7 @@ void auto_start_complete() {
 void shutdown_complete() {
     doing_shutdown = false;
     if(should_report_complete) {
-        send_to_rimbox("\r\nshutdown complete\r\n")
+        send_to_rimbox("\r\nshutdown complete\r\n");
         should_report_complete = false;
     }
     if (doing_startup) {

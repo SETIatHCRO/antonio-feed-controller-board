@@ -8,9 +8,21 @@
 #ifndef AUTOSTART_H
 #define	AUTOSTART_H
 
+#include <stdint.h>         /* For uint32_t definition                        */
+#include <stdbool.h>        /* For true/false definition     */
+
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
+
+//shared between autostart.c and various autostart_x.c
+#define AUTO_START_1_MIN 60*1000
+#define AUTO_START_15_MIN 15*60*1000
+#define AUTO_START_30_MIN 30*60*1000
+#define AUTO_START_45_MIN 45*60*1000
+
+#define AUTO_START_CMND_RSPNS_MAX_LEN 99
 
 void (*auto_start_next_state)();
 void (*auto_start_save_next_state)();
@@ -26,6 +38,7 @@ void shutdown_command();
 //two generic functions to send a request to vaccum
 void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void));
 void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void));
+void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void), int32_t delayticks);
 void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void));
 void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void));
 
@@ -90,6 +103,11 @@ void auto_start_d001_response();
 //stepping temperature up
 void auto_start_u001_request();
 void auto_start_u001_response();
+
+void auto_start_e000();
+void auto_start_e001();
+void auto_start_e002();
+void auto_start_e003();
 
 /*void auto_start_000_p009_request();
 void auto_start_000_p009_response();
