@@ -1,4 +1,5 @@
 #include "autostart.h"
+#include <stdio.h>
 
 extern bool doing_startup;
 extern bool doing_shutdown;
@@ -131,7 +132,7 @@ void auto_start_v007_response()
         if (resp_val == 111111) {
             //if we have turbo speed attained, going forward
             poll_auto_start = auto_start_v008_request;
-            return
+            return;
         } else {
             //we havent attained the turbo speed
             fore_vacuum_try += 1;
@@ -170,7 +171,7 @@ void auto_start_v008_response()
         if (resp_val <= 20) {
             //if we have low turbo power (good vacuum)
             poll_auto_start = auto_start_d001_request;
-            return
+            return;
         } else {
             //we havent attained the turbo power
             turbo_power_try += 1;

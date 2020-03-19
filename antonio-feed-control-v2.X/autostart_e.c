@@ -1,4 +1,5 @@
 #include "autostart.h"
+#include "rimbox.h"
 
 /**
  * @file autostart_e.h

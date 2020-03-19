@@ -23,6 +23,7 @@ extern "C" {
 #define AUTO_START_45_MIN 45*60*1000
 
 #define AUTO_START_CMND_RSPNS_MAX_LEN 99
+#define AUTO_START_CMND_RSPNS_MAX_TRIES 2
 
 void (*auto_start_next_state)();
 void (*auto_start_save_next_state)();
