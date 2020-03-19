@@ -33,12 +33,18 @@ void auto_start_delay();
 
 void auto_start_timer_callback();
 
-void autostart_command();
-void shutdown_command();
+void autostart_command(char *args[]);
+void shutdown_command(char *args[]);
+void gettargettemp_command(char *args[]);
+void settargettemp_command(char *args[]);
+void autostartgetstate_command(char *args[]);
 
 void auto_start_send_request_to_vac();
 void auto_start_send_request_to_vac_delayed();
 void auto_start_get_response_from_vac();
+
+void auto_start_check_vacuum_request();
+void auto_start_check_vacuum_response();
 
 void auto_start_send_request_to_cryo();
 void auto_start_send_request_to_cryo_delayed();

@@ -1,7 +1,9 @@
 #include "autostart.h"
 #include "oneshot.h"
 #include <stdio.h>
+#include <stdint.h>
 
+extern int32_t autostart_machine_state;
 extern bool doing_startup;
 extern bool doing_shutdown;
 extern bool should_report_complete;
@@ -42,6 +44,7 @@ void auto_start_u001_request()
 //setting max power
 void auto_start_d001_request()
 {
+    autostart_machine_state |= 0x00000004;
     autostart_generic_cryo_request("SET MAX=240", auto_start_d001_response);
 }
 
@@ -156,10 +159,12 @@ void auto_start_d009_request()
 {
     autostart_ttarget_stab_count = 30;
     if(doing_startup){
+        autostart_machine_state |= 0x00000008;
         autostart_set_ttarget_withdelta_request(autostart_targetTemp,auto_start_d009_response);
         return;
     }
     if(doing_shutdown){
+        autostart_machine_state |= 0x00000020;
         autostart_set_ttarget_withdelta_request(autostart_highTemp,auto_start_d009_response);
         return;
     }

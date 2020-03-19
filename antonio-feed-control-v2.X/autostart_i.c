@@ -1,5 +1,7 @@
 #include "autostart.h"
+#include <stdint.h>
 
+extern int32_t autostart_machine_state;
 extern bool doing_startup;
 extern bool doing_shutdown;
 extern bool should_report_complete;
@@ -26,6 +28,7 @@ extern int turbo_power_try;
 //enabling errors
 void auto_start_i000_request()
 {
+    autostart_machine_state |= 0x00000001;
     should_report_complete = true;
     //resetting the try values
     turbo_power_try = 0;

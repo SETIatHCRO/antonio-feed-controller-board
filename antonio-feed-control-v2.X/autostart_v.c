@@ -1,5 +1,6 @@
 #include "autostart.h"
 #include <stdio.h>
+#include <stdint.h>
 
 extern bool doing_startup;
 extern bool doing_shutdown;
@@ -9,6 +10,8 @@ extern char auto_start_response[AUTO_START_CMND_RSPNS_MAX_LEN];
 extern int fore_vacuum_try;
 extern int turbo_power_try;
 extern int auto_start_cmnd_rspns_tries;
+
+extern int32_t autostart_machine_state;
 
 #define MAX_FORE_VACUUM_TRIES 3
 #define MAX_TURBO_POWER_TRIES 3
@@ -26,6 +29,7 @@ extern int auto_start_cmnd_rspns_tries;
 //starting the pumping station
 void auto_start_v001_request()
 {
+    autostart_machine_state |= 0x00000002;
     if(doing_shutdown) {
         poll_auto_start = auto_start_s001_request;
         return;

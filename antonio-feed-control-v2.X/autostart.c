@@ -29,6 +29,9 @@ extern char vac_request[99];
 extern char vac_response[99];
 extern char cryo_response[99];
 
+extern char *EOL;
+extern char OK[];
+
 struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 
 #ifndef MIN
@@ -50,6 +53,30 @@ float autostart_targetTemp = 85.0;
 float autostart_highTemp = 273;
 float autostart_curr_ttarget;
 
+/**
+ * @brief autostart_machine_state the state that the autostart machine is at
+ * stable states clears last 8 bits
+ * errors are not cleared
+ * 0x00 - not initialized (or manual autostart)
+ * 0x01 - started initialization
+ * 0x02 - started vacuum pumping
+ * 0x04 - init cooling
+ * 0x08 - cooling down
+ * 0x10 - stable low temp state
+ * 0x20 - heating up
+ * 0x40 - switching off
+ * 0x80 - stable high temp (shutdown) state
+ * 0x0100 - e000 occured
+ * 0x0200 - e001 occured
+ * 0x0400 - e002 occured
+ * 0x0800 - e003 occured
+ * 0x1000 - e004 occured
+ * 0x2000 - e005 occured
+ * 0x4000 - e006 occured
+ * 0x8000 - e007 occured
+ */
+int32_t autostart_machine_state = 0;
+
 unsigned int auto_start_tries = 0;
 
 unsigned int auto_start_cmnd_rspns_tries = 0;
@@ -64,6 +91,7 @@ bool should_report_complete = true;
 
 bool doing_startup = false;
 bool doing_shutdown = false;
+bool new_temp_set_point = false;
 
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;
@@ -105,19 +133,33 @@ void auto_start_complete() {
 
     doing_startup = false;
     if(should_report_complete) {
+        autostart_machine_state &= 0xFFFFFF00;
+        autostart_machine_state |= 0x00000010;
         send_to_rimbox("\r\nautostart complete\r\n");
         should_report_complete = false;
     }
     if(doing_shutdown) {
         poll_auto_start = auto_start_u001_request;
         should_report_complete = true;
+        return;
     }
-
+    if(new_temp_set_point) {
+        //new set point
+        doing_startup = true;
+        poll_auto_start = auto_start_d008_request;
+        new_temp_set_point = false;
+        return;
+    }
+    start_timer(&auto_start_timer, auto_start_timer_callback,AUTO_START_1_MIN);
+    auto_start_next_state = auto_start_check_vacuum_request;
+    poll_auto_start = auto_start_delay;
 }
 
 void shutdown_complete() {
     doing_shutdown = false;
     if(should_report_complete) {
+        autostart_machine_state &= 0xFFFFFF00;
+        autostart_machine_state |= 0x00000080;
         send_to_rimbox("\r\nshutdown complete\r\n");
         should_report_complete = false;
     }
@@ -127,7 +169,18 @@ void shutdown_complete() {
     }
 }
 
-void autostart_command() {
+void auto_start_check_vacuum_request()
+{
+    autostart_generic_vacuum_request("p302", auto_start_check_vacuum_response);
+}
+
+void auto_start_check_vacuum_response()
+{
+    autostart_test_vacuum_param_true(auto_start_complete,auto_start_e005,auto_start_e007);
+}
+
+void autostart_command(char *args[])
+{
     send_to_rimbox("\rntoggling to auto start\r\n");
     doing_startup = true;
     doing_shutdown = false;
@@ -138,7 +191,8 @@ void autostart_command() {
         auto_start_timer.countdown_ticks = 3000;
 }
 
-void shutdown_command() {
+void shutdown_command(char *args[])
+{
     send_to_rimbox("\rntoggling to shutdown\r\n");
     doing_startup = false;
     doing_shutdown = true;
@@ -147,6 +201,49 @@ void shutdown_command() {
     //it's not the most graceful part of the code though
     if(auto_start_timer.countdown_ticks > 3000)
         auto_start_timer.countdown_ticks = 3000;
+}
+
+void gettargettemp_command(char *args[])
+{
+    char msg[19];
+    snprintf(msg, 18, "%3.2f", autostart_targetTemp);
+    send_to_rimbox(msg);
+    send_to_rimbox(EOL);
+}
+
+void settargettemp_command(char *args[])
+{
+    char msg[19];
+    int N;
+    float next_temp;
+    float limitLow = 65;
+    float limithight = 150;
+    if (args[0] == NULL) {
+        send_to_rimbox(EOL);
+        return;
+    }
+    N = sscanf(args[0], "%f", &next_temp);
+    if (N != 1) {
+        send_to_rimbox(EOL);
+        return;
+    }
+    if( (next_temp < limitLow) || (next_temp > limithight) )
+    {
+        send_to_rimbox(EOL);
+        return;
+    }
+    autostart_targetTemp = next_temp;
+    new_temp_set_point = true;
+    send_to_rimbox(OK);
+    send_to_rimbox(EOL);
+}
+
+void autostartgetstate_command(char *args[])
+{
+    char msg[19];
+    snprintf(msg, 18, "%3d", autostart_machine_state);
+    send_to_rimbox(msg);
+    send_to_rimbox(EOL);
 }
 
 void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
