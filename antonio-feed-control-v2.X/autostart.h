@@ -109,6 +109,8 @@ void auto_start_e000();
 void auto_start_e001();
 void auto_start_e002();
 void auto_start_e003();
+void auto_start_e004();
+void auto_start_e005();
 
 /*void auto_start_000_p009_request();
 void auto_start_000_p009_response();

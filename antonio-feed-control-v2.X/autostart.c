@@ -670,6 +670,7 @@ void auto_start_error() {
     
     if(should_report_complete) {
         send_to_rimbox("\r\nautostart error\r\n");
+        send_to_rimbox("hanging\r\n");
         should_report_complete = false;
         doing_startup = false;
     }
