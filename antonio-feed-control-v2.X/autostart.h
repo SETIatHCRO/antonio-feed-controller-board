@@ -36,12 +36,40 @@ void auto_start_timer_callback();
 void autostart_command();
 void shutdown_command();
 
+void auto_start_send_request_to_vac();
+void auto_start_send_request_to_vac_delayed();
+void auto_start_get_response_from_vac();
+
+void auto_start_send_request_to_cryo();
+void auto_start_send_request_to_cryo_delayed();
+void auto_start_get_response_from_cryo();
+
+void auto_start_error();
+
+void auto_start_complete();
+void shutdown_complete();
+
+float auto_start_getdiode();
+
+bool get_auto_start_state();
+void set_auto_start_state(bool state);
+void load_autostart_state();
+
+void save_autostart_state();
+
+void (*poll_auto_start)();
+
 //two generic functions to send a request to vaccum
 void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void));
 void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void));
 void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void), int32_t delayticks);
 void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void));
 void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void));
+
+void autostart_set_ttarget_withdelta_request(float target_t,  void (*next_fun)(void));
+void autostart_set_ttarget_withdelta_response(void (*next_fun)(void), void (*err_fun)(void));
+
+void autostart_test_vacuum_param_true(void (*true_fun)(void), void (*false_fun)(void), void (*err_fun)(void));
 
 //Init sequence of auto start
 void auto_start_i000_request();
@@ -100,10 +128,28 @@ void auto_start_s003_response();
 //stepping temperature down
 void auto_start_d001_request();
 void auto_start_d001_response();
+void auto_start_d002_request();
+void auto_start_d002_response();
+void auto_start_d003_request();
+void auto_start_d003_response();
+void auto_start_d004_request();
+void auto_start_d004_response();
+void auto_start_d005_request();
+void auto_start_d005_response();
+void auto_start_d006_request();
+void auto_start_d006_response();
+void auto_start_d007_request();
+void auto_start_d007_response();
+void auto_start_d008_request();
+void auto_start_d008_response();
+void auto_start_d009_request();
+void auto_start_d009_response();
+void auto_start_d010_request();
+void auto_start_d010_response();
+void auto_start_d011_request();
 
 //stepping temperature up
 void auto_start_u001_request();
-void auto_start_u001_response();
 
 void auto_start_e000();
 void auto_start_e001();
@@ -111,6 +157,8 @@ void auto_start_e002();
 void auto_start_e003();
 void auto_start_e004();
 void auto_start_e005();
+void auto_start_e006();
+void auto_start_e007();
 
 /*void auto_start_000_p009_request();
 void auto_start_000_p009_response();
@@ -144,28 +192,6 @@ void auto_start_013_getdiode();
 void auto_start_999_sstop_request();
 void auto_start_999_sstop_response();
 */
-void auto_start_send_request_to_vac();
-void auto_start_send_request_to_vac_delayed();
-void auto_start_get_response_from_vac();
-
-void auto_start_send_request_to_cryo();
-void auto_start_send_request_to_cryo_delayed();
-void auto_start_get_response_from_cryo();
-
-void auto_start_error();
-
-void auto_start_complete();
-void shutdown_complete();
-
-float auto_start_getdiode();
-
-bool get_auto_start_state();
-void set_auto_start_state(bool state);
-void load_autostart_state();
-
-void save_autostart_state();
-
-void (*poll_auto_start)();
 
 #ifdef	__cplusplus
 }

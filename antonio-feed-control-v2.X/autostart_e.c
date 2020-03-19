@@ -1,5 +1,6 @@
 #include "autostart.h"
 #include "rimbox.h"
+#include "file_utils.h"
 #include <stdbool.h>
 
 extern bool doing_startup;
@@ -53,7 +54,7 @@ void auto_start_e003()
 
 void auto_start_e004()
 {
-    feedlog("Serious error during shutdown")
+    feedlog("Serious error during shutdown");
     send_to_rimbox("\r\nautostart error\r\n");
     send_to_rimbox("turbo low power not attained\r\n");
     send_to_rimbox("shutting down\r\n");
@@ -70,3 +71,23 @@ void auto_start_e005()
     send_to_rimbox("shutting down\r\n");
     poll_auto_start = auto_start_s001_request;
 }
+
+void auto_start_e006()
+{
+    doing_startup = false;
+    send_to_rimbox("\r\nautostart error\r\n");
+    send_to_rimbox("cryo setup failed\r\n");
+    send_to_rimbox("shutting down\r\n");
+    poll_auto_start = auto_start_s001_request;
+}
+
+void auto_start_e007()
+{
+    doing_startup = false;
+    doing_shutdown = true;
+    send_to_rimbox("\r\nautostart error\r\n");
+    send_to_rimbox("cryo cooling routines failed\r\n");
+    send_to_rimbox("trying to heat up\r\n");
+    poll_auto_start = auto_start_u001_request;
+}
+
