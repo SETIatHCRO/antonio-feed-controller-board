@@ -74,10 +74,10 @@ def com_port_recv_line():
         recv_char = com_port_recv_char()
         if (len(recv_char) == 0):
             timeout_count = timeout_count + 1
-            if (not (timeout_count < 3)):
+            if (not (timeout_count < 6)):
                 break
             continue
-        if (ord(recv_char) == 0x0d):
+        if ( (ord(recv_char) == 0x0d) ): 
             break
         if ((ord(recv_char) >= 0x20) and (ord(recv_char) <= 0x7e)):
             line = line + recv_char
@@ -214,6 +214,7 @@ def term_io_handle_keycode(keycode):
     if ( sys.platform.startswith('linu') and (keycode == 0x0a) ):
         #in linux CR is not added to LF
         term_io_cr()
+        com_port.write(chr(keycode))
         return
 
 
@@ -497,9 +498,11 @@ def get_tc():
     tc_str = ''
 
     com_port.write('TC' + '\r')
-    com_port_recv_line()  # throw away echoed command
+    l1=com_port_recv_line()  # throw away echoed command
+    l3=com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 
+    #print("{} and {} and {}".format(l1,l2,l3))
     try:
         if (not (len(line) > 0)):
             raise Exception('')
@@ -517,11 +520,13 @@ def get_e():
     cur_str = ''
 
     com_port.write('E' + '\r')
-    com_port_recv_line()  # throw away echoed command
+    l1=com_port_recv_line()  # throw away echoed command
+    l3=com_port_recv_line()  # throw away echoed command
     max_line = com_port_recv_line()
     min_line = com_port_recv_line()
     cur_line = com_port_recv_line()
 
+    #print("{} and {} and {}".format(l1,l2,l3))
     try:
         if (not (len(max_line) > 0)):
             raise Exception('')
@@ -574,7 +579,7 @@ def get_pwm():
     pwm_str = ''
 
     com_port.write('getfanpwm' + '\r')
-    com_port_recv_line()  # throw away echoed command
+    l1 = com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 
     try:
