@@ -19,6 +19,8 @@ extern bool is_parse_vacuum_response;
 extern bool is_vac_response_ready;
 extern bool is_vac_busy;
 
+#define AUTOSTART_DEBUG_PRINT 1
+
 #define MAX_COMMAND_LEN 999
 #define MAX_RESPONSE_LEN 999
 
@@ -250,6 +252,12 @@ void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
     //strcpy(auto_start_request, vac_cmd);
     strncpy(auto_start_request, vac_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
 
+#if AUTOSTART_DEBUG_PRINT
+    char msg[19];
+    snprintf(msg, 18, "dbgvcs:%s\r",vac_cmd);
+    send_to_rimbox(msg);
+#endif
+
     auto_start_cmnd_rspns_tries = 0;
 
     auto_start_next_state = next_fun;
@@ -257,6 +265,13 @@ void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
 }
 
 void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void)) {
+
+#if AUTOSTART_DEBUG_PRINT
+    char msg[19];
+    snprintf(msg, 18, "dbgvcr:%s\r",auto_start_response);
+    send_to_rimbox(msg);
+#endif
+
     if (strcmp(auto_start_response, vac_resp) == 0) {
         poll_auto_start = next_fun;
         return;
@@ -273,6 +288,11 @@ void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), v
 }
 
 void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void), int32_t delayticks) {
+#if AUTOSTART_DEBUG_PRINT
+    char msg[19];
+    snprintf(msg, 18, "dbgvct:%s\r",auto_start_response);
+    send_to_rimbox(msg);
+#endif
     if (strcmp(auto_start_response, vac_resp) == 0) {
         feedlog("waiting...");
         start_timer(&auto_start_timer, auto_start_timer_callback,delayticks);
@@ -294,6 +314,11 @@ void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), voi
 void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
     //strcpy(auto_start_request, cryo_cmd);
     strncpy(auto_start_request, cryo_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
+#if AUTOSTART_DEBUG_PRINT
+    char msg[19];
+    snprintf(msg, 18, "dbgcrs:%s\r",cryo_cmd);
+    send_to_rimbox(msg);
+#endif
 
     auto_start_cmnd_rspns_tries = 0;
 
@@ -305,6 +330,11 @@ void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), vo
     float cryo_flt_rspns;
 
     int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
+#if AUTOSTART_DEBUG_PRINT
+    char msg[19];
+    snprintf(msg, 18, "dbgcrr:%s\r",auto_start_response);
+    send_to_rimbox(msg);
+#endif
 
     if ((N == 1) && (cryo_flt_rspns == cryo_resp)) {
         poll_auto_start = next_fun;
