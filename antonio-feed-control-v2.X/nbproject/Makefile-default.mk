@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c rs232_test.c internal_osc.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/configuration_bits.o.d ${OBJECTDIR}/system.o.d ${OBJECTDIR}/interrupts.o.d ${OBJECTDIR}/fatfs/diskio.o.d ${OBJECTDIR}/fatfs/ff.o.d ${OBJECTDIR}/user.o.d ${OBJECTDIR}/oneshot.o.d ${OBJECTDIR}/rimbox.o.d ${OBJECTDIR}/cryo.o.d ${OBJECTDIR}/commands.o.d ${OBJECTDIR}/diode.o.d ${OBJECTDIR}/fan.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/temperature.o.d ${OBJECTDIR}/vacuum.o.d ${OBJECTDIR}/autostart.o.d ${OBJECTDIR}/accel_1.o.d ${OBJECTDIR}/relay.o.d ${OBJECTDIR}/tc74.o.d ${OBJECTDIR}/file_utils.o.d ${OBJECTDIR}/voltages.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o ${OBJECTDIR}/rs232_test.o ${OBJECTDIR}/internal_osc.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/configuration_bits.o.d ${OBJECTDIR}/system.o.d ${OBJECTDIR}/interrupts.o.d ${OBJECTDIR}/fatfs/diskio.o.d ${OBJECTDIR}/fatfs/ff.o.d ${OBJECTDIR}/user.o.d ${OBJECTDIR}/oneshot.o.d ${OBJECTDIR}/rimbox.o.d ${OBJECTDIR}/cryo.o.d ${OBJECTDIR}/commands.o.d ${OBJECTDIR}/diode.o.d ${OBJECTDIR}/fan.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/temperature.o.d ${OBJECTDIR}/vacuum.o.d ${OBJECTDIR}/autostart.o.d ${OBJECTDIR}/accel_1.o.d ${OBJECTDIR}/relay.o.d ${OBJECTDIR}/tc74.o.d ${OBJECTDIR}/file_utils.o.d ${OBJECTDIR}/voltages.o.d ${OBJECTDIR}/rs232_test.o.d ${OBJECTDIR}/internal_osc.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o ${OBJECTDIR}/rs232_test.o ${OBJECTDIR}/internal_osc.o
 
 # Source Files
-SOURCEFILES=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c
+SOURCEFILES=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c rs232_test.c internal_osc.c
 
 
 
@@ -239,6 +239,18 @@ ${OBJECTDIR}/voltages.o: voltages.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/voltages.o 
 	@${FIXDEPS} "${OBJECTDIR}/voltages.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/voltages.o.d" -o ${OBJECTDIR}/voltages.o voltages.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/rs232_test.o: rs232_test.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/rs232_test.o.d 
+	@${RM} ${OBJECTDIR}/rs232_test.o 
+	@${FIXDEPS} "${OBJECTDIR}/rs232_test.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/rs232_test.o.d" -o ${OBJECTDIR}/rs232_test.o rs232_test.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/internal_osc.o: internal_osc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/internal_osc.o.d 
+	@${RM} ${OBJECTDIR}/internal_osc.o 
+	@${FIXDEPS} "${OBJECTDIR}/internal_osc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/internal_osc.o.d" -o ${OBJECTDIR}/internal_osc.o internal_osc.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -372,6 +384,18 @@ ${OBJECTDIR}/voltages.o: voltages.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/voltages.o 
 	@${FIXDEPS} "${OBJECTDIR}/voltages.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/voltages.o.d" -o ${OBJECTDIR}/voltages.o voltages.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/rs232_test.o: rs232_test.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/rs232_test.o.d 
+	@${RM} ${OBJECTDIR}/rs232_test.o 
+	@${FIXDEPS} "${OBJECTDIR}/rs232_test.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/rs232_test.o.d" -o ${OBJECTDIR}/rs232_test.o rs232_test.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/internal_osc.o: internal_osc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/internal_osc.o.d 
+	@${RM} ${OBJECTDIR}/internal_osc.o 
+	@${FIXDEPS} "${OBJECTDIR}/internal_osc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/internal_osc.o.d" -o ${OBJECTDIR}/internal_osc.o internal_osc.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 endif
 
 # ------------------------------------------------------------------------------------
@@ -383,14 +407,14 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk  ../../Program\ Files\ (x86)/Microchip/xc32/v2.15/pic32mx/lib/libmchp_peripheral_32MX795F512L.a  
+dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE) -g   -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}    "../../Program Files (x86)/Microchip/xc32/v2.15/pic32mx/lib/libmchp_peripheral_32MX795F512L.a"      -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)   -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC02000:0x1FC02FEF -mreserve=boot@0x1FC02000:0x1FC024FF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
+	${MP_CC} $(MP_EXTRA_LD_PRE) -g   -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)   -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC02000:0x1FC02FEF -mreserve=boot@0x1FC02000:0x1FC024FF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
 	
 else
-dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk  ../../Program\ Files\ (x86)/Microchip/xc32/v2.15/pic32mx/lib/libmchp_peripheral_32MX795F512L.a 
+dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}    "../../Program Files (x86)/Microchip/xc32/v2.15/pic32mx/lib/libmchp_peripheral_32MX795F512L.a"      -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
 	${MP_CC_DIR}/xc32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/antonio-feed-control-v2.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
 endif
 
