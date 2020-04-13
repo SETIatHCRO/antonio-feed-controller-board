@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=antonio_feed_control_v2.X
+PROJECTNAME=antonio-feed-control-v2.X
 
 # Active Configuration
 DEFAULTCONF=default

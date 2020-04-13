@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/seti/test5.X/rimbox.c</file>
-            <file>file:/C:/seti/test5.X/main.c</file>
-            <file>file:/C:/seti/test5.X/rimbox.h</file>
-            <file>file:/C:/seti/test5.X/user.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart_e.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart_s.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/main.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart_i.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart_ud.c</file>
         </group>
     </open-files>
 </project-private>
