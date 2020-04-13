@@ -20,6 +20,8 @@ extern bool should_report_complete;
 //setting the stop mode to obey commands
 void auto_start_s001_request()
 {
+    doing_shutdown = true;
+    doing_startup = false;
     autostart_machine_state |= 0x00000040;
     autostart_generic_cryo_request("SET SSTOPM=0", auto_start_s001_response);
 }
