@@ -253,8 +253,8 @@ void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
     strncpy(auto_start_request, vac_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
 
 #if AUTOSTART_DEBUG_PRINT
-    char msg[19];
-    snprintf(msg, 18, "dbgvcs:%s\r",vac_cmd);
+    char msg[31];
+    snprintf(msg, 30, "dbgvcs:%s\r\n",vac_cmd);
     send_to_rimbox(msg);
 #endif
 
@@ -267,8 +267,8 @@ void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
 void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void)) {
 
 #if AUTOSTART_DEBUG_PRINT
-    char msg[19];
-    snprintf(msg, 18, "dbgvcr:%s\r",auto_start_response);
+    char msg[31];
+    snprintf(msg, 30, "dbgvcr:%s\r\n",auto_start_response);
     send_to_rimbox(msg);
 #endif
 
@@ -289,8 +289,8 @@ void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), v
 
 void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void), int32_t delayticks) {
 #if AUTOSTART_DEBUG_PRINT
-    char msg[19];
-    snprintf(msg, 18, "dbgvct:%s\r",auto_start_response);
+    char msg[31];
+    snprintf(msg, 30, "dbgvct:%s\r\n",auto_start_response);
     send_to_rimbox(msg);
 #endif
     if (strcmp(auto_start_response, vac_resp) == 0) {
@@ -315,8 +315,8 @@ void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
     //strcpy(auto_start_request, cryo_cmd);
     strncpy(auto_start_request, cryo_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
 #if AUTOSTART_DEBUG_PRINT
-    char msg[19];
-    snprintf(msg, 18, "dbgcrs:%s\r",cryo_cmd);
+    char msg[31];
+    snprintf(msg, 30, "dbgcrs:%s\r\n",cryo_cmd);
     send_to_rimbox(msg);
 #endif
 
@@ -331,12 +331,12 @@ void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), vo
 
     int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
 #if AUTOSTART_DEBUG_PRINT
-    char msg[19];
-    snprintf(msg, 18, "dbgcrr:%s\r",auto_start_response);
+    char msg[31];
+    snprintf(msg, 30, "dbgcrr:%s\r\n",auto_start_response);
     send_to_rimbox(msg);
 #endif
 
-    if ((N == 1) && (cryo_flt_rspns == cryo_resp)) {
+    if ((N == 1) && (cryo_flt_rspns > cryo_resp-0.1) && (cryo_flt_rspns <  cryo_resp+0.1)) {
         poll_auto_start = next_fun;
         return;
     }
