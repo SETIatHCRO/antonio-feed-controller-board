@@ -224,8 +224,12 @@ void settargettemp_command(char *args[])
         send_to_rimbox(EOL);
         return;
     }
-    N = sscanf(args[0], "%f", &next_temp);
-    if (N != 1) {
+    
+    char * foo;
+    next_temp = strtof(args[0],&foo);
+    N = !(foo == auto_start_response);
+    //N = sscanf(args[0], "%f", &next_temp);
+    if (!N) {
         send_to_rimbox(EOL);
         return;
     }
@@ -254,7 +258,7 @@ void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
 
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgvcs:%s\r\n",vac_cmd);
+    snprintf(msg, 30, "dbgvcs:%s\n\r\n",vac_cmd);
     send_to_rimbox(msg);
 #endif
 
@@ -268,7 +272,7 @@ void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), v
 
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgvcr:%s\r\n",auto_start_response);
+    snprintf(msg, 30, "dbgvcr:%s\n\r\n",auto_start_response);
     send_to_rimbox(msg);
 #endif
 
@@ -290,7 +294,7 @@ void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), v
 void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void), int32_t delayticks) {
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgvct:%s\r\n",auto_start_response);
+    snprintf(msg, 30, "dbgvct:%s\n\r\n",auto_start_response);
     send_to_rimbox(msg);
 #endif
     if (strcmp(auto_start_response, vac_resp) == 0) {
@@ -316,7 +320,7 @@ void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
     strncpy(auto_start_request, cryo_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgcrs:%s\r\n",cryo_cmd);
+    snprintf(msg, 30, "dbgcrs:%s\n\r\n",cryo_cmd);
     send_to_rimbox(msg);
 #endif
 
@@ -329,14 +333,29 @@ void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
 void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void)) {
     float cryo_flt_rspns;
 
-    int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
+    int Ncr = 0;
+    char * foo;
+    //Ncr = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
+    cryo_flt_rspns = strtof(auto_start_response,&foo);
+    
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgcrr:%s\r\n",auto_start_response);
+    
+    snprintf(msg, 30, "dbgcrr:%s\n\r\n",auto_start_response);
     send_to_rimbox(msg);
 #endif
-
-    if ((N == 1) && (cryo_flt_rspns > cryo_resp-0.1) && (cryo_flt_rspns <  cryo_resp+0.1)) {
+    
+    Ncr = !(foo == auto_start_response);
+    
+#if AUTOSTART_DEBUG_PRINT
+        snprintf(msg, 30, "dbgcrq:%d_%3.2f_%3.2f\n\r\n",Ncr,cryo_flt_rspns,cryo_resp);
+        send_to_rimbox(msg);
+#endif
+    if ((Ncr) && (cryo_flt_rspns > cryo_resp-0.1) && (cryo_flt_rspns <  cryo_resp+0.1)) {
+#if AUTOSTART_DEBUG_PRINT
+        snprintf(msg, 30, "dbgcr2:%d_%3.2f_%3.2f\n\r\n",Ncr,cryo_flt_rspns,cryo_resp);
+        send_to_rimbox(msg);
+#endif
         poll_auto_start = next_fun;
         return;
     }
@@ -344,6 +363,10 @@ void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), vo
     auto_start_cmnd_rspns_tries += 1;
 
     if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
+#if AUTOSTART_DEBUG_PRINT
+        snprintf(msg, 30, "dbgcr3:resending\n\r\n");
+        send_to_rimbox(msg);
+#endif        
         poll_auto_start = auto_start_send_request_to_cryo;
         return;
     }
@@ -371,9 +394,13 @@ void autostart_set_ttarget_withdelta_response(void (*next_fun)(void), void (*err
 {
     float cryo_flt_rspns;
 
-    int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
-
-    if ((N == 1) && (cryo_flt_rspns >= (autostart_curr_ttarget - autostart_ttarget_acc)) && (cryo_flt_rspns <= (autostart_curr_ttarget + autostart_ttarget_acc))) {
+    //int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
+    int N;
+    char * foo;
+    cryo_flt_rspns = strtof(auto_start_response,&foo);
+    N = !(foo == auto_start_response);
+    
+    if ((N) && (cryo_flt_rspns >= (autostart_curr_ttarget - autostart_ttarget_acc)) && (cryo_flt_rspns <= (autostart_curr_ttarget + autostart_ttarget_acc))) {
         poll_auto_start = next_fun;
         return;
     }
@@ -390,10 +417,14 @@ void autostart_set_ttarget_withdelta_response(void (*next_fun)(void), void (*err
 
 void autostart_test_vacuum_param_true(void (*true_fun)(void), void (*false_fun)(void), void (*err_fun)(void))
 {
-    unsigned int resp_val;
-    int N = sscanf(auto_start_response, "%u", &resp_val);
+    unsigned long int resp_val;
+    int N;
+    char * foo;
+    resp_val = strtoul(auto_start_response,&foo);
+    N = !(foo == auto_start_response);
+    //int N = sscanf(auto_start_response, "%u", &resp_val);
 
-    if (N==1) {
+    if (N) {
         if (resp_val == 0) {
             poll_auto_start = false_fun;
             return;
