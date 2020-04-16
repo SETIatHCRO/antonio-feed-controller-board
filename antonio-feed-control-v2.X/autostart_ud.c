@@ -192,6 +192,7 @@ void auto_start_d011_request()
     if(autostart_ttarget_stab_count < 1) {
         poll_auto_start = auto_start_d008_request;
     } else {
+        autostart_ttarget_stab_count -= 1;
         start_timer(&auto_start_timer, auto_start_timer_callback,AUTO_START_1_MIN);
         auto_start_next_state = auto_start_d010_request;
         poll_auto_start = auto_start_delay;

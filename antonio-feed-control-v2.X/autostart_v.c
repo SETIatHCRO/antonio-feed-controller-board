@@ -131,7 +131,7 @@ void auto_start_v007_response()
 {
     unsigned int resp_val;
     int N = sscanf(auto_start_response, "%u", &resp_val);
-
+    //todo:debug print
     if (N==1) {
         if (resp_val == 111111) {
             //if we have turbo speed attained, going forward
