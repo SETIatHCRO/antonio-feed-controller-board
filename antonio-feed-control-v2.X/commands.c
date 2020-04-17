@@ -69,8 +69,9 @@ struct command_pair commands[] = {
     {"restart", restart_command, NULL},
     {"shutdown", shutdown_command, NULL},
     {"autostart", autostart_command, NULL},
-    {"gettartettemp", gettargettemp_command, NULL},
+    {"gettargettemp", gettargettemp_command, NULL},
     {"settargettemp", settargettemp_command, NULL},
+    {"getstate", autostartgetstate_command, NULL},
     {"state", autostartgetstate_command, NULL}
     //,
    // {"setcryoprotect", setcryostopmode_command, NULL},

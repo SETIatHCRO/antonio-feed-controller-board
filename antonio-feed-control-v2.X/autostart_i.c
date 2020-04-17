@@ -197,6 +197,7 @@ void auto_start_i011_response()
 }
 
 //not on standby (TODO: CHECK if that affects backing pump)
+//and that may not be necessary here if that doesn't affect backing pump
 void auto_start_i012_request()
 {
     if(doing_shutdown) {

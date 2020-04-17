@@ -18,6 +18,7 @@ extern "C" {
 
 //shared between autostart.c and various autostart_x.c
 #define AUTO_START_1_MIN 60*1000
+#define AUTO_START_10_MIN 10*60*1000
 #define AUTO_START_15_MIN 15*60*1000
 #define AUTO_START_30_MIN 30*60*1000
 #define AUTO_START_45_MIN 45*60*1000
@@ -32,6 +33,9 @@ void auto_start_idle();
 void auto_start_delay();
 
 void auto_start_timer_callback();
+
+int autostart_cryo_getfloatfromresp(float * val);
+int autostart_vac_getulongfromresp(unsigned long int * val);
 
 void autostart_command(char *args[]);
 void shutdown_command(char *args[]);

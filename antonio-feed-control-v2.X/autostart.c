@@ -183,7 +183,7 @@ void auto_start_check_vacuum_response()
 
 void autostart_command(char *args[])
 {
-    send_to_rimbox("\rntoggling to auto start\r\n");
+    send_to_rimbox("\rtoggling to auto start\r\n");
     doing_startup = true;
     doing_shutdown = false;
     autostart_ttarget_stab_count = 0;
@@ -195,7 +195,7 @@ void autostart_command(char *args[])
 
 void shutdown_command(char *args[])
 {
-    send_to_rimbox("\rntoggling to shutdown\r\n");
+    send_to_rimbox("\rtoggling to shutdown\r\n");
     doing_startup = false;
     doing_shutdown = true;
     autostart_ttarget_stab_count = 0;
@@ -208,7 +208,7 @@ void shutdown_command(char *args[])
 void gettargettemp_command(char *args[])
 {
     char msg[19];
-    snprintf(msg, 18, "%3.2f", autostart_targetTemp);
+    snprintf(msg, 18, "\r%3.2f", autostart_targetTemp);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
@@ -227,14 +227,22 @@ void settargettemp_command(char *args[])
     
     char * foo;
     next_temp = strtof(args[0],&foo);
-    N = !(foo == auto_start_response);
+    
+    float tmpval;
+    tmpval = strtof(args[0],&foo);
+    sscanf(args[0],"%f",&next_temp);
+    N = !(foo == args[0]);
     //N = sscanf(args[0], "%f", &next_temp);
     if (!N) {
+        //snprintf(msg, 18, "\rBad N(%d)%s\r\n",N,args[0]);
+        //send_to_rimbox(msg);
         send_to_rimbox(EOL);
         return;
     }
     if( (next_temp < limitLow) || (next_temp > limithight) )
     {
+        //snprintf(msg, 18, "\rHERE%3.2f\r\n", next_temp);
+        //send_to_rimbox(msg);
         send_to_rimbox(EOL);
         return;
     }
@@ -247,7 +255,7 @@ void settargettemp_command(char *args[])
 void autostartgetstate_command(char *args[])
 {
     char msg[19];
-    snprintf(msg, 18, "%3d", autostart_machine_state);
+    snprintf(msg, 18, "\r0x%x", autostart_machine_state);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
@@ -330,24 +338,78 @@ void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
     poll_auto_start = auto_start_send_request_to_cryo;
 }
 
-void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void)) {
-    float cryo_flt_rspns;
-
-    int Ncr = 0;
+int autostart_vac_getulongfromresp(unsigned long int * val)
+{
     char * foo;
-    //Ncr = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
-    cryo_flt_rspns = strtof(auto_start_response,&foo);
+    unsigned long int tmpval;
+#if AUTOSTART_DEBUG_PRINT
+    char msg[31];
+    
+    snprintf(msg, 30, "dbgvcu:%s\n\r\n",auto_start_response);
+    send_to_rimbox(msg);
+#endif
+    int NN;
+    //tmpval = strtoul(auto_start_response,&foo);
+    //TODO: i haven't try to investigate whan NN value will be set to if 
+    //response is not represented by a string
+    NN = !sscanf(auto_start_response,"%u",val);
+#if AUTOSTART_DEBUG_PRINT
+    //snprintf(msg, 30, "dbgvcu:got %u(%d)\n\r\n",*val,auto_start_response == foo);
+    snprintf(msg, 30, "dbgvcu:got %u(%d)\n\r\n",*val,NN);
+    send_to_rimbox(msg);
+#endif
+    
+    return NN;
+    //return (foo == auto_start_response);
+}
+
+int autostart_cryo_getfloatfromresp(float * val)
+{
+    char * crsp;
+    char *foo;
+    *val = 0;
+    float tmpval;
     
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
     
-    snprintf(msg, 30, "dbgcrr:%s\n\r\n",auto_start_response);
+    snprintf(msg, 30, "dbgcrf:%s\n\r\n",auto_start_response);
     send_to_rimbox(msg);
 #endif
     
-    Ncr = !(foo == auto_start_response);
+    crsp = strtok(auto_start_response, "\r\n");
+    if (crsp == NULL) {
+        //there is no first line
+        return 1;
+    }
+    
+    crsp = strtok(NULL,"\r\n");
+    if (crsp == NULL) {
+        //there is no second line
+        return 1;
+    }
+    tmpval = strtof(crsp,&foo);
+    sscanf(crsp,"%f",val);
+#if AUTOSTART_DEBUG_PRINT
+    snprintf(msg, 30, "dbgcrf:got '%s'\n\r\n",crsp);
+    send_to_rimbox(msg);
+    snprintf(msg, 30, "dbgcrf:got %.2f(%d)\n\r\n",*val,crsp == foo);
+    send_to_rimbox(msg);
+#endif
+    //if those are equal, that means the conversion failed
+    return (crsp == foo);
+}
+
+void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void))
+{
+    float cryo_flt_rspns;
+
+    int Ncr = 0;
+    Ncr = !autostart_cryo_getfloatfromresp(&cryo_flt_rspns);
     
 #if AUTOSTART_DEBUG_PRINT
+        char msg[31];
+        
         snprintf(msg, 30, "dbgcrq:%d_%3.2f_%3.2f\n\r\n",Ncr,cryo_flt_rspns,cryo_resp);
         send_to_rimbox(msg);
 #endif
@@ -384,6 +446,13 @@ void autostart_set_ttarget_withdelta_request(float target_t,  void (*next_fun)(v
     }
     snprintf(auto_start_request, AUTO_START_CMND_RSPNS_MAX_LEN-1, "SET TTARGET=%3.2f",autostart_curr_ttarget);
 
+#if AUTOSTART_DEBUG_PRINT
+    char msg[31];
+    
+    snprintf(msg, 30, "dbgtt:%s\n\r\n",auto_start_request);
+    send_to_rimbox(msg);
+#endif
+    
     auto_start_cmnd_rspns_tries = 0;
 
     auto_start_next_state = next_fun;
@@ -394,11 +463,16 @@ void autostart_set_ttarget_withdelta_response(void (*next_fun)(void), void (*err
 {
     float cryo_flt_rspns;
 
+#if AUTOSTART_DEBUG_PRINT
+    char msg[31];
+    
+    snprintf(msg, 30, "dbgttr:%s\n\r\n",auto_start_response);
+    send_to_rimbox(msg);
+#endif
+    
     //int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
     int N;
-    char * foo;
-    cryo_flt_rspns = strtof(auto_start_response,&foo);
-    N = !(foo == auto_start_response);
+    N = !autostart_cryo_getfloatfromresp(&cryo_flt_rspns);
     
     if ((N) && (cryo_flt_rspns >= (autostart_curr_ttarget - autostart_ttarget_acc)) && (cryo_flt_rspns <= (autostart_curr_ttarget + autostart_ttarget_acc))) {
         poll_auto_start = next_fun;
@@ -419,9 +493,10 @@ void autostart_test_vacuum_param_true(void (*true_fun)(void), void (*false_fun)(
 {
     unsigned long int resp_val;
     int N;
-    char * foo;
-    resp_val = strtoul(auto_start_response,&foo);
-    N = !(foo == auto_start_response);
+    //char * foo;
+    //resp_val = strtoul(auto_start_response,&foo);
+    //N = !(foo == auto_start_response);
+    N = !autostart_vac_getulongfromresp(&resp_val);
     //int N = sscanf(auto_start_response, "%u", &resp_val);
 
     if (N) {
@@ -505,18 +580,25 @@ void auto_start_send_request_to_cryo_delayed() {
 }
 
 void auto_start_get_response_from_cryo() {
-    char *rspnsln;
+    //char *rspnsln;
 
     if (!(is_cryo_response_ready)) {
         return;
     }
 
-    rspnsln = strtok(cryo_response, "\r");
+    //we are in fact interested in second line
+    /*rspnsln = strtok(cryo_response, "\r");
     if (rspnsln == NULL) {
         strcpy (auto_start_response, "");
     }
     else {
         strcpy (auto_start_response, rspnsln);
+    }*/
+    //instead we want to copy all string, if \r is in cryo_response
+    if(strchr(cryo_response,'\r') == NULL) {
+        strncpy(auto_start_response, "",AUTO_START_CMND_RSPNS_MAX_LEN-1);
+    } else {
+        strncpy(auto_start_response,cryo_response,AUTO_START_CMND_RSPNS_MAX_LEN-1);
     }
 
     feedlog(auto_start_response);
@@ -639,429 +721,3 @@ void load_autostart_state() {
         }
     }
 }
-
-//This is commented out "old" part of the autostart routine
-/*void auto_start_000_p009_request() {
-
-    send_to_rimbox("autostart starting\r\n");
-
-    should_report_complete = true;
-
-    strcpy(auto_start_request, "p009=111111");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_000_p009_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_000_p009_response() {
-    if (strcmp(auto_start_response, "111111") == 0) {
-        poll_auto_start = auto_start_001_p010_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_001_p010_request() {
-    strcpy(auto_start_request, "p010=000000");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_001_p010_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_001_p010_response() {
-    if (strcmp(auto_start_response, "000000") == 0) {
-        poll_auto_start = auto_start_002_p700_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_002_p700_request() {
-    strcpy(auto_start_request, "p700=000020");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_002_p700_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_002_p700_response() {
-    if (strcmp(auto_start_response, "000020") == 0) {
-        poll_auto_start = auto_start_003_p023_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_003_p023_request() {
-    strcpy(auto_start_request, "p023=111111");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_003_p023_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_003_p023_response() {
-    if (strcmp(auto_start_response, "111111") == 0) {
-        poll_auto_start = auto_start_004_p024_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_004_p024_request() {
-    strcpy(auto_start_request, "p024=000");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_004_p024_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_004_p024_response() {
-    if (strcmp(auto_start_response, "000") == 0) {
-        poll_auto_start = auto_start_005_p025_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_005_p025_request() {
-    strcpy(auto_start_request, "p025=000");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_005_p025_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_005_p025_response() {
-    if (strcmp(auto_start_response, "000") == 0) {
-        poll_auto_start = auto_start_006_p035_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_006_p035_request() {
-    strcpy(auto_start_request, "p035=003");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_006_p035_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_006_p035_response() {
-    if (strcmp(auto_start_response, "003") == 0) {
-        poll_auto_start = auto_start_007_p010_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_007_p010_request() {
-    strcpy(auto_start_request, "p010=111111");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_007_p010_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_007_p010_response() {
-    if (strcmp(auto_start_response, "111111") == 0) {
-        poll_auto_start = auto_start_008_getdiode;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_008_getdiode() {
-    float tempk;
-
-    tempk = auto_start_getdiode();
-
-    if (poll_auto_start == auto_start_error) {
-        return;
-    }
-
-    if (tempk < AUTO_START_GETDIODE_THRESHOLD) {
-        poll_auto_start = auto_start_008_sstop_request;
-        return;
-    }
-
-    poll_auto_start = auto_start_009_p023_request;
-}
-
-void auto_start_008_sstop_request() {
-    strcpy(auto_start_request, "SET SSTOP=0");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_008_sstop_response;
-    poll_auto_start = auto_start_send_request_to_cryo;
-}
-
-void auto_start_008_sstop_response() {
-    float cryo_flt_rspns;
-
-    int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
-
-    if ((N == 1) && (cryo_flt_rspns == 0.0)) {
-        poll_auto_start = auto_start_009_p023_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_cryo;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_009_p023_request() {
-    strcpy(auto_start_request, "p023=111111");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_009_p023_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_009_p023_response() {
-    if (strcmp(auto_start_response, "111111") == 0) {
-        feedlog("waiting 15 minutes...");
-        start_timer(&auto_start_timer, auto_start_timer_callback,
-                AUTO_START_15_MIN);
-        auto_start_next_state = auto_start_010_p316_request;
-        poll_auto_start = auto_start_delay;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_010_p316_request() {
-    strcpy(auto_start_request, "p316");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_010_p316_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_010_p316_response() {
-    unsigned int p316_val;
-
-    int N = sscanf(auto_start_response, "%u", &p316_val);
-
-    if (N == 1) {
-        if (p316_val <= 20) {
-            poll_auto_start = auto_start_999_sstop_request;
-        }
-        else {
-            poll_auto_start = auto_start_011_p023_request;
-        }
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_011_p023_request() {
-    strcpy(auto_start_request, "p023=000000");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_011_p023_response;
-    poll_auto_start = auto_start_send_request_to_vac;
-}
-
-void auto_start_011_p023_response() {
-    if (strcmp(auto_start_response, "000000") == 0) {
-        poll_auto_start = auto_start_012_sstop_request;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_vac;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_012_sstop_request() {
-    strcpy(auto_start_request, "SET SSTOP=1");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_012_sstop_response;
-    poll_auto_start = auto_start_send_request_to_cryo;
-}
-
-void auto_start_012_sstop_response() {
-    float cryo_flt_rspns;
-
-    int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
-
-    if ((N == 1) && (cryo_flt_rspns == 1.0)) {
-        poll_auto_start = auto_start_013_getdiode;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_cryo;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_013_getdiode() {
-    float tempk;
-
-    tempk = auto_start_getdiode();
-
-    if (poll_auto_start == auto_start_error) {
-        return;
-    }
-
-    if (tempk < AUTO_START_GETDIODE_THRESHOLD) {
-        poll_auto_start = auto_start_error;
-        return;
-    }
-
-    auto_start_tries += 1;
-    if (auto_start_tries < AUTO_START_MAX_TRIES) {
-        feedlog("waiting 45 minutes...");
-        start_timer(&auto_start_timer, auto_start_timer_callback,
-                AUTO_START_45_MIN);
-        auto_start_next_state = auto_start_009_p023_request;
-        poll_auto_start = auto_start_delay;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-
-void auto_start_999_sstop_request() {
-    strcpy(auto_start_request, "SET SSTOP=0");
-
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = auto_start_999_sstop_response;
-    poll_auto_start = auto_start_send_request_to_cryo;
-}
-
-void auto_start_999_sstop_response() {
-    float cryo_flt_rspns;
-
-    int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
-
-    if ((N == 1) && (cryo_flt_rspns == 0.0)) {
-        poll_auto_start = auto_start_complete;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
-        poll_auto_start = auto_start_send_request_to_cryo;
-        return;
-    }
-
-    poll_auto_start = auto_start_error;
-}
-*/

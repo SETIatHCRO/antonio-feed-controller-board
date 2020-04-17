@@ -83,7 +83,9 @@ void auto_start_d004_request()
 
 void auto_start_d004_response()
 {
-    autostart_generic_cryo_response(0.0, auto_start_d005_request, auto_start_e006);
+    //todo:fix that
+    //autostart_generic_cryo_response(0.0, auto_start_d005_request, auto_start_e006);
+    autostart_generic_cryo_response(0.0, auto_start_d006_request, auto_start_e006);
 }
 
 //setting the stop mode to relay (cooler should still be running unless 24V is down

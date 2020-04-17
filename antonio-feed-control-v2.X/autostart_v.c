@@ -54,7 +54,7 @@ void auto_start_v002_request()
 
 void auto_start_v002_response()
 {
-    autostart_timed_vacuum_response("000000", auto_start_v003_request, auto_start_e001, AUTO_START_30_MIN);
+    autostart_timed_vacuum_response("000000", auto_start_v003_request, auto_start_e001, AUTO_START_10_MIN);
 }
 
 //rot speed switch point (indicated by p316) setting to 75%
@@ -99,7 +99,7 @@ void auto_start_v005_request()
 
 void auto_start_v005_response()
 {
-    autostart_timed_vacuum_response("111111", auto_start_v006_request, auto_start_e001, AUTO_START_30_MIN);
+    autostart_timed_vacuum_response("111111", auto_start_v006_request, auto_start_e001, AUTO_START_15_MIN);
 }
 
 //switching off the standby mode and waiting 15 min
@@ -114,7 +114,7 @@ void auto_start_v006_request()
 
 void auto_start_v006_response()
 {
-    autostart_timed_vacuum_response("000000", auto_start_v007_request, auto_start_e001, AUTO_START_15_MIN);
+    autostart_timed_vacuum_response("000000", auto_start_v007_request, auto_start_e001, AUTO_START_10_MIN);
 }
 
 //querying if turbo speed attained
@@ -129,10 +129,12 @@ void auto_start_v007_request()
 
 void auto_start_v007_response()
 {
-    unsigned int resp_val;
-    int N = sscanf(auto_start_response, "%u", &resp_val);
+    unsigned long int resp_val;
+    int N;
+    N = !autostart_vac_getulongfromresp(&resp_val);
+    //int N = sscanf(auto_start_response, "%u", &resp_val);
     //todo:debug print
-    if (N==1) {
+    if (N) {
         if (resp_val == 111111) {
             //if we have turbo speed attained, going forward
             poll_auto_start = auto_start_v008_request;
@@ -168,10 +170,12 @@ void auto_start_v008_request()
 
 void auto_start_v008_response()
 {
-    unsigned int resp_val;
-    int N = sscanf(auto_start_response, "%u", &resp_val);
+    unsigned long int resp_val;
+    int N;
+    N = !autostart_vac_getulongfromresp(&resp_val);
+    //int N = sscanf(auto_start_response, "%u", &resp_val);
 
-    if (N==1) {
+    if (N) {
         if (resp_val <= 20) {
             //if we have low turbo power (good vacuum)
             poll_auto_start = auto_start_d001_request;

@@ -197,7 +197,7 @@ void cryo_poll_get_response_first_line() {
         }
     }
 
-    if (cryo_char == 0x0d) {
+    if (cryo_char == 0x0d || cryo_char == 0x0a) {
         stop_timer(&cryo_rspns_timeout_timer);
         start_timer(&cryo_rspns_eol_timer,
             cryo_response_eol_timeout, 200);
