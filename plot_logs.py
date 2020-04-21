@@ -6,6 +6,44 @@ import os
 import matplotlib.dates
 import matplotlib.pyplot
 
+
+diodev = numpy.array([1.420, 1.214, 1.107, 1.088, 1.071, 1.053,
+    1.034, 1.015, 0.996,  0.976, 0.955, 0.934,
+    0.912, 0.891, 0.869, 0.847, 0.824, 0.801,
+    0.779, 0.756, 0.732, 0.709, 0.686, 0.662,
+    0.638, 0.615, 0.591, 0.567, 0.543, 0.519,
+    0.495, 0.471, 0.446, 0.422, 0.398])
+diodet = numpy.array([10,20,30,40,50,60,
+    70,80,90,100,110,120,
+    130,140,150,160,170,180,
+    190,200,210,220,230,240,
+    250,260,270,280,290,300,
+    310,320,330,340,350])
+def volt_lookup(val):
+    if numpy.isnan(val):
+        return val
+
+    try:
+        #too low diode temp
+        cmin = numpy.where(diodev < val)[0][0]
+    except IndexError:
+        return diodet[-1]
+
+    if cmin == 0:
+        return diodet[0]
+
+    m = (diodet[cmin] - diodet[cmin-1])/(diodev[cmin]-diodev[cmin-1])
+    b = diodet[cmin] - m * diodev[cmin]
+
+    return m * val +b 
+
+
+def convert_volt_to_temp(values):
+    rval = list()
+    for val in values:
+        rval.append(volt_lookup(val))
+    return rval
+
 def get_merged_data(data,indexes,tag):
     currlist = list()
     for ii in indexes:
@@ -77,7 +115,7 @@ def plot_log_data(data,flags,title=''):
             matplotlib.pyplot.legend(['a0','a1','a2','a3'])
             matplotlib.pyplot.show()
 
-    if flags['cryo_temp']:
+    if flags['cryo_temp'] and not flags['diode']:
         val1 = get_merged_data(data,indexes,'ctc')
         if all(numpy.isnan(val1)):
             print("can't plot ctc: all nans")
@@ -86,6 +124,24 @@ def plot_log_data(data,flags,title=''):
             ax.plot_date(dates, val1,fmt='.-')
             matplotlib.pyplot.title(title + ' cryo temp')
             matplotlib.pyplot.ylabel('temp [K]')
+            matplotlib.pyplot.grid()
+            matplotlib.pyplot.show()
+
+    if flags['cryo_temp'] and flags['diode']:
+        val1 = get_merged_data(data,indexes,'ctc')
+        val0 = get_merged_data(data,indexes,'diode')
+        val0v = convert_volt_to_temp(val0)
+        if all(numpy.isnan(val1)):
+            print("can't plot ctc/diode: all nans")
+        elif all(numpy.isnan(val0)):
+            print("can't plot diode/ctc: all nans")
+        else:
+            fig, ax = matplotlib.pyplot.subplots()
+            ax.plot_date(dates, numpy.transpose(numpy.array([val1,val0v])),fmt='.-')
+            matplotlib.pyplot.title(title + ' cryo temp')
+            matplotlib.pyplot.ylabel('temp [K]')
+            matplotlib.pyplot.legend(['cryo','diode'])
+            matplotlib.pyplot.grid()
             matplotlib.pyplot.show()
 
     if flags['cryo_power']:
@@ -98,7 +154,9 @@ def plot_log_data(data,flags,title=''):
             fig, ax = matplotlib.pyplot.subplots()
             ax.plot_date(dates, numpy.transpose(numpy.array([val0,val1,val2])),fmt='.-')
             matplotlib.pyplot.title(title + ' cryo power')
+            matplotlib.pyplot.ylabel('power [W]')
             matplotlib.pyplot.legend(['max','min','current'])
+            matplotlib.pyplot.grid()
             matplotlib.pyplot.show()
 
     if flags['diode']:
@@ -153,6 +211,7 @@ def get_data_from_log_file(filename):
     dtstart = datetime.datetime( int(filebase_dates[0]), int(filebase_dates[1]), int(filebase_dates[2]), 
             int(int(filebase_dates[3])), int(int(filebase_dates[4])))
     
+    data_aval = 0
     with open(filename, 'r') as infile:
         fline = infile.readline()
         secondline = infile.readline()
@@ -262,8 +321,10 @@ def get_data_from_log_file(filename):
             except ValueError:
                 cfanrpm = numpy.nan
             fanrpm.append(cfanrpm)
+            
+            data_aval = 1
 
-
+    assert data_aval, "file {} contains no data".format(filename)
     return {'time':time, 'gauge':gauge, 'vpow':vpow, 'vrpm':vrpm, 'vmtemp':vmtemp,
             'a0':a0,'a1':a1,'a2':a2,'a3':a3, 'ctc':ctc, 'cmaxp':cmaxp, 'cminp':cminp,
             'ccurrp':ccurrp, 'diode':diode, 'fanpwm':fanpwm, 'fanrpm':fanrpm }
