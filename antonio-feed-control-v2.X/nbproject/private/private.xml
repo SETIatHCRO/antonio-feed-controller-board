@@ -5,6 +5,12 @@
         <group>
             <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart.c</file>
             <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/main.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/cryo.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart_i.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart_v.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/commands.h</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart_ud.c</file>
+            <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/commands.c</file>
             <file>file:/home/sonata/antonio-feed-controller-board/antonio-feed-control-v2.X/autostart.h</file>
         </group>
     </open-files>
