@@ -117,6 +117,11 @@ def plot_log_data(data,flags,title=''):
 
     if flags['cryo_temp'] and not flags['diode']:
         val1 = get_merged_data(data,indexes,'ctc')
+        if flags['fname']:
+            import pickle
+            savedict={'time':dates,'tc':val1}
+            pickle.dump( savedict, open( flags['fname'], "wb" ) )
+
         if all(numpy.isnan(val1)):
             print("can't plot ctc: all nans")
         else:
@@ -131,6 +136,11 @@ def plot_log_data(data,flags,title=''):
         val1 = get_merged_data(data,indexes,'ctc')
         val0 = get_merged_data(data,indexes,'diode')
         val0v = convert_volt_to_temp(val0)
+        if flags['fname']:
+            import pickle
+            savedict={'time':dates,'diode':val0v,'tc':val1}
+            pickle.dump( savedict, open( flags['fname'], "wb" ) )
+
         if all(numpy.isnan(val1)):
             print("can't plot ctc/diode: all nans")
         elif all(numpy.isnan(val0)):
@@ -369,6 +379,8 @@ def main():
         help ='plot fan rpm')
     parser.add_option('-s','--sign', type=str, dest='title_string', action="store", default='',
         help ='plot fan rpm')
+    parser.add_option('--save', type=str, dest='filename', action="store", default=None,
+        help ='save temperature plot to file')
 
     (options,args) = parser.parse_args()
     
@@ -395,6 +407,8 @@ def main():
         flags['diode'] = options.do_diode
         flags['fan_pwm'] = options.do_fanpwm
         flags['fan_rpm'] = options.do_fan
+
+    flags['fname'] = options.filename
 
     parse_and_plot_logs(args,flags,options.title_string)
 

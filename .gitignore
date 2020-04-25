@@ -2,3 +2,4 @@
 /antonio-feed-control-v2.X/debug/
 /antonio-feed-control-v2.X/dist/
 /logs/
+*.pkl
