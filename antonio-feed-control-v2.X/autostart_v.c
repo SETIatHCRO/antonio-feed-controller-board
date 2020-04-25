@@ -225,7 +225,7 @@ void auto_start_v009_response()
             //we need to reset turbo (or if we already did that
             //there is bigger problem
             if (autostart_vac_oscilating) {
-                poll_auto_start = auto_start_e009;
+                poll_auto_start = auto_start_e010;
             }
             autostart_vac_oscilating = true;
             poll_auto_start = auto_start_v010_request;

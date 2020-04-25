@@ -161,22 +161,15 @@ void auto_start_d003_response();
 void auto_start_d004_request();
 void auto_start_d004_response();
 void auto_start_d005_request();
-void auto_start_d005_response();
 void auto_start_d006_request();
 void auto_start_d006_response();
-void auto_start_d007_request();
-void auto_start_d007_response();
-void auto_start_d008_request();
-void auto_start_d008_response();
-void auto_start_d009_request();
-void auto_start_d009_response();
-void auto_start_d010_request();
-void auto_start_d010_response();
-void auto_start_d011_request();
 
 //stepping temperature up
 void auto_start_u001_request();
+void auto_start_u001_response();
+void auto_start_u002_request();
 
+//error states
 void auto_start_e000();
 void auto_start_e001();
 void auto_start_e002();
@@ -187,39 +180,7 @@ void auto_start_e006();
 void auto_start_e007();
 void auto_start_e008();
 void auto_start_e009();
-
-/*void auto_start_000_p009_request();
-void auto_start_000_p009_response();
-void auto_start_001_p010_request();
-void auto_start_001_p010_response();
-void auto_start_002_p700_request();
-void auto_start_002_p700_response();
-void auto_start_003_p023_request();
-void auto_start_003_p023_response();
-void auto_start_004_p024_request();
-void auto_start_004_p024_response();
-void auto_start_005_p025_request();
-void auto_start_005_p025_response();
-void auto_start_006_p035_request();
-void auto_start_006_p035_response();
-void auto_start_007_p010_request();
-void auto_start_007_p010_response();
-void auto_start_008_getdiode();
-void auto_start_008_sstop_request();
-void auto_start_008_sstop_response();
-void auto_start_009_p023_request();
-void auto_start_009_p023_response();
-void auto_start_010_p316_request();
-void auto_start_010_p316_response();
-void auto_start_011_p023_request();
-void auto_start_011_p023_response();
-void auto_start_012_sstop_request();
-void auto_start_012_sstop_response();
-void auto_start_013_getdiode();
-
-void auto_start_999_sstop_request();
-void auto_start_999_sstop_response();
-*/
+void auto_start_e010();
 
 #ifdef	__cplusplus
 }

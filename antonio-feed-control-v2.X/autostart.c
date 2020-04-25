@@ -60,23 +60,26 @@ int rot_speed_test = 0;
  * @brief autostart_machine_state the state that the autostart machine is at
  * stable states clears last 8 bits
  * errors are not cleared
- * 0x00 - not initialized (or manual autostart)
- * 0x01 - started initialization
- * 0x02 - started vacuum pumping
- * 0x04 - init cooling
- * 0x08 - cooling down
- * 0x10 - stable low temp state
- * 0x20 - heating up
- * 0x40 - switching off
- * 0x80 - stable high temp (shutdown) state
- * 0x0100 - e000 occured
- * 0x0200 - e001 occured
- * 0x0400 - e002 occured
- * 0x0800 - e003 occured
- * 0x1000 - e004 occured
- * 0x2000 - e005 occured
- * 0x4000 - e006 occured
- * 0x8000 - e007 occured
+ * 0x000000 - not initialized (or manual autostart)
+ * 0x000001 - started initialization
+ * 0x000002 - started vacuum pumping
+ * 0x000004 - init cooling
+ * 0x000008 - cooling down - power
+ * 0x000010 - cooling down - temp
+ * 0x000020 - heating up
+ * 0x000040 - switching off
+ * 0x000080 - stable high temp (shutdown) state
+ * 0x000100 - e000 occured
+ * 0x000200 - e001 occured
+ * 0x000400 - e002 occured
+ * 0x000800 - e003 occured
+ * 0x001000 - e004 occured
+ * 0x002000 - e005 occured
+ * 0x004000 - e006 occured
+ * 0x008000 - e007 occured
+ * 0x010000 - e008 occured
+ * 0x020000 - e009 occured
+ * 0x040000 - e010 occured
  */
 int32_t autostart_machine_state = 0;
 
@@ -146,7 +149,7 @@ void auto_start_complete() {
         should_report_complete = true;
         return;
     }
-    start_timer(&auto_start_timer, auto_start_timer_callback,AUTO_START_1_MIN);
+    start_timer(&auto_start_timer, auto_start_timer_callback,AUTO_START_5_MIN);
     auto_start_next_state = auto_start_check_vacuum_request;
     poll_auto_start = auto_start_delay;
 }

@@ -7,6 +7,7 @@
 extern int32_t autostart_machine_state;
 extern bool doing_startup;
 extern bool doing_shutdown;
+extern bool relay_state;
 
 /**
  * @file autostart_e.h
@@ -64,6 +65,8 @@ void auto_start_e004()
     feedlog("Serious error during shutdown 004");
     send_to_rimbox("\r\nautostart error\r\n");
     send_to_rimbox("error during shutting down\r\n");
+    relay_state = false;
+    mPORTGClearBits(BIT_0);
     poll_auto_start = auto_start_error;
 }
 
@@ -100,3 +103,32 @@ void auto_start_e007()
     poll_auto_start = auto_start_u001_request;
 }
 
+void auto_start_e008()
+{
+    autostart_machine_state |= 0x00010000;
+    doing_startup = false;
+    doing_shutdown = true;
+    send_to_rimbox("\r\nautostart error 008\r\n");
+    send_to_rimbox("error during cold start init\r\n");
+    poll_auto_start = auto_start_u001_request;
+}
+
+void auto_start_e009()
+{
+    autostart_machine_state |= 0x00020000;
+    doing_startup = false;
+    doing_shutdown = true;
+    send_to_rimbox("\r\nautostart error 009\r\n");
+    send_to_rimbox("vac error during cold start\r\n");
+    poll_auto_start = auto_start_u001_request;
+}
+
+void auto_start_e010()
+{
+    autostart_machine_state |= 0x00040000;
+    doing_startup = false;
+    doing_shutdown = true;
+    send_to_rimbox("\r\nautostart error 010\r\n");
+    send_to_rimbox("vac oscilation error\r\n");
+    poll_auto_start = auto_start_u001_request;
+}
