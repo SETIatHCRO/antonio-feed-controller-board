@@ -20,7 +20,7 @@ extern bool is_parse_vacuum_response;
 extern bool is_vac_response_ready;
 extern bool is_vac_busy;
 
-#define AUTOSTART_DEBUG_PRINT 1
+#define AUTOSTART_DEBUG_PRINT 0
 
 #define MAX_COMMAND_LEN 999
 #define MAX_RESPONSE_LEN 999

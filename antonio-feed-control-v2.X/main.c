@@ -111,7 +111,7 @@ int main(void) {
     
     EnableWDT();
     
-    sprintf(msg,98, "%s %d.%02df", init_string, version_major,version_minor);
+    snprintf(msg,98, "%s %d.%02df", init_string, version_major,version_minor);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
     feedlog(msg);
