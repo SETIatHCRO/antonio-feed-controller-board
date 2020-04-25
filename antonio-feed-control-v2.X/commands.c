@@ -71,8 +71,8 @@ struct command_pair commands[] = {
 /*36*/    {"restart", restart_command, NULL},
 /*37*/    {"shutdown", shutdown_command, NULL},
 /*38*/    {"autostart", autostart_command, NULL},
-/*39*/    {"gettargettemp", gettargettemp_command, NULL},
-/*40*/    {"settargettemp", settargettemp_command, NULL},
+/*39*/    {"getswitchtemp", getswitchtemp_command, NULL},
+/*40*/    {"setswitchtemp", setswitchtemp_command, NULL},
 /*41*/    {"getstate", autostartgetstate_command, NULL},
 /*42*/    {"state", autostartgetstate_command, NULL}
     //,

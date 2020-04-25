@@ -1,6 +1,7 @@
 #include <stdint.h>         /* For uint32_t definition                        */
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdbool.h>        /* For true/false definition     */
 
 #include "autostart.h"
@@ -47,13 +48,12 @@ struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 
 #define AUTO_START_MAX_TRIES 3
 
-float autostart_currtemp;
-float autostart_ttarget_acc = 1.0; //Kelvin when testing
-float autostart_30min_delta_temp = 5; //c.a. 10K/h
+float autostart_highTemp = 250.0;
+float autostart_switchTemp = 120.0;
+float autostart_switch_limitLow = 65.0;
+float autostart_switch_limitHigh = 300.0;
 
-float autostart_targetTemp = 85.0;
-float autostart_highTemp = 273;
-float autostart_curr_ttarget;
+int rot_speed_test = 0;
 
 /**
  * @brief autostart_machine_state the state that the autostart machine is at
@@ -91,9 +91,10 @@ bool auto_start_state = false;
 
 bool should_report_complete = true;
 
+bool autostart_cold_start=false;
 bool doing_startup = false;
 bool doing_shutdown = false;
-bool new_temp_set_point = false;
+bool vac_oscilating = false;
 
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;
@@ -102,7 +103,6 @@ extern int autostart_ttarget_stab_count;
 
 void auto_start_idle() {
     if (auto_start_state == true) {
-        doing_startup = true;
         start_timer(&auto_start_timer, auto_start_timer_callback,
                 AUTO_START_1_MIN);
         auto_start_next_state = auto_start_i000_request;
@@ -145,13 +145,6 @@ void auto_start_complete() {
         should_report_complete = true;
         return;
     }
-    if(new_temp_set_point) {
-        //new set point
-        doing_startup = true;
-        poll_auto_start = auto_start_d008_request;
-        new_temp_set_point = false;
-        return;
-    }
     start_timer(&auto_start_timer, auto_start_timer_callback,AUTO_START_1_MIN);
     auto_start_next_state = auto_start_check_vacuum_request;
     poll_auto_start = auto_start_delay;
@@ -186,7 +179,6 @@ void autostart_command(char *args[])
     send_to_rimbox("\rtoggling to auto start\r\n");
     doing_startup = true;
     doing_shutdown = false;
-    autostart_ttarget_stab_count = 0;
     //if we were waiting for a timer - making sure timer ends in 3s
     //it's not the most graceful part of the code though
     if(auto_start_timer.countdown_ticks > 3000)
@@ -198,36 +190,31 @@ void shutdown_command(char *args[])
     send_to_rimbox("\rtoggling to shutdown\r\n");
     doing_startup = false;
     doing_shutdown = true;
-    autostart_ttarget_stab_count = 0;
     //if we were waiting for a timer - making sure timer ends in 3s
     //it's not the most graceful part of the code though
     if(auto_start_timer.countdown_ticks > 3000)
         auto_start_timer.countdown_ticks = 3000;
 }
 
-void gettargettemp_command(char *args[])
+void getswitchtemp_command(char *args[])
 {
     char msg[19];
-    snprintf(msg, 18, "\r%3.2f", autostart_targetTemp);
+    snprintf(msg, 18, "\r%3.2f", autostart_switchTemp);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
 
-void settargettemp_command(char *args[])
+void setswitchtemp_command(char *args[])
 {
     char msg[19];
     int N;
     float next_temp;
-    float limitLow = 65;
-    float limithight = 150;
     if (args[0] == NULL) {
         send_to_rimbox(EOL);
         return;
     }
     
     char * foo;
-    next_temp = strtof(args[0],&foo);
-    
     float tmpval;
     tmpval = strtof(args[0],&foo);
     sscanf(args[0],"%f",&next_temp);
@@ -239,14 +226,15 @@ void settargettemp_command(char *args[])
         send_to_rimbox(EOL);
         return;
     }
-    if( (next_temp < limitLow) || (next_temp > limithight) )
+    if( (next_temp < autostart_switch_limitLow) || (next_temp > autostart_switch_limitHigh) )
     {
         //snprintf(msg, 18, "\rHERE%3.2f\r\n", next_temp);
         //send_to_rimbox(msg);
         send_to_rimbox(EOL);
         return;
     }
-    autostart_targetTemp = next_temp;
+    autostart_switchTemp = next_temp;
+    save_autostart_switchTemp();
     new_temp_set_point = true;
     send_to_rimbox(OK);
     send_to_rimbox(EOL);
@@ -682,6 +670,46 @@ bool get_auto_start_state() {
 
 void set_auto_start_state(bool state) {
     auto_start_state = state;
+}
+
+void save_autostart_switchTemp() {
+    FIL fp;
+    FRESULT rslt;
+    UINT bytes_written;
+
+    char text_state[19];
+
+    snprintf(text_state,18,"%3.2f",autostart_switchTemp);
+
+    rslt = f_open(&fp, "STRTMODE.TXT", (FA_CREATE_ALWAYS | FA_WRITE));
+    if (rslt == FR_OK) {
+        f_write(&fp, text_state, strlen(text_state), &bytes_written);
+        f_close(&fp);
+    }
+}
+
+void load_autostart_switchTemp()
+{
+    FIL fp;
+    FRESULT rslt;
+    UINT bytes_read;
+    float next_temp;
+
+    char text_state[19];
+
+    rslt = f_open(&fp, "STRTSTEMP.TXT", (FA_READ));
+    if (rslt == FR_OK) {
+        f_read(&fp, text_state, 10, &bytes_read);
+        f_close(&fp);
+        if (bytes_read > 0) {
+            text_state[bytes_read] = 0;
+            sscanf(text_state,"%f",&next_temp);
+            if ((next_temp >= autostart_switch_limitLow) && (next_temp <= autostart_switch_limitHigh) )
+            {
+                autostart_switchTemp = next_temp;
+            }
+        }
+    }
 }
 
 void save_autostart_state() {

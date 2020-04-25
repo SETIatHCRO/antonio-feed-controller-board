@@ -30,7 +30,8 @@
 
 #define MYDEBUG
 
-float version = 5.0;
+int version_major = 5;
+int version_minor = 1;
 static char init_string[] = "Antonio Feed Monitor and Control Firmware";
 
 bool echo_mode = false;
@@ -110,7 +111,7 @@ int main(void) {
     
     EnableWDT();
     
-    sprintf(msg, "%s %4.2f", init_string, version);
+    sprintf(msg,98, "%s %d.%02df", init_string, version_major,version_minor);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
     feedlog(msg);
@@ -126,6 +127,7 @@ int main(void) {
     load_fan_state();
 
     load_autostart_state();
+    load_autostart_switchTemp();
 
     sprintf(msg, "feed start mode is %s",
         (get_auto_start_state() == true ? "automatic": "manual"));
@@ -200,7 +202,7 @@ void bootloader_command(char *args[]) {
 void getversion_command(char *args[]) {
     char msg[19];
 
-    sprintf(msg, "%4.2f", version);
+    snprintf(msg,18, "%d.%02d", version_major, version_minor);
 
     send_to_rimbox(msg);
     send_to_rimbox(EOL);

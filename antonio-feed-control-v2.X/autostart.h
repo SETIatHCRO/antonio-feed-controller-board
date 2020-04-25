@@ -39,8 +39,8 @@ int autostart_vac_getulongfromresp(unsigned long int * val);
 
 void autostart_command(char *args[]);
 void shutdown_command(char *args[]);
-void gettargettemp_command(char *args[]);
-void settargettemp_command(char *args[]);
+void getswitchtemp_command(char *args[]);
+void setswitchtemp_command(char *args[]);
 void autostartgetstate_command(char *args[]);
 
 void auto_start_send_request_to_vac();
@@ -63,9 +63,11 @@ float auto_start_getdiode();
 
 bool get_auto_start_state();
 void set_auto_start_state(bool state);
-void load_autostart_state();
 
+void load_autostart_state();
 void save_autostart_state();
+void load_autostart_switchTemp();
+void save_autostart_switchTemp();
 
 void (*poll_auto_start)();
 
