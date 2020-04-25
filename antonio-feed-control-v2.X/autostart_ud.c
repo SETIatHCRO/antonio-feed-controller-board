@@ -17,8 +17,8 @@ extern float autostart_ttarget_acc;
 extern float autostart_30min_delta_temp;
 extern struct oneshot_timer auto_start_timer;
 
-extern float autostart_targetTemp;
 extern float autostart_highTemp;
+extern float autostart_switchTemp;
 
 /**
  * @file autostart_ud.h

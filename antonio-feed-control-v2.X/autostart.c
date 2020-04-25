@@ -239,7 +239,6 @@ void setswitchtemp_command(char *args[])
     }
     autostart_switchTemp = next_temp;
     save_autostart_switchTemp();
-    new_temp_set_point = true;
     send_to_rimbox(OK);
     send_to_rimbox(EOL);
 }
@@ -421,59 +420,6 @@ void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), vo
         snprintf(msg, 30, "dbgcr3:resending\n\r\n");
         send_to_rimbox(msg);
 #endif        
-        poll_auto_start = auto_start_send_request_to_cryo;
-        return;
-    }
-
-    poll_auto_start = err_fun;
-}
-
-void autostart_set_ttarget_withdelta_request(float target_t,  void (*next_fun)(void))
-{
-    if (autostart_currtemp > target_t) {
-        //going down with temperature
-        autostart_curr_ttarget = MAX((target_t),(autostart_currtemp - autostart_30min_delta_temp));
-    } else {
-        autostart_curr_ttarget = MIN((target_t),(autostart_currtemp + autostart_30min_delta_temp));
-    }
-    snprintf(auto_start_request, AUTO_START_CMND_RSPNS_MAX_LEN-1, "SET TTARGET=%3.2f",autostart_curr_ttarget);
-
-#if AUTOSTART_DEBUG_PRINT
-    char msg[31];
-    
-    snprintf(msg, 30, "dbgtt:%s\n\r\n",auto_start_request);
-    send_to_rimbox(msg);
-#endif
-    
-    auto_start_cmnd_rspns_tries = 0;
-
-    auto_start_next_state = next_fun;
-    poll_auto_start = auto_start_send_request_to_cryo;
-}
-
-void autostart_set_ttarget_withdelta_response(void (*next_fun)(void), void (*err_fun)(void))
-{
-    float cryo_flt_rspns;
-
-#if AUTOSTART_DEBUG_PRINT
-    char msg[31];
-    
-    snprintf(msg, 30, "dbgttr:%s\n\r\n",auto_start_response);
-    send_to_rimbox(msg);
-#endif
-    
-    //int N = sscanf(auto_start_response, "%f", &cryo_flt_rspns);
-    int N;
-    N = !autostart_cryo_getfloatfromresp(&cryo_flt_rspns);
-    
-    if ((N) && (cryo_flt_rspns >= (autostart_curr_ttarget - autostart_ttarget_acc)) && (cryo_flt_rspns <= (autostart_curr_ttarget + autostart_ttarget_acc))) {
-        poll_auto_start = next_fun;
-        return;
-    }
-
-    auto_start_cmnd_rspns_tries += 1;
-
-    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
         poll_auto_start = auto_start_send_request_to_cryo;
         return;
     }

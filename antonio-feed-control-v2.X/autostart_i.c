@@ -309,7 +309,7 @@ void auto_start_i006b_response()
 
     if ((Ncr) && (cryo_flt_rspns > -0.1) && (cryo_flt_rspns <  0.1)) {
         autostart_cold_start = true;
-        doing_startup = true
+        doing_startup = true;
         poll_auto_start = auto_start_i007_request;
         return;
     }

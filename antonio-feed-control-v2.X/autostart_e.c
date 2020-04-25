@@ -3,6 +3,7 @@
 #include "file_utils.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include <plib.h>           /* Include to use PIC32 peripheral libraries      */
 
 extern int32_t autostart_machine_state;
 extern bool doing_startup;

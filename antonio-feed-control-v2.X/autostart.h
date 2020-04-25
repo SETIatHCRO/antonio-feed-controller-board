@@ -79,9 +79,6 @@ void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), voi
 void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void));
 void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), void (*err_fun)(void));
 
-void autostart_set_ttarget_withdelta_request(float target_t,  void (*next_fun)(void));
-void autostart_set_ttarget_withdelta_response(void (*next_fun)(void), void (*err_fun)(void));
-
 void autostart_test_vacuum_param_true(void (*true_fun)(void), void (*false_fun)(void), void (*err_fun)(void));
 
 //Init sequence of auto start
@@ -120,6 +117,10 @@ void auto_start_i011_request();
 void auto_start_i011_response();
 void auto_start_i012_request();
 void auto_start_i012_response();
+void auto_start_i013_request();
+void auto_start_i013_response();
+void auto_start_i014_request();
+void auto_start_i014_response();
 
 //autostart vacuum preparation
 void auto_start_v001_request();
