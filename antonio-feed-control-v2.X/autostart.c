@@ -49,6 +49,7 @@ struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 #define AUTO_START_MAX_TRIES 3
 
 float autostart_highTemp = 250.0;
+float autostart_coold_start_threshold = 200.0;
 float autostart_switchTemp = 120.0;
 float autostart_switch_limitLow = 65.0;
 float autostart_switch_limitHigh = 300.0;
@@ -94,7 +95,7 @@ bool should_report_complete = true;
 bool autostart_cold_start=false;
 bool doing_startup = false;
 bool doing_shutdown = false;
-bool vac_oscilating = false;
+bool autostart_vac_oscilating = false;
 
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;

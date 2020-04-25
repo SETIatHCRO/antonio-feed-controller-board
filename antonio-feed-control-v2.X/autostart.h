@@ -18,6 +18,7 @@ extern "C" {
 
 //shared between autostart.c and various autostart_x.c
 #define AUTO_START_1_MIN 60*1000
+#define AUTO_START_5_MIN 5*60*1000
 #define AUTO_START_10_MIN 10*60*1000
 #define AUTO_START_15_MIN 15*60*1000
 #define AUTO_START_30_MIN 30*60*1000
@@ -87,17 +88,26 @@ void autostart_test_vacuum_param_true(void (*true_fun)(void), void (*false_fun)(
 void auto_start_i000_request();
 void auto_start_i000_response();
 void auto_start_i001_request();
-void auto_start_i001_response();
-void auto_start_i002_request();
-void auto_start_i002_response();
-void auto_start_i003_request();
-void auto_start_i003_response();
-void auto_start_i004_request();
-void auto_start_i004_response();
-void auto_start_i005_request();
-void auto_start_i005_response();
-void auto_start_i006_request();
-void auto_start_i006_response();
+void auto_start_i002a_request();
+void auto_start_i002a_response();
+void auto_start_i002b_request();
+void auto_start_i002b_response();
+void auto_start_i003a_request();
+void auto_start_i003a_response();
+void auto_start_i004a_request();
+void auto_start_i004a_response();
+void auto_start_i005a_request();
+void auto_start_i005a_response();
+void auto_start_i006a_request();
+void auto_start_i006a_response();
+void auto_start_i003b_request();
+void auto_start_i003b_response();
+void auto_start_i004b_request();
+void auto_start_i004b_response();
+void auto_start_i005b_request();
+void auto_start_i005b_response();
+void auto_start_i006b_request();
+void auto_start_i006b_response();
 void auto_start_i007_request();
 void auto_start_i007_response();
 void auto_start_i008_request();
@@ -116,8 +126,6 @@ void auto_start_v001_request();
 void auto_start_v001_response();
 void auto_start_v002_request();
 void auto_start_v002_response();
-void auto_start_v003_request();
-void auto_start_v003_response();
 void auto_start_v004_request();
 void auto_start_v004_response();
 void auto_start_v005_request();
@@ -128,6 +136,12 @@ void auto_start_v007_request();
 void auto_start_v007_response();
 void auto_start_v008_request();
 void auto_start_v008_response();
+void auto_start_v009_request();
+void auto_start_v009_response();
+void auto_start_v010_request();
+void auto_start_v010_response();
+void auto_start_v011_request();
+void auto_start_v011_response();
 
 //shutdown end steps
 void auto_start_s001_request();
@@ -171,6 +185,8 @@ void auto_start_e004();
 void auto_start_e005();
 void auto_start_e006();
 void auto_start_e007();
+void auto_start_e008();
+void auto_start_e009();
 
 /*void auto_start_000_p009_request();
 void auto_start_000_p009_response();
