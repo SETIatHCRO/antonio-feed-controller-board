@@ -35,12 +35,12 @@ extern float autostart_switchTemp;
 void auto_start_d001_request()
 {
     autostart_machine_state |= 0x00000004;
-    autostart_generic_cryo_request("SET PID=1", auto_start_d001_response);
+    autostart_generic_cryo_request("SET PID=0", auto_start_d001_response);
 }
 
 void auto_start_d001_response()
 {
-    autostart_generic_cryo_response(1.0, auto_start_d002_request, auto_start_e006);
+    autostart_generic_cryo_response(0.0, auto_start_d002_request, auto_start_e006);
 }
 
 //cryo power to 70W

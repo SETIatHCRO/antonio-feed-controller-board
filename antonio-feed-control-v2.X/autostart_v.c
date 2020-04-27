@@ -209,7 +209,7 @@ void auto_start_v009_request()
         poll_auto_start = auto_start_s001_request;
         return;
     }
-    autostart_generic_vacuum_request("p389",auto_start_v009_response);
+    autostart_generic_vacuum_request("p398",auto_start_v009_response);
 }
 
 void auto_start_v009_response()
