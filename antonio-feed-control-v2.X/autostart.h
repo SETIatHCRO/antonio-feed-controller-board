@@ -164,6 +164,15 @@ void auto_start_d004_response();
 void auto_start_d005_request();
 void auto_start_d006_request();
 void auto_start_d006_response();
+void auto_start_d007_request();
+void auto_start_d007_response();
+void auto_start_d008_request();
+void auto_start_d008_response();
+void auto_start_d009_request();
+void auto_start_d009_response();
+void auto_start_d010_request();
+void auto_start_d010_response();
+void auto_start_d011_request();
 
 //stepping temperature up
 void auto_start_u001_request();
@@ -182,6 +191,7 @@ void auto_start_e007();
 void auto_start_e008();
 void auto_start_e009();
 void auto_start_e010();
+void auto_start_e011();
 
 #ifdef	__cplusplus
 }

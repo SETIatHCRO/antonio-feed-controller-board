@@ -111,7 +111,7 @@ int main(void) {
     
     EnableWDT();
     
-    snprintf(msg,98, "%s %d.%02df", init_string, version_major,version_minor);
+    snprintf(msg,98, "%s %d.%2df", init_string, version_major,version_minor);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
     feedlog(msg);
@@ -202,7 +202,7 @@ void bootloader_command(char *args[]) {
 void getversion_command(char *args[]) {
     char msg[19];
 
-    snprintf(msg,18, "%d.%02d", version_major, version_minor);
+    snprintf(msg,18, "%d.%2d", version_major, version_minor);
 
     send_to_rimbox(msg);
     send_to_rimbox(EOL);

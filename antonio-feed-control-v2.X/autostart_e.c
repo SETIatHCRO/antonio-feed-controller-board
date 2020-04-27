@@ -133,3 +133,13 @@ void auto_start_e010()
     send_to_rimbox("vac oscilation error\r\n");
     poll_auto_start = auto_start_u001_request;
 }
+
+void auto_start_e011()
+{
+    autostart_machine_state |= 0x00080000;
+    doing_startup = false;
+    doing_shutdown = true;
+    send_to_rimbox("\r\nautostart error 011\r\n");
+    send_to_rimbox("cryo temp\r\n");
+    poll_auto_start = auto_start_u001_request;
+}

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>        /* For true/false definition     */
 
+#include "temperature.h"
 #include "autostart.h"
 #include "oneshot.h"
 #include "diode.h"
@@ -50,10 +51,14 @@ struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 
 float autostart_highTemp = 250.0;
 float autostart_coold_start_threshold = 200.0;
-float autostart_switchTemp = 120.0;
+float autostart_switchTemp = 130.0;
 float autostart_switch_limitLow = 65.0;
 float autostart_switch_limitHigh = 300.0;
-
+float autostart_cryo_safe_temp = 60.0; //C
+int current_power_loop = 0;
+int total_power_loops = 0;
+int power_ramp_up_time_min = 4*60;
+float power_loop_delta;
 int rot_speed_test = 0;
 
 /**
@@ -80,6 +85,8 @@ int rot_speed_test = 0;
  * 0x010000 - e008 occured
  * 0x020000 - e009 occured
  * 0x040000 - e010 occured
+ * 0x080000 - e011 occured
+ * 0x100000 - temp readout problem (A5/A6)
  */
 int32_t autostart_machine_state = 0;
 
@@ -136,7 +143,7 @@ void auto_start_error() {
 }
 
 void auto_start_complete() {
-
+    float tempk;
     doing_startup = false;
     if(should_report_complete) {
         autostart_machine_state &= 0xFFFFFF00;
@@ -147,6 +154,26 @@ void auto_start_complete() {
     if(doing_shutdown) {
         poll_auto_start = auto_start_u001_request;
         should_report_complete = true;
+        return;
+    }
+    tempk = get_temp("A5");
+    if ( (tempk == TEMP_NOT_INITIALIZED) || (tempk == TEMP_INVALID_TEMP) || (tempk == TEMP_INVALID_NAME) )
+    {
+        //we ignore it and just report error
+        autostart_machine_state |= 0x00100000;
+    }
+    if (tempk > autostart_cryo_safe_temp) {
+        poll_auto_start = auto_start_e011;
+        return;
+    }
+    tempk = get_temp("A6");
+    if ( (tempk == TEMP_NOT_INITIALIZED) || (tempk == TEMP_INVALID_TEMP) || (tempk == TEMP_INVALID_NAME) )
+    {
+        //we ignore it and just report error
+        autostart_machine_state |= 0x00100000;
+    }
+    if (tempk > autostart_cryo_safe_temp) {
+        poll_auto_start = auto_start_e011;
         return;
     }
     start_timer(&auto_start_timer, auto_start_timer_callback,AUTO_START_5_MIN);

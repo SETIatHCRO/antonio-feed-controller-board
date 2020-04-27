@@ -1,5 +1,6 @@
 #include "autostart.h"
 #include "oneshot.h"
+#include "temperature.h"
 #include <stdio.h>
 #include <stdint.h>
 
@@ -16,7 +17,11 @@ extern float autostart_currtemp;
 extern float autostart_ttarget_acc;
 extern float autostart_30min_delta_temp;
 extern struct oneshot_timer auto_start_timer;
-
+extern float autostart_cryo_safe_temp;
+extern int current_power_loop;
+extern int total_power_loops;
+extern int power_ramp_up_time_min;
+extern float power_loop_delta;
 extern float autostart_highTemp;
 extern float autostart_switchTemp;
 
@@ -81,14 +86,35 @@ void auto_start_d004_response()
 void auto_start_d005_request()
 {
     float tempk;
+    if(doing_shutdown) {
+        poll_auto_start = auto_start_u001_request;
+        return;
+    }
+    tempk = get_temp("A5");
+    if ( (tempk == TEMP_NOT_INITIALIZED) || (tempk == TEMP_INVALID_TEMP) || (tempk == TEMP_INVALID_NAME) )
+    {
+        //we ignore it and just report error
+        autostart_machine_state |= 0x00100000;
+    }
+    if (tempk > autostart_cryo_safe_temp) {
+        poll_auto_start = auto_start_e011;
+        return;
+    }
+    tempk = get_temp("A6");
+    if ( (tempk == TEMP_NOT_INITIALIZED) || (tempk == TEMP_INVALID_TEMP) || (tempk == TEMP_INVALID_NAME) )
+    {
+        //we ignore it and just report error
+        autostart_machine_state |= 0x00100000;
+    }
+    if (tempk > autostart_cryo_safe_temp) {
+        poll_auto_start = auto_start_e011;
+        return;
+    }
+
     tempk = auto_start_getdiode();
     if (tempk == 0.0) {
         //error
         poll_auto_start = auto_start_e007;
-    }
-    if(doing_shutdown) {
-        poll_auto_start = auto_start_u001_request;
-        return;
     }
     if (tempk < autostart_switchTemp) {
         poll_auto_start = auto_start_d006_request;
@@ -101,16 +127,104 @@ void auto_start_d005_request()
     }
 }
 
-//starting the cooler
+//set max power
 void auto_start_d006_request()
 {
-    autostart_machine_state |= 0x00000010;
-    autostart_generic_cryo_request("SET PID=2", auto_start_d006_response);
+    autostart_generic_cryo_request("SET MAX=70.0", auto_start_d006_response);
 }
 
 void auto_start_d006_response()
 {
-    autostart_generic_cryo_response(2.0, auto_start_complete, auto_start_e006);
+    autostart_generic_cryo_response(70.0, auto_start_d007_request, auto_start_e006);
+}
+
+//set min power
+void auto_start_d007_request()
+{
+    autostart_generic_cryo_request("SET MIN=70.0", auto_start_d007_response);
+}
+
+void auto_start_d007_response()
+{
+    autostart_generic_cryo_response(70.0, auto_start_d008_request, auto_start_e006);
+}
+
+//set min power
+void auto_start_d008_request()
+{
+    autostart_machine_state |= 0x00000010;
+    current_power_loop = 0;
+    total_power_loops = power_ramp_up_time_min/5;
+    power_loop_delta = (240.0-70.0)*(1.0/total_power_loops);
+    autostart_generic_cryo_request("SET PID=2", auto_start_d008_response);
+}
+
+void auto_start_d008_response()
+{
+    autostart_generic_cryo_response(2.0, auto_start_d009_request, auto_start_e006);
+}
+
+//set max power
+void auto_start_d009_request()
+{
+    char msg[20];
+    current_power_loop++;
+    snprintf(msg,19,"SET MAX=%.1f",70.0+current_power_loop*power_loop_delta);
+    autostart_generic_cryo_request(msg, auto_start_d009_response);
+}
+
+void auto_start_d009_response()
+{
+    autostart_generic_cryo_response(70.0+current_power_loop*power_loop_delta, auto_start_d010_request, auto_start_e006);
+}
+
+void auto_start_d010_request()
+{
+    autostart_generic_vacuum_request("p302", auto_start_d010_response);
+}
+
+void auto_start_d010_response()
+{
+    autostart_test_vacuum_param_true(auto_start_d011_request,auto_start_e005,auto_start_e007);
+}
+
+void auto_start_d011_request()
+{
+    float tempk;
+    if(doing_shutdown) {
+        poll_auto_start = auto_start_u001_request;
+        return;
+    }
+    if(current_power_loop >= total_power_loops)
+    {
+        poll_auto_start = auto_start_complete;
+        return;
+    }
+
+    tempk = get_temp("A5");
+    if ( (tempk == TEMP_NOT_INITIALIZED) || (tempk == TEMP_INVALID_TEMP) || (tempk == TEMP_INVALID_NAME) )
+    {
+        //we ignore it and just report error
+        autostart_machine_state |= 0x00100000;
+    }
+    if (tempk > autostart_cryo_safe_temp) {
+        poll_auto_start = auto_start_e011;
+        return;
+    }
+    tempk = get_temp("A6");
+    if ( (tempk == TEMP_NOT_INITIALIZED) || (tempk == TEMP_INVALID_TEMP) || (tempk == TEMP_INVALID_NAME) )
+    {
+        //we ignore it and just report error
+        autostart_machine_state |= 0x00100000;
+    }
+    if (tempk > autostart_cryo_safe_temp) {
+        poll_auto_start = auto_start_e011;
+        return;
+    }
+
+    start_timer(&auto_start_timer, auto_start_timer_callback,AUTO_START_5_MIN);
+    auto_start_next_state = auto_start_d009_request;
+    poll_auto_start = auto_start_delay;
 }
 
 //UP
