@@ -106,7 +106,7 @@ bool autostart_cold_start=false;
 bool doing_startup = false;
 bool doing_shutdown = false;
 bool autostart_vac_oscilating = false;
-
+bool auto_start_manual_shutdown = false;
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;
 extern int autostart_ttarget_stab_count;
@@ -119,6 +119,14 @@ void auto_start_idle() {
         auto_start_next_state = auto_start_i000_request;
         poll_auto_start = auto_start_delay;
         send_to_rimbox("\r\nautostart in 1 minute\r\n");
+    }
+    if ( (auto_start_state == false ) && (auto_start_manual_shutdown==false) )
+    {
+        start_timer(&auto_start_timer, auto_start_timer_callback,
+                AUTO_START_1_MIN);
+        auto_start_next_state = auto_start_m001_request;
+        poll_auto_start = auto_start_delay;
+        send_to_rimbox("\r\nmanual shutdown 1 min\r\n");
     }
 }
 

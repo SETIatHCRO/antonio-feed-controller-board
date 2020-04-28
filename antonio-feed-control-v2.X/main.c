@@ -31,7 +31,7 @@
 #define MYDEBUG
 
 int version_major = 5;
-int version_minor = 1;
+int version_minor = 2;
 static char init_string[] = "Antonio Feed Monitor and Control Firmware";
 
 bool echo_mode = false;

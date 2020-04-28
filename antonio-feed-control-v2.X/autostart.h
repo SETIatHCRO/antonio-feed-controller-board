@@ -151,6 +151,12 @@ void auto_start_s002_request();
 void auto_start_s002_response();
 void auto_start_s003_request();
 void auto_start_s003_response();
+void auto_start_m001_request();
+void auto_start_m001_response();
+void auto_start_m002_request();
+void auto_start_m002_response();
+void auto_start_m003_request();
+void auto_start_m003_response();
 
 //stepping temperature down
 void auto_start_d001_request();
