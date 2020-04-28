@@ -109,7 +109,6 @@ bool autostart_vac_oscilating = false;
 bool auto_start_manual_shutdown = false;
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;
-extern int autostart_ttarget_stab_count;
 // TODO: embed scripting engine for auto start procedure
 
 void auto_start_idle() {
