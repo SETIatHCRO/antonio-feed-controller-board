@@ -276,7 +276,7 @@ void autostartsetturbotime_command(char *args[])
 
 void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void))
 {
-    char msg[19];
+    //char msg[19];
     int N;
     int next_vac_time;
     if (args[0] == NULL) {
@@ -284,8 +284,6 @@ void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(voi
         return;
     }
 
-    char * foo;
-    float tmpval;
     N = sscanf(args[0],"%d",&next_vac_time);
     if (!N) {
         //snprintf(msg, 18, "\rBad N(%d)%s\r\n",N,args[0]);
@@ -316,7 +314,7 @@ void getswitchtemp_command(char *args[])
 
 void setswitchtemp_command(char *args[])
 {
-    char msg[19];
+    //char msg[19];
     int N;
     float next_temp;
     if (args[0] == NULL) {
@@ -437,7 +435,6 @@ void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
 
 int autostart_vac_getulongfromresp(unsigned long int * val)
 {
-    char * foo;
     unsigned long int tmpval;
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
@@ -449,7 +446,7 @@ int autostart_vac_getulongfromresp(unsigned long int * val)
     //tmpval = strtoul(auto_start_response,&foo);
     //TODO: i haven't try to investigate whan NN value will be set to if 
     //response is not represented by a string
-    NN = !sscanf(auto_start_response,"%u",val);
+    NN = !sscanf(auto_start_response,"%lu",val);
 #if AUTOSTART_DEBUG_PRINT
     //snprintf(msg, 30, "dbgvcu:got %u(%d)\n\r\n",*val,auto_start_response == foo);
     snprintf(msg, 30, "dbgvcu:got %u(%d)\n\r\n",*val,NN);
