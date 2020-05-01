@@ -665,7 +665,7 @@ void save_autostart_switchTemp() {
 
     snprintf(text_state,18,"%3.2f",autostart_switchTemp);
 
-    rslt = f_open(&fp, "STRTMODE.TXT", (FA_CREATE_ALWAYS | FA_WRITE));
+    rslt = f_open(&fp, "STRTSTEMP.TXT", (FA_CREATE_ALWAYS | FA_WRITE));
     if (rslt == FR_OK) {
         f_write(&fp, text_state, strlen(text_state), &bytes_written);
         f_close(&fp);
