@@ -111,7 +111,7 @@ int main(void) {
     
     EnableWDT();
     
-    snprintf(msg,98, "%s %d.%df", init_string, version_major,version_minor);
+    snprintf(msg,98, "%s %d.%d", init_string, version_major,version_minor);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
     feedlog(msg);
@@ -128,6 +128,9 @@ int main(void) {
 
     load_autostart_state();
     load_autostart_switchTemp();
+    load_autostart_backing_time();
+    load_autostart_standby_time();
+    load_autostart_turbo_time();
 
     sprintf(msg, "feed start mode is %s",
         (get_auto_start_state() == true ? "automatic": "manual"));

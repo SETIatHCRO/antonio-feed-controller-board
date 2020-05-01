@@ -5,7 +5,6 @@ extern int32_t autostart_machine_state;
 extern bool doing_startup;
 extern bool doing_shutdown;
 extern bool should_report_complete;
-extern float autostart_coold_start_threshold;
 extern int fore_vacuum_try;
 extern int turbo_power_try;
 extern bool autostart_cold_start;
@@ -56,7 +55,7 @@ void auto_start_i001_request()
         //error
         poll_auto_start = auto_start_e000;
     }
-    if (tempk < autostart_coold_start_threshold)
+    if (tempk < AUTO_START_COLD_START_THRESHOLD_K)
     {
         poll_auto_start = auto_start_i002b_request;
     } else {

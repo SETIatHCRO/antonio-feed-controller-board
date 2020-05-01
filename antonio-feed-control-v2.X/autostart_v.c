@@ -15,8 +15,10 @@ extern int32_t autostart_machine_state;
 extern int rot_speed_test;
 extern bool autostart_vac_oscilating;
 
-#define MAX_FORE_VACUUM_TRIES 10
-#define MAX_TURBO_POWER_TRIES 10
+extern int vacuum_autostart_backing_min;
+extern int vacuum_autostart_standby_min;
+extern int vacuum_autostart_turbo_min;
+
 
 /**
  * @file autostart_v.h
@@ -61,7 +63,7 @@ void auto_start_v002_request()
 
 void auto_start_v002_response()
 {
-    autostart_timed_vacuum_response("000000", auto_start_v004_request, auto_start_e001, AUTO_START_10_MIN);
+    autostart_timed_vacuum_response("000000", auto_start_v004_request, auto_start_e001,vacuum_autostart_backing_min*AUTO_START_1_MIN);
 }
 
 //v003 was removed
@@ -93,7 +95,7 @@ void auto_start_v005_request()
 
 void auto_start_v005_response()
 {
-    autostart_timed_vacuum_response("111111", auto_start_v006_request, auto_start_e001, AUTO_START_15_MIN);
+    autostart_timed_vacuum_response("111111", auto_start_v006_request, auto_start_e001, vacuum_autostart_standby_min*AUTO_START_1_MIN);
 }
 
 //switching off the standby mode and waiting 10 min
@@ -108,7 +110,7 @@ void auto_start_v006_request()
 
 void auto_start_v006_response()
 {
-    autostart_timed_vacuum_response("000000", auto_start_v007_request, auto_start_e001, AUTO_START_10_MIN);
+    autostart_timed_vacuum_response("000000", auto_start_v007_request, auto_start_e001, vacuum_autostart_turbo_min*AUTO_START_1_MIN);
 }
 
 //querying if turbo speed attained

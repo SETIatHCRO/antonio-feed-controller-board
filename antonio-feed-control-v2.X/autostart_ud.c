@@ -13,17 +13,12 @@ extern char auto_start_request[AUTO_START_CMND_RSPNS_MAX_LEN];
 extern char auto_start_response[AUTO_START_CMND_RSPNS_MAX_LEN];
 extern int auto_start_cmnd_rspns_tries;
 
-extern float autostart_currtemp;
-extern float autostart_ttarget_acc;
-extern float autostart_30min_delta_temp;
+extern float autostart_switchTemp;
 extern struct oneshot_timer auto_start_timer;
-extern float autostart_cryo_safe_temp;
 extern int current_power_loop;
 extern int total_power_loops;
 extern int power_ramp_up_time_min;
 extern float power_loop_delta;
-extern float autostart_highTemp;
-extern float autostart_switchTemp;
 
 /**
  * @file autostart_ud.h
@@ -96,7 +91,7 @@ void auto_start_d005_request()
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
     }
-    if (tempk > autostart_cryo_safe_temp) {
+    if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
         return;
     }
@@ -106,7 +101,7 @@ void auto_start_d005_request()
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
     }
-    if (tempk > autostart_cryo_safe_temp) {
+    if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
         return;
     }
@@ -207,7 +202,7 @@ void auto_start_d011_request()
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
     }
-    if (tempk > autostart_cryo_safe_temp) {
+    if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
         return;
     }
@@ -217,7 +212,7 @@ void auto_start_d011_request()
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
     }
-    if (tempk > autostart_cryo_safe_temp) {
+    if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
         return;
     }
@@ -253,7 +248,7 @@ void auto_start_u002_request()
         poll_auto_start = auto_start_d001_request;
         return;
     }
-    if (tempk > autostart_highTemp) {
+    if (tempk > AUTO_START_CRYO_HIGH_TEMP_K) {
         poll_auto_start = auto_start_s001_request;
         return;
     } else {

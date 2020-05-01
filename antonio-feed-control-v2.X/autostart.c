@@ -45,19 +45,21 @@ struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 #define MAX(a,b) (((a)>(b))?(a):(b))
 #endif
 
-#define AUTO_START_GETDIODE_THRESHOLD 250.0
-
 #define AUTO_START_MAX_TRIES 3
 
-float autostart_highTemp = 250.0;
-float autostart_coold_start_threshold = 200.0;
+int vacuum_autostart_backing_min = 10;
+int vacuum_autostart_standby_min = 15;
+int vacuum_autostart_turbo_min = 10;
+
+//float autostart_highTemp = 285.0;
+//float autostart_coold_start_threshold = 200.0;
 float autostart_switchTemp = 130.0;
-float autostart_switch_limitLow = 65.0;
-float autostart_switch_limitHigh = 300.0;
-float autostart_cryo_safe_temp = 60.0; //C
+//float autostart_switch_limitLow = 65.0;
+//float autostart_switch_limitHigh = 300.0;
+//float autostart_cryo_safe_temp = 60.0; //C
 int current_power_loop = 0;
 int total_power_loops = 0;
-int power_ramp_up_time_min = 4*60;
+int power_ramp_up_time_min = 6*60;
 float power_loop_delta;
 int rot_speed_test = 0;
 
@@ -169,7 +171,7 @@ void auto_start_complete() {
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
     }
-    if (tempk > autostart_cryo_safe_temp) {
+    if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
         return;
     }
@@ -179,7 +181,7 @@ void auto_start_complete() {
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
     }
-    if (tempk > autostart_cryo_safe_temp) {
+    if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
         return;
     }
@@ -234,6 +236,76 @@ void shutdown_command(char *args[])
         auto_start_timer.countdown_ticks = 3000;
 }
 
+void autostartgetbackingtime_command(char *args[])
+{
+    autostartgetvactime_command(args,&vacuum_autostart_backing_min);
+}
+
+void autostartgetstandbytime_command(char *args[])
+{
+    autostartgetvactime_command(args,&vacuum_autostart_standby_min);
+}
+
+void autostartgetturbotime_command(char *args[])
+{
+    autostartgetvactime_command(args,&vacuum_autostart_turbo_min);
+}
+
+void autostartgetvactime_command(char *args[], int * timevar)
+{
+    char msg[19];
+    snprintf(msg, 18, "\r%d", *timevar);
+    send_to_rimbox(msg);
+    send_to_rimbox(EOL);
+}
+
+void autostartsetbackingtime_command(char *args[])
+{
+    autostartsetvactime_command(args,&vacuum_autostart_backing_min,save_autostart_backing_time);
+}
+
+void autostartsetstandbytime_command(char *args[])
+{
+    autostartsetvactime_command(args,&vacuum_autostart_standby_min,save_autostart_standby_time);
+}
+
+void autostartsetturbotime_command(char *args[])
+{
+    autostartsetvactime_command(args,&vacuum_autostart_turbo_min,save_autostart_turbo_time);
+}
+
+void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void))
+{
+    char msg[19];
+    int N;
+    int next_vac_time;
+    if (args[0] == NULL) {
+        send_to_rimbox(EOL);
+        return;
+    }
+
+    char * foo;
+    float tmpval;
+    N = sscanf(args[0],"%d",&next_vac_time);
+    if (!N) {
+        //snprintf(msg, 18, "\rBad N(%d)%s\r\n",N,args[0]);
+        //send_to_rimbox(msg);
+        send_to_rimbox(EOL);
+        return;
+    }
+    if( (next_vac_time < AUTO_START_MIN_VAC_TIME_MIN ) || ( next_vac_time > AUTO_START_MAX_VAC_TIME_MIN ) )
+    {
+        //snprintf(msg, 18, "\rHERE%3.2f\r\n", next_temp);
+        //send_to_rimbox(msg);
+        send_to_rimbox(EOL);
+        return;
+    }
+    *timevar = next_vac_time;
+    savefun();
+    send_to_rimbox(OK);
+    send_to_rimbox(EOL);
+}
+
 void getswitchtemp_command(char *args[])
 {
     char msg[19];
@@ -264,7 +336,7 @@ void setswitchtemp_command(char *args[])
         send_to_rimbox(EOL);
         return;
     }
-    if( (next_temp < autostart_switch_limitLow) || (next_temp > autostart_switch_limitHigh) )
+    if( (next_temp < AUTO_START_SWITCH_TEMP_LIMIT_LOW_K ) || (next_temp > AUTO_START_SWITCH_TEMP_LIMIT_HIGH_K ) )
     {
         //snprintf(msg, 18, "\rHERE%3.2f\r\n", next_temp);
         //send_to_rimbox(msg);
@@ -656,6 +728,77 @@ void set_auto_start_state(bool state) {
     auto_start_state = state;
 }
 
+void save_autostart_backing_time()
+{
+    save_autostart_vacuum_time(&vacuum_autostart_backing_min, "VCBKTIME.TXT");
+}
+
+void save_autostart_standby_time()
+{
+    save_autostart_vacuum_time(&vacuum_autostart_standby_min, "VCSBTIME.TXT");
+}
+
+void save_autostart_turbo_time()
+{
+    save_autostart_vacuum_time(&vacuum_autostart_turbo_min, "VCTBTIME.TXT");
+}
+
+void save_autostart_vacuum_time( int * val, char * filename )
+{
+    FIL fp;
+    FRESULT rslt;
+    UINT bytes_written;
+
+    char text_state[19];
+
+    snprintf(text_state,18,"%d",*val);
+
+    rslt = f_open(&fp, filename, (FA_CREATE_ALWAYS | FA_WRITE));
+    if (rslt == FR_OK) {
+        f_write(&fp, text_state, strlen(text_state), &bytes_written);
+        f_close(&fp);
+    }
+}
+
+void load_autostart_backing_time()
+{
+    load_autostart_vacuum_time(&vacuum_autostart_backing_min, "VCBKTIME.TXT");
+}
+
+void load_autostart_standby_time()
+{
+    load_autostart_vacuum_time(&vacuum_autostart_standby_min, "VCSBTIME.TXT");
+}
+
+void load_autostart_turbo_time()
+{
+    load_autostart_vacuum_time(&vacuum_autostart_turbo_min, "VCTBTIME.TXT");
+}
+
+void load_autostart_vacuum_time( int * val, char * filename )
+{
+    FIL fp;
+    FRESULT rslt;
+    UINT bytes_read;
+    int next_vac_time = 0;
+
+    char text_state[19];
+
+    rslt = f_open(&fp, filename, (FA_READ));
+    if (rslt == FR_OK) {
+        f_read(&fp, text_state, 10, &bytes_read);
+        f_close(&fp);
+        if (bytes_read > 0) {
+            text_state[bytes_read] = 0;
+            sscanf(text_state,"%d",&next_vac_time);
+            if (( next_vac_time >= AUTO_START_MIN_VAC_TIME_MIN ) && ( next_vac_time <= AUTO_START_MAX_VAC_TIME_MIN ) )
+            {
+                *val = next_vac_time;
+            }
+        }
+    }
+}
+
 void save_autostart_switchTemp() {
     FIL fp;
     FRESULT rslt;
@@ -665,7 +808,7 @@ void save_autostart_switchTemp() {
 
     snprintf(text_state,18,"%3.2f",autostart_switchTemp);
 
-    rslt = f_open(&fp, "STRTSTEMP.TXT", (FA_CREATE_ALWAYS | FA_WRITE));
+    rslt = f_open(&fp, "STRSTEMP.TXT", (FA_CREATE_ALWAYS | FA_WRITE));
     if (rslt == FR_OK) {
         f_write(&fp, text_state, strlen(text_state), &bytes_written);
         f_close(&fp);
@@ -681,14 +824,14 @@ void load_autostart_switchTemp()
 
     char text_state[19];
 
-    rslt = f_open(&fp, "STRTSTEMP.TXT", (FA_READ));
+    rslt = f_open(&fp, "STRSTEMP.TXT", (FA_READ));
     if (rslt == FR_OK) {
         f_read(&fp, text_state, 10, &bytes_read);
         f_close(&fp);
         if (bytes_read > 0) {
             text_state[bytes_read] = 0;
             sscanf(text_state,"%f",&next_temp);
-            if ((next_temp >= autostart_switch_limitLow) && (next_temp <= autostart_switch_limitHigh) )
+            if ((next_temp >= AUTO_START_SWITCH_TEMP_LIMIT_LOW_K) && (next_temp <= AUTO_START_SWITCH_TEMP_LIMIT_HIGH_K) )
             {
                 autostart_switchTemp = next_temp;
             }

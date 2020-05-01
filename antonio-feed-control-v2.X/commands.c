@@ -74,7 +74,14 @@ struct command_pair commands[] = {
 /*39*/    {"getswitchtemp", getswitchtemp_command, NULL},
 /*40*/    {"setswitchtemp", setswitchtemp_command, NULL},
 /*41*/    {"getstate", autostartgetstate_command, NULL},
-/*42*/    {"state", autostartgetstate_command, NULL}
+/*42*/    {"state", autostartgetstate_command, NULL},
+/*43*/    {"getbackingtime", autostartgetbackingtime_command, NULL},
+/*44*/    {"setbackingtime", autostartsetbackingtime_command, NULL},
+/*45*/    {"getstandbytime", autostartgetstandbytime_command, NULL},
+/*46*/    {"setstandbytime", autostartsetstandbytime_command, NULL},
+/*47*/    {"getturbotime", autostartgetturbotime_command, NULL},
+/*48*/    {"setturbotime", autostartsetturbotime_command, NULL}
+
     //,
    // {"setcryoprotect", setcryostopmode_command, NULL},
     //{"getcryoprotect", getcryostopmode_command, NULL}

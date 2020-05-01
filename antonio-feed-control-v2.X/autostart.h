@@ -24,6 +24,17 @@ extern "C" {
 #define AUTO_START_30_MIN 30*60*1000
 #define AUTO_START_45_MIN 45*60*1000
 
+#define AUTO_START_MAX_VAC_TIME_MIN 60
+#define AUTO_START_MIN_VAC_TIME_MIN 10
+#define AUTO_START_CRYO_HIGH_TEMP_K 285.0
+#define AUTO_START_COLD_START_THRESHOLD_K 200.0
+#define AUTO_START_SWITCH_TEMP_LIMIT_LOW_K 65.0
+#define AUTO_START_SWITCH_TEMP_LIMIT_HIGH_K 300.0
+#define AUTO_START_CRYO_SAFE_TEMP_C 60.0
+
+#define MAX_FORE_VACUUM_TRIES 15
+#define MAX_TURBO_POWER_TRIES 15
+
 #define AUTO_START_CMND_RSPNS_MAX_LEN 99
 #define AUTO_START_CMND_RSPNS_MAX_TRIES 2
 
@@ -43,6 +54,14 @@ void shutdown_command(char *args[]);
 void getswitchtemp_command(char *args[]);
 void setswitchtemp_command(char *args[]);
 void autostartgetstate_command(char *args[]);
+void autostartgetbackingtime_command(char *args[]);
+void autostartsetbackingtime_command(char *args[]);
+void autostartgetstandbytime_command(char *args[]);
+void autostartsetstandbytime_command(char *args[]);
+void autostartgetturbotime_command(char *args[]);
+void autostartsetturbotime_command(char *args[]);
+void autostartgetvactime_command(char *args[], int * timevar);
+void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void));
 
 void auto_start_send_request_to_vac();
 void auto_start_send_request_to_vac_delayed();
@@ -69,6 +88,14 @@ void load_autostart_state();
 void save_autostart_state();
 void load_autostart_switchTemp();
 void save_autostart_switchTemp();
+void load_autostart_backing_time();
+void save_autostart_backing_time();
+void load_autostart_standby_time();
+void save_autostart_standby_time();
+void load_autostart_turbo_time();
+void save_autostart_turbo_time();
+void load_autostart_vacuum_time( int * val, char * filename );
+void save_autostart_vacuum_time( int * val, char * filename );
 
 void (*poll_auto_start)();
 
