@@ -16,6 +16,13 @@
 #include "file_utils.h"
 #include "adc.h"
 
+//function accessible only here
+static void autostartgetvactime_command(char *args[], int * timevar);
+static void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void));
+static void load_autostart_vacuum_time( int * val, char * filename );
+static void save_autostart_vacuum_time( int * val, char * filename );
+
+extern bool update_logs;
 extern bool is_parse_vacuum_response;
 
 extern bool is_vac_response_ready;
@@ -159,10 +166,12 @@ void auto_start_complete() {
         autostart_machine_state |= 0x00000010;
         send_to_rimbox("\r\nautostart complete\r\n");
         should_report_complete = false;
+        update_logs = false;
     }
     if(doing_shutdown) {
         poll_auto_start = auto_start_u001_request;
         should_report_complete = true;
+        update_logs = true;
         return;
     }
     tempk = get_temp("A5");
@@ -170,6 +179,7 @@ void auto_start_complete() {
     {
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
+        feedlog_always("A5 failed");
     }
     if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
@@ -180,6 +190,7 @@ void auto_start_complete() {
     {
         //we ignore it and just report error
         autostart_machine_state |= 0x00100000;
+        feedlog_always("A5 failed");
     }
     if (tempk > AUTO_START_CRYO_SAFE_TEMP_C) {
         poll_auto_start = auto_start_e011;
@@ -251,7 +262,7 @@ void autostartgetturbotime_command(char *args[])
     autostartgetvactime_command(args,&vacuum_autostart_turbo_min);
 }
 
-void autostartgetvactime_command(char *args[], int * timevar)
+static void autostartgetvactime_command(char *args[], int * timevar)
 {
     char msg[19];
     snprintf(msg, 18, "\r%d", *timevar);
@@ -274,7 +285,7 @@ void autostartsetturbotime_command(char *args[])
     autostartsetvactime_command(args,&vacuum_autostart_turbo_min,save_autostart_turbo_time);
 }
 
-void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void))
+static void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void))
 {
     //char msg[19];
     int N;
@@ -740,7 +751,7 @@ void save_autostart_turbo_time()
     save_autostart_vacuum_time(&vacuum_autostart_turbo_min, "VCTBTIME.TXT");
 }
 
-void save_autostart_vacuum_time( int * val, char * filename )
+static void save_autostart_vacuum_time( int * val, char * filename )
 {
     FIL fp;
     FRESULT rslt;
@@ -772,7 +783,7 @@ void load_autostart_turbo_time()
     load_autostart_vacuum_time(&vacuum_autostart_turbo_min, "VCTBTIME.TXT");
 }
 
-void load_autostart_vacuum_time( int * val, char * filename )
+static void load_autostart_vacuum_time( int * val, char * filename )
 {
     FIL fp;
     FRESULT rslt;

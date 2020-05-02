@@ -125,7 +125,11 @@ void parse_cmnd_from_rimbox() {
     }
 
     struct command_pair *commands = get_commands();
-    for (cmnds_i = 0; cmnds_i < NUMBER_OF_COMMANDS; cmnds_i++) {
+    for (cmnds_i = 0; cmnds_i < MAX_NUMBER_OF_COMMANDS; cmnds_i++) {
+        if (commands[cmnds_i].name == NULL)
+        {
+            break;
+        }
         if (strcmp(command, commands[cmnds_i].name) == 0) {
             commands[cmnds_i].function(args);
             poll_recv_from_rimbox = purge_chars_from_rimbox;

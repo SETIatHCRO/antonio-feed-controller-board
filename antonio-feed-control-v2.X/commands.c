@@ -80,8 +80,8 @@ struct command_pair commands[] = {
 /*45*/    {"getstandbytime", autostartgetstandbytime_command, NULL},
 /*46*/    {"setstandbytime", autostartsetstandbytime_command, NULL},
 /*47*/    {"getturbotime", autostartgetturbotime_command, NULL},
-/*48*/    {"setturbotime", autostartsetturbotime_command, NULL}
-
+/*48*/    {"setturbotime", autostartsetturbotime_command, NULL},
+/*49*/    {NULL, NULL, NULL}
     //,
    // {"setcryoprotect", setcryostopmode_command, NULL},
     //{"getcryoprotect", getcryostopmode_command, NULL}
@@ -114,12 +114,18 @@ void help_command(char *args[]) {
         return;
     }
 
-    for (cmnds_i = 0; cmnds_i < NUMBER_OF_COMMANDS; cmnds_i++) {
+    for (cmnds_i = 0; cmnds_i < MAX_NUMBER_OF_COMMANDS; cmnds_i++) {
+        if ( commands[cmnds_i].name == NULL )
+        {
+            break;
+        }
         if (strcasecmp(args[0], commands[cmnds_i].name) == 0) {
-            strcpy(pathfilename, "help/");
-            strcat(pathfilename, commands[cmnds_i].helpfile);
-            cat_command(help_args);
-            return;
+            if (commands[cmnds_i].helpfile != NULL) {
+                strcpy(pathfilename, "help/");
+                strcat(pathfilename, commands[cmnds_i].helpfile);
+                cat_command(help_args);
+                return;
+            }
         }
     }
 

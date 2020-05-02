@@ -60,8 +60,8 @@ void autostartgetstandbytime_command(char *args[]);
 void autostartsetstandbytime_command(char *args[]);
 void autostartgetturbotime_command(char *args[]);
 void autostartsetturbotime_command(char *args[]);
-void autostartgetvactime_command(char *args[], int * timevar);
-void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void));
+//static void autostartgetvactime_command(char *args[], int * timevar);
+//static void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void));
 
 void auto_start_send_request_to_vac();
 void auto_start_send_request_to_vac_delayed();
@@ -94,8 +94,8 @@ void load_autostart_standby_time();
 void save_autostart_standby_time();
 void load_autostart_turbo_time();
 void save_autostart_turbo_time();
-void load_autostart_vacuum_time( int * val, char * filename );
-void save_autostart_vacuum_time( int * val, char * filename );
+//static void load_autostart_vacuum_time( int * val, char * filename );
+//static void save_autostart_vacuum_time( int * val, char * filename );
 
 void (*poll_auto_start)();
 

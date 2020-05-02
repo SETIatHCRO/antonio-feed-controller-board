@@ -19,6 +19,8 @@ extern char OK[];
 extern char VBAR[];
 extern char CR[];
 
+bool update_logs = true;
+
 /*
  * list files in directory of flash filesystem
  */
@@ -149,7 +151,15 @@ void stty_command(char *args[]) {
 /*
  * append a message to LOG.TXT in the flash filesystem
  */
-void feedlog(char *msg) {
+void feedlog(char * msg)
+{
+    if(update_logs)
+    {
+        feedlog_always(msg);
+    }
+}
+
+void feedlog_always(char *msg) {
     FIL fp;
     FRESULT rslt;
     UINT bytes_written;

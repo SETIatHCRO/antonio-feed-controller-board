@@ -41,6 +41,7 @@ void getversion_command(char *args[]);
 void getfeedstartmode_command(char *args[]);
 void setfeedstartmode_command(char *args[]);
 
+#define MAX_NUMBER_OF_COMMANDS 100
 #define NUMBER_OF_COMMANDS 49
 struct command_pair *get_commands();
 

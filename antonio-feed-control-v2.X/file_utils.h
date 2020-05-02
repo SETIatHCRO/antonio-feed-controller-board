@@ -18,6 +18,9 @@ void cat_command(char *args[]);
 void hyperterminal_command(char *args[]);
 void stty_command(char *args[]);
 void feedlog(char *msg);
+void feedlog_always(char *msg);
+
+
 
 #ifdef	__cplusplus
 }
