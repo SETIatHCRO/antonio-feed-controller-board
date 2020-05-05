@@ -79,7 +79,7 @@ int rot_speed_test = 0;
  * 0x000002 - started vacuum pumping
  * 0x000004 - init cooling
  * 0x000008 - cooling down - power
- * 0x000010 - cooling down - temp
+ * 0x000010 - cooling down - temp (reaching stable state clears previous bits)
  * 0x000020 - heating up
  * 0x000040 - switching off
  * 0x000080 - stable high temp (shutdown) state
@@ -118,6 +118,7 @@ bool autostart_vac_oscilating = false;
 bool auto_start_manual_shutdown = false;
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;
+int standby_power_try = 0;
 // TODO: embed scripting engine for auto start procedure
 
 void auto_start_idle() {

@@ -7,10 +7,10 @@ extern bool doing_shutdown;
 extern bool should_report_complete;
 extern int fore_vacuum_try;
 extern int turbo_power_try;
+extern int standby_power_try;
 extern bool autostart_cold_start;
 extern bool autostart_vac_oscilating;
 extern unsigned int auto_start_cmnd_rspns_tries;
-
 
 /**
  * @file autostart_i.h
@@ -36,6 +36,7 @@ void auto_start_i000_request()
     //resetting the try values
     turbo_power_try = 0;
     fore_vacuum_try = 0;
+    standby_power_try = 0;
     autostart_cold_start = false;
     autostart_vac_oscilating = false;
 

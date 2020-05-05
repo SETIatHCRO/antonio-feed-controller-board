@@ -32,8 +32,9 @@ extern "C" {
 #define AUTO_START_SWITCH_TEMP_LIMIT_HIGH_K 300.0
 #define AUTO_START_CRYO_SAFE_TEMP_C 60.0
 
-#define MAX_FORE_VACUUM_TRIES 15
-#define MAX_TURBO_POWER_TRIES 15
+#define MAX_FORE_VACUUM_TRIES 5
+#define MAX_TURBO_POWER_TRIES 5
+#define MAX_STANDBY_POWER_TRIES 20
 
 #define AUTO_START_CMND_RSPNS_MAX_LEN 99
 #define AUTO_START_CMND_RSPNS_MAX_TRIES 2
@@ -158,6 +159,8 @@ void auto_start_v004_request();
 void auto_start_v004_response();
 void auto_start_v005_request();
 void auto_start_v005_response();
+void auto_start_v005_fork_request();
+void auto_start_v005_fork_response();
 void auto_start_v006_request();
 void auto_start_v006_response();
 void auto_start_v007_request();

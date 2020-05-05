@@ -9,6 +9,7 @@ extern bool should_report_complete;
 extern char auto_start_response[AUTO_START_CMND_RSPNS_MAX_LEN];
 extern int fore_vacuum_try;
 extern int turbo_power_try;
+extern int standby_power_try;
 extern int auto_start_cmnd_rspns_tries;
 extern bool autostart_cold_start;
 extern int32_t autostart_machine_state;
@@ -95,7 +96,51 @@ void auto_start_v005_request()
 
 void auto_start_v005_response()
 {
-    autostart_timed_vacuum_response("111111", auto_start_v006_request, auto_start_e001, vacuum_autostart_standby_min*AUTO_START_1_MIN);
+    autostart_timed_vacuum_response("111111", auto_start_v005_fork_request, auto_start_e001, vacuum_autostart_standby_min*AUTO_START_1_MIN);
+}
+
+//testing turbo power
+void auto_start_v005_fork_request()
+{
+    if(doing_shutdown) {
+        poll_auto_start = auto_start_s001_request;
+        return;
+    }
+    autostart_generic_vacuum_request("p316",auto_start_v005_fork_response);
+}
+
+void auto_start_v005_fork_response()
+{
+    unsigned long int resp_val;
+    int N;
+    N = !autostart_vac_getulongfromresp(&resp_val);
+    //int N = sscanf(auto_start_response, "%u", &resp_val);
+
+    if (N) {
+        if (resp_val <= 20) {
+            //if we have low turbo power (good to switch of full throttle)
+            rot_speed_test = 0;
+            poll_auto_start = auto_start_v006_request;
+            return;
+        } else {
+            //we havent attained the turbo power
+            standby_power_try += 1;
+            if (standby_power_try < MAX_STANDBY_POWER_TRIES ) {
+                poll_auto_start = auto_start_v005_request;
+                return;
+            } else {
+                poll_auto_start = auto_start_e003;
+                return;
+            }
+        }
+    }
+    auto_start_cmnd_rspns_tries += 1;
+
+    if (auto_start_cmnd_rspns_tries < AUTO_START_CMND_RSPNS_MAX_TRIES) {
+        poll_auto_start = auto_start_send_request_to_vac;
+        return;
+    }
+    poll_auto_start = auto_start_e001;
 }
 
 //switching off the standby mode and waiting 10 min
