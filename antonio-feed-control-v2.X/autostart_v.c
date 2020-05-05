@@ -139,13 +139,16 @@ void auto_start_v007_response()
             if(autostart_cold_start)
             {
                 poll_auto_start = auto_start_e009;
+                return;
             }
             //we havent attained the turbo speed
             fore_vacuum_try += 1;
             if (fore_vacuum_try < MAX_FORE_VACUUM_TRIES ) {
                 poll_auto_start = auto_start_v005_request;
+                return;
             } else {
                 poll_auto_start = auto_start_e002;
+                return;
             }
         }
     }
@@ -186,12 +189,15 @@ void auto_start_v008_response()
             if(autostart_cold_start)
             {
                 poll_auto_start = auto_start_e009;
+                return;
             }
             turbo_power_try += 1;
             if (turbo_power_try < MAX_TURBO_POWER_TRIES ) {
                 poll_auto_start = auto_start_v005_request;
+                return;
             } else {
                 poll_auto_start = auto_start_e003;
+                return;
             }
         }
     }
@@ -228,6 +234,7 @@ void auto_start_v009_response()
             //there is bigger problem
             if (autostart_vac_oscilating) {
                 poll_auto_start = auto_start_e010;
+                return;
             }
             autostart_vac_oscilating = true;
             poll_auto_start = auto_start_v010_request;

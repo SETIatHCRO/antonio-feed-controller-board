@@ -127,6 +127,7 @@ void auto_start_idle() {
         auto_start_next_state = auto_start_i000_request;
         poll_auto_start = auto_start_delay;
         send_to_rimbox("\r\nautostart in 1 minute\r\n");
+        return;
     }
     if ( (auto_start_state == false ) && (auto_start_manual_shutdown==false) )
     {
@@ -135,6 +136,7 @@ void auto_start_idle() {
         auto_start_next_state = auto_start_m001_request;
         poll_auto_start = auto_start_delay;
         send_to_rimbox("\r\nmanual shutdown 1 min\r\n");
+        return;
     }
 }
 

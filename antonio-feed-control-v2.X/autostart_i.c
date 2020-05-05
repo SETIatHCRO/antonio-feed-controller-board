@@ -54,12 +54,15 @@ void auto_start_i001_request()
     if (tempk == 0.0) {
         //error
         poll_auto_start = auto_start_e000;
+        return;
     }
     if (tempk < AUTO_START_COLD_START_THRESHOLD_K)
     {
         poll_auto_start = auto_start_i002b_request;
+        return;
     } else {
         poll_auto_start = auto_start_i002a_request;
+        return;
     }
 }
 

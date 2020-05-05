@@ -110,6 +110,7 @@ void auto_start_d005_request()
     if (tempk == 0.0) {
         //error
         poll_auto_start = auto_start_e007;
+        return;
     }
     if (tempk < autostart_switchTemp) {
         poll_auto_start = auto_start_d006_request;
@@ -243,6 +244,7 @@ void auto_start_u002_request()
     if (tempk == 0.0) {
         //error
         poll_auto_start = auto_start_e007;
+        return;
     }
     if(doing_startup) {
         poll_auto_start = auto_start_d001_request;
