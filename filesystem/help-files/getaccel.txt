@@ -1,0 +1,20 @@
+
+SYNOPSIS
+    getaccel [options]
+DESCRIPTION
+    get statistics or dump samples from 3-axis accelerometer.  The getaccel
+    command without -d option returns a 3x4 matrix of statistical data.  The
+    rows, from top-to-bottom, are x, y, and z axis data.  The columns, from
+    left-to-right, are min, mean, stddev, and max.  min and max are computed
+    during the interval since the previous call to getaccel.  mean and
+    stddev are computed over the past second of samples.
+
+    -d  x -or- y -or- z  [count]
+        dump count samples from x, y, or z axis.  If count is omitted, 400
+        samples -- one second of data -- are returned (1 >= count <= 400). 
+
+EXAMPLES
+    get matrix of 3-axis accelerometer statistics:
+      getaccel
+    dump 100 samples from axis y:
+      getaccel -d y 100

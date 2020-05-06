@@ -1,0 +1,17 @@
+
+SYNOPSIS
+    aa state
+    accelonesec state
+DESCRIPTION
+    start (on) or stop (off) the 1 second refresh of the
+    accelerometer printout. Every 1 sec the information
+    will be sent to rimboxes
+
+EXAMPLES
+    start 1s update
+      accelonesec on
+    stop 1s update
+      accelonesec off
+
+SEE ALSO
+    help getaccel 

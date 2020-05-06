@@ -1,0 +1,18 @@
+
+setfanpwm                      getcryoattemp
+getfanpwm
+getfanrpm -or- getfanspeed     setfeedstartmode
+                               getfeedstartmode
+gettemp -or- gt
+
+getvacuum -or- gv
+getdiode -or- gd               get24v
+                               get48v
+getaccel
+                               minex -or- hyperterminal -or- ht
+setrelay                       stty -or- rimbox
+getrelay
+                               getversion
+ls -or- dir                    bootloader
+cat -or- type                  reset
+

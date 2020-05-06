@@ -1,0 +1,22 @@
+
+SYNOPSIS
+    gettemp <device-address> [options]
+         gt <device-address> [options]
+DESCRIPTION
+    get tc74 temperature sensor value.  default units are Celsius.  There
+    is one on-board temperature sensor with address a0 and up to seven
+    off-board external sensors with addresses a1, a2, through a7.  The
+    sensor addresses are allocated as follows:
+    
+      a0 - on-board                   a4 - not used
+      a1 - outside air (lower vent)   a5 - cooler rejection (near fins)
+      a2 - PAX air                    a6 - cooler housing
+      a3 - exhaust air                a7 - 
+
+    -f  get temperature in Fahrenheit units 
+
+EXAMPLES
+    get on-board temperature in Celsius units:
+      gettemp a0
+    get outside air in Fahrenheit units:
+      gettemp a1 -f

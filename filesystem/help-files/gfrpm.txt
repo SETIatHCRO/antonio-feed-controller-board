@@ -1,0 +1,7 @@
+
+SYNOPSIS
+    getfanrpm
+    getfanspeed 
+DESCRIPTION
+    returns rotation speed of cooling fan in revolutions-per-minute.
+

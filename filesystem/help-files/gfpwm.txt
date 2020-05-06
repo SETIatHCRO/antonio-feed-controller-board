@@ -1,0 +1,7 @@
+
+SYNOPSIS
+    getfanpwm 
+DESCRIPTION
+    returns "auto" or a fixed manual PWM percentage value (see help
+    for command setfanpwm).
+

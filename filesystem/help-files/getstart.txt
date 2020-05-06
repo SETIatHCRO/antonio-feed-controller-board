@@ -1,0 +1,12 @@
+
+SYNOPSIS
+    getfeedstartmode 
+DESCRIPTION
+    returns the feed start mode, "auto" or "manual"
+
+    Note: if the feed start mode is changed from "manual" to "auto" the
+    control board must be reset for the auto start procedure to run.
+
+EXAMPLES
+    get feed start mode:
+      getfeedstartmode

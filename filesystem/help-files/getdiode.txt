@@ -1,0 +1,14 @@
+
+SYNOPSIS
+    getdiode [options]
+          gd [options]
+DESCRIPTION
+    get Lake Shore cryo diode reading in temperature kelvin.
+
+    -v  return measured voltage (don't convert to kelvin) 
+
+EXAMPLES
+    get Lake Shore cryo diode reading in kelvin:
+      getdiode
+    get Lake Shore cryo diode voltage drop (with 10 microamp current): 
+      getdiode -v

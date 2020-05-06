@@ -1,0 +1,14 @@
+
+SYNOPSIS
+    setrelay on -or- off 
+DESCRIPTION
+    if relay is set on (coil energized), the NO contacts are closed. if
+    relay is set off, the NC contacts are closed.  The relay state is
+    saved in the flash filesystem such that after a reset or power
+    cycle, the relay state is restored.
+
+EXAMPLES
+    set relay on:
+      setrelay on 
+    set relay off: 
+      setrelay off

@@ -1,0 +1,7 @@
+
+SYNOPSIS
+    bootloader 
+DESCRIPTION
+    transfers processor control to the bootloader.  The bootloader
+    supports uploading a new filesystem and programming MCU flash
+    from file ANTONI~1.HEX in the filesystem directory.
