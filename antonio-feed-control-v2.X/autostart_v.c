@@ -117,7 +117,7 @@ void auto_start_v005_fork_response()
     //int N = sscanf(auto_start_response, "%u", &resp_val);
 
     if (N) {
-        if (resp_val <= 20) {
+        if (resp_val <= 12) {
             //if we have low turbo power (good to switch of full throttle)
             rot_speed_test = 0;
             poll_auto_start = auto_start_v006_request;
