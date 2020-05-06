@@ -6,6 +6,8 @@ extern bool doing_startup;
 extern bool doing_shutdown;
 extern bool should_report_complete;
 extern bool auto_start_manual_shutdown;
+extern bool error_shutdown;
+
 /**
  * @file autostart_s.h
  * @author Janusz S. Kulpa
@@ -45,6 +47,12 @@ void auto_start_s002_response()
 //switching off the pumping station
 void auto_start_s003_request()
 {
+    if(error_shutdown)
+    {
+        poll_auto_start = shutdown_complete;
+        error_shutdown = false;
+        return;
+    }
     autostart_generic_vacuum_request("p010=000000",auto_start_s003_response);
 }
 

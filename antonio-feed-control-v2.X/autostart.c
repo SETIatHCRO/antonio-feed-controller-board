@@ -116,6 +116,7 @@ bool doing_startup = false;
 bool doing_shutdown = false;
 bool autostart_vac_oscilating = false;
 bool auto_start_manual_shutdown = false;
+bool error_shutdown = false;
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;
 int standby_power_try = 0;
@@ -167,6 +168,7 @@ void auto_start_complete() {
     if(should_report_complete) {
         autostart_machine_state &= 0xFFFFFF00;
         autostart_machine_state |= 0x00000010;
+        autostart_cold_start=false;
         send_to_rimbox("\r\nautostart complete\r\n");
         should_report_complete = false;
         update_logs = false;
@@ -231,6 +233,7 @@ void auto_start_check_vacuum_response()
 void autostart_command(char *args[])
 {
     send_to_rimbox("\rtoggling to auto start\r\n");
+    autostart_cold_start=false;
     doing_startup = true;
     doing_shutdown = false;
     //if we were waiting for a timer - making sure timer ends in 3s

@@ -10,6 +10,7 @@ extern bool doing_startup;
 extern bool doing_shutdown;
 extern bool relay_state;
 extern bool update_logs;
+extern bool error_shutdown;
 
 /**
  * @file autostart_e.h
@@ -30,6 +31,7 @@ void auto_start_e000()
     send_to_rimbox("\r\nautostart error 000\r\n");
     send_to_rimbox("init routines failed\r\n");
     send_to_rimbox("shutting down\r\n");
+    error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
 
@@ -42,6 +44,7 @@ void auto_start_e001()
     send_to_rimbox("\r\nautostart error 001\r\n");
     send_to_rimbox("vacuum routines failed\r\n");
     send_to_rimbox("shutting down\r\n");
+    error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
 
@@ -54,6 +57,7 @@ void auto_start_e002()
     send_to_rimbox("\r\nautostart error 002\r\n");
     send_to_rimbox("turbo RPM not attained\r\n");
     send_to_rimbox("shutting down\r\n");
+    error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
 
@@ -66,6 +70,7 @@ void auto_start_e003()
     send_to_rimbox("\r\nautostart error 003\r\n");
     send_to_rimbox("turbo low power not attained\r\n");
     send_to_rimbox("shutting down\r\n");
+    error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
 
@@ -92,6 +97,7 @@ void auto_start_e005()
     send_to_rimbox("\r\ncryo/turbo\r\n");
     send_to_rimbox("turbo low rpm while cryo on\r\n");
     send_to_rimbox("shutting down\r\n");
+    error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
 
@@ -104,6 +110,7 @@ void auto_start_e006()
     send_to_rimbox("\r\nautostart error 006\r\n");
     send_to_rimbox("cryo setup failed\r\n");
     send_to_rimbox("shutting down\r\n");
+    error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
 
