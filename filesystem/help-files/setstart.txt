@@ -1,0 +1,13 @@
+
+SYNOPSIS
+    setfeedstartmode auto -or- manual 
+DESCRIPTION
+    If start mode is set to automatic, the control board upon power up
+    will set various parameters in the vacuum and cryo controllers with 
+    appropriate delays to safely cool down and make the feed operational.
+    If start mode is set to manual, human interaction is required to
+    start up or restart the feed. 
+
+EXAMPLES
+    set start mode to automatic:
+      setfeedstartmode auto 

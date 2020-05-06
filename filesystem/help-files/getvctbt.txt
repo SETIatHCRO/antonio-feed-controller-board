@@ -1,0 +1,5 @@
+
+SYNOPSIS
+    getturbotime
+DESCRIPTION
+    returns the autostart turbo pump time in minutes 

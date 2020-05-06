@@ -1,0 +1,8 @@
+
+SYNOPSIS
+    getcryoattemp
+DESCRIPTION
+    returns "yes" if cryo is at temperature indicated by CryoTel GT
+    controller digital output 4 (I/O pin 4) high (5V).  Otherwise,
+    returns "no" 
+

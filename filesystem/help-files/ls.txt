@@ -1,0 +1,12 @@
+
+SYNOPSIS
+    ls [dirname]
+    dir [dirname]
+DESCRIPTION
+    list files in dirname or in root directory if dirname omitted
+
+EXAMPLES
+    list all files in root directory using unix-style command:
+      ls 
+    list all files in HELP subdirectory using windows-style command:
+      dir HELP

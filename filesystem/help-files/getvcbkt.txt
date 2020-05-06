@@ -1,0 +1,5 @@
+
+SYNOPSIS
+    getbackingtime 
+DESCRIPTION
+    returns the autostart backing pump pre-run time in minutes 

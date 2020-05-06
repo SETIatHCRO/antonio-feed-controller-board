@@ -1,0 +1,11 @@
+
+SYNOPSIS
+    getrelay 
+DESCRIPTION
+    returns relay state, "on" or "off"  if relay is state is on
+    (coil energized), the NO contacts are closed. if relay state is
+    off, the NC contacts are closed.
+
+EXAMPLES
+    get relay state:
+      getrelay

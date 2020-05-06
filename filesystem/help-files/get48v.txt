@@ -1,0 +1,6 @@
+
+SYNOPSIS
+    get48v
+DESCRIPTION
+    returns mean 48V supply measurement.
+

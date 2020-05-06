@@ -1,0 +1,5 @@
+
+SYNOPSIS
+    getswitchtemp 
+DESCRIPTION
+    returns the diode switch temperature of the autostart routine 

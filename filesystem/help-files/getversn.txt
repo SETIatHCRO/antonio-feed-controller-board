@@ -1,0 +1,5 @@
+
+SYNOPSIS
+    getversion
+DESCRIPTION
+    returns the major.minor version number of the current firmware

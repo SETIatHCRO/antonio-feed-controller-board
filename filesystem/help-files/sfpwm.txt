@@ -1,0 +1,16 @@
+
+SYNOPSIS
+    setfanpwm auto -or- 0-100 
+DESCRIPTION
+    set fan speed to auto or a fixed manual PWM percentage value.  The
+    manual range is from 0 to 100, however, a minimum percentage will be
+    in effect such that lower values will be adjusted up to the minimum
+    (as a cooling safety precaution).  When in auto mode, the fan speed
+    will be adjusted up or down based on readings of various internal
+    temperatures in the feed equipment box. 
+
+EXAMPLES
+    set fan pwm percentage to auto mode:
+      setfanpwm auto 
+    set fan pwm to 60 percent: 
+      setfanpwm 60

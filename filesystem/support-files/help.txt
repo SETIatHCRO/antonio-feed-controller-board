@@ -1,0 +1,18 @@
+
+SYNOPSIS
+    help [topic]
+    man [topic]
+DESCRIPTION
+    shows help information for Antonio feed control board internal
+    commands.  Cryo and vacuum controller commands, which pass through
+    the control board, are documented elsewhere.
+
+    Commands beginning with a lowercase p and three numbers (e.g., "p316")
+    are routed to the vacuum controller.  Uppercase commands (e.g., "TC")
+    are routed to the cryo controller.
+
+EXAMPLES
+    list all available internal commands:
+      help commands
+    show help information for getvacuum command:
+      help getvacuum

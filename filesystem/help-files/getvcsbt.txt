@@ -1,0 +1,5 @@
+
+SYNOPSIS
+    getstandbytime
+DESCRIPTION
+    returns the autostart turbo pump stand-by time in minutes 

@@ -1,0 +1,13 @@
+
+SYNOPSIS
+    setbackingtime mins
+DESCRIPTION
+    Change the backing up pump run time at the beginning of autostart
+    routines, before turbo pump is switched on
+    Long backing time reliefs the turbo pump stress
+    but extends the autostart routine duration. The time is
+    saved in the flash filesystem such that after a reset or power
+    cycle, the value is restored.
+
+EXAMPLES
+    setbackingtime 15
