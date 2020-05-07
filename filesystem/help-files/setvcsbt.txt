@@ -2,11 +2,11 @@
 SYNOPSIS
     setstandbytime mins
 DESCRIPTION
-    Change the turbo pump standby time at the beginning of autostart
-    routines, before turbo pump is switched to full throttle. 
+    Change the turbo pump standby time at the beginning of the autostart
+    routines, before the turbo pump is switched to full throttle. 
     Defines the single loop of standby (low RPM) mode of turbo time.
     The time is saved in the flash filesystem such that after
-     a reset or power cycle, the value is restored.
+    a reset or power cycle, the value is restored.
 
 EXAMPLES
     setstandbytime 15

@@ -83,18 +83,18 @@ int rot_speed_test = 0;
  * 0x000020 - heating up
  * 0x000040 - switching off
  * 0x000080 - stable high temp (shutdown) state
- * 0x000100 - e000 occured
- * 0x000200 - e001 occured
- * 0x000400 - e002 occured
- * 0x000800 - e003 occured
- * 0x001000 - e004 occured
- * 0x002000 - e005 occured
- * 0x004000 - e006 occured
- * 0x008000 - e007 occured
- * 0x010000 - e008 occured
- * 0x020000 - e009 occured
- * 0x040000 - e010 occured
- * 0x080000 - e011 occured
+ * 0x000100 - e000 occurred
+ * 0x000200 - e001 occurred
+ * 0x000400 - e002 occurred
+ * 0x000800 - e003 occurred
+ * 0x001000 - e004 occurred
+ * 0x002000 - e005 occurred
+ * 0x004000 - e006 occurred
+ * 0x008000 - e007 occurred
+ * 0x010000 - e008 occurred
+ * 0x020000 - e009 occurred
+ * 0x040000 - e010 occurred
+ * 0x080000 - e011 occurred
  * 0x100000 - temp readout problem (A5/A6)
  */
 int32_t autostart_machine_state = 0;

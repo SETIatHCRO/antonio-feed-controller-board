@@ -4,7 +4,7 @@ SYNOPSIS
 DESCRIPTION
     initialize the autostart routine. 
     the autostart mode has to be "auto" and
-    microcontroller can't be in error 004 state
-    moreover, calling it shortens any ongoing 
-    wait timeout to 3 seconds.
+    the microcontroller can not be in error 004 state.
+    This command will also shorten any currently occuring
+    timeout to 3 seconds.
 

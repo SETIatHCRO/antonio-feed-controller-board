@@ -4,7 +4,7 @@ SYNOPSIS
 DESCRIPTION
     Change the switch temperature [K] of the autostart routine.
     When the diode reaches that temperature, the mode changes
-    from constant 70W to temperature control loop with slowly
+    from a constant 70W to a temperature control loop with slowly
     increasing maximum power allowance. The switch temperature is
     saved in the flash filesystem such that after a reset or power
     cycle, the value is restored.

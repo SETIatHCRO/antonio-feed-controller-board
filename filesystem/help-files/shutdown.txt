@@ -2,11 +2,11 @@
 SYNOPSIS
     shutdown 
 DESCRIPTION
-    if the microcontroler is in 'auto' mode of autorun
+    if the microcontroler is in 'auto' mode of the autorun routine,
     initialize the autorun-shutdown routine. The feed
-    will heat up and switches the vacuum pump after 
+    will heat up and the vacuum pump will be switched off after 
     achieving high enough temperature. 
-    Moreover, it shortens any currently occuring timeout
+    This command will also shorten any currently occuring timeout
     to 3 seconds.
 
 

@@ -3,5 +3,5 @@ SYNOPSIS
     restart
 DESCRIPTION
     restart the microcontroller.  This is done via
-    RSWRSTSET flag
+    the RSWRSTSET flag
 

@@ -2,10 +2,10 @@
 SYNOPSIS
     setturbotime mins
 DESCRIPTION
-    Change the turbo pump (full throttle) time at the beginning of autostart
-    routines. After this time period, the turbo power and RPM are being
-    checked to indicate a state of the vacuum. If good vacuum is not established
-    after that time, the turbo pump goes back to standby mode
+    Change the turbo pump (full throttle) time at the beginning of the autostart
+    routines. After this time period, the turbo power and RPM are
+    checked to indicate the state of the vacuum. If a good vacuum is not
+    established after that time, the turbo pump goes back to standby mode.
     The time is saved in the flash filesystem such that after
     a reset or power cycle, the value is restored.
 

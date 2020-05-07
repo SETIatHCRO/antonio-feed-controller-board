@@ -4,7 +4,7 @@ getfanpwm
 getfanrpm -or- getfanspeed     setfeedstartmode
                                getfeedstartmode
 gettemp -or- gt
-
+                               state -or- getstate
 getvacuum -or- gv
 getdiode -or- gd               get24v
                                get48v
@@ -15,4 +15,15 @@ getrelay
                                getversion
 ls -or- dir                    bootloader
 cat -or- type                  reset
-
+                               restart
+accelonesec -or- aa            rs
+                               osc
+autostart
+shutdown                       getswitchtemp
+                               setswitchtemp
+getbackingtime
+setbackingtime
+getstandbytime
+setstandbytime
+getturbotime
+setturbotime
