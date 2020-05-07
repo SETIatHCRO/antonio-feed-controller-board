@@ -233,7 +233,6 @@ void auto_start_check_vacuum_response()
 void autostart_command(char *args[])
 {
     send_to_rimbox("\rtoggling to auto start\r\n");
-    autostart_cold_start=false;
     doing_startup = true;
     doing_shutdown = false;
     //if we were waiting for a timer - making sure timer ends in 3s
