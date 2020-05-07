@@ -239,17 +239,20 @@ void autostart_command(char *args[])
     //it's not the most graceful part of the code though
     if(auto_start_timer.countdown_ticks > 3000)
         auto_start_timer.countdown_ticks = 3000;
+    send_to_rimbox(OK);
+    send_to_rimbox(EOL);
 }
 
 void shutdown_command(char *args[])
 {
-    send_to_rimbox("\rtoggling to shutdown\r\n");
     doing_startup = false;
     doing_shutdown = true;
     //if we were waiting for a timer - making sure timer ends in 3s
     //it's not the most graceful part of the code though
     if(auto_start_timer.countdown_ticks > 3000)
         auto_start_timer.countdown_ticks = 3000;
+    send_to_rimbox(OK);
+    send_to_rimbox(EOL);
 }
 
 void autostartgetbackingtime_command(char *args[])
