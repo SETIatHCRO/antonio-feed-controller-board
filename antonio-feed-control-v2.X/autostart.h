@@ -68,8 +68,11 @@ void auto_start_send_request_to_vac();
 void auto_start_send_request_to_vac_delayed();
 void auto_start_get_response_from_vac();
 
+//auto start stable state
 void auto_start_check_vacuum_request();
 void auto_start_check_vacuum_response();
+void auto_start_check_cryo_request();
+void auto_start_check_cryo_response();
 
 void auto_start_send_request_to_cryo();
 void auto_start_send_request_to_cryo_delayed();
@@ -228,6 +231,7 @@ void auto_start_e008();
 void auto_start_e009();
 void auto_start_e010();
 void auto_start_e011();
+void auto_start_e012();
 
 #ifdef	__cplusplus
 }

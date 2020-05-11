@@ -174,3 +174,15 @@ void auto_start_e011()
     send_to_rimbox("cryo temp\r\n");
     poll_auto_start = auto_start_u001_request;
 }
+
+void auto_start_e012()
+{
+    autostart_machine_state |= 0x00200000;
+    update_logs=true;
+    feedlog_always("e012");
+    feedlog("cryo error e012");
+    send_to_rimbox("error during cold\r\n");
+    relay_state = false;
+    mPORTGClearBits(BIT_0);
+    poll_auto_start = auto_start_error;
+}

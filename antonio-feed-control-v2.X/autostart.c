@@ -96,6 +96,7 @@ int rot_speed_test = 0;
  * 0x040000 - e010 occurred
  * 0x080000 - e011 occurred
  * 0x100000 - temp readout problem (A5/A6)
+ * 0x200000 - e012 cryo failure in low state
  */
 int32_t autostart_machine_state = 0;
 
@@ -227,7 +228,17 @@ void auto_start_check_vacuum_request()
 
 void auto_start_check_vacuum_response()
 {
-    autostart_test_vacuum_param_true(auto_start_complete,auto_start_e005,auto_start_e007);
+    autostart_test_vacuum_param_true(auto_start_check_cryo_request,auto_start_e005,auto_start_e007);
+}
+
+void auto_start_check_cryo_request()
+{
+    autostart_generic_cryo_request("SET SSTOP", auto_start_check_cryo_response);
+}
+
+void auto_start_check_cryo_response()
+{
+    autostart_generic_cryo_response(0.0, auto_start_complete, auto_start_e012);
 }
 
 void autostart_command(char *args[])
