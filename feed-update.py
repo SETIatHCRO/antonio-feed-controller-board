@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import getopt
 import struct
@@ -6,7 +7,7 @@ import serial
 import zlib
 import base64
 
-SYSTEM = 'windows'
+SYSTEM = 'linux'
 
 com_port = None
 
@@ -42,7 +43,7 @@ def com_port_recv_char():
 def com_port_recv_line(*arg):
     line = ""
 
-    timeout_N = 10
+    timeout_N = 100
 
     timeout_count = 0
 
@@ -81,11 +82,13 @@ def main():
     if (not(com_port)):
         update_failure()
 
+    print("got port")
     try:
         fd = open(filename, 'rb')
     except Exception, e:
         print ('unable to open disk image ' + filename)
         update_failure()
+    print('got file')
 
     com_port.write(chr(0x0d))
     com_port_recv_line()
@@ -97,9 +100,11 @@ def main():
     com_port.write(chr(0x0d))
     print (cmnd)
     rspns = com_port_recv_line()
-    print (rspns)
+    print(rspns)
+    print ("done")
 
-    if (not(re.search(r'Bootloader', rspns))):
+    if not ((re.search(r'Bootloader', rspns)) or (re.search(r'bootloader',rspns))):
+        print('resetting')
         com_port_recv_line()
         cmnd = 'reset'
         com_port.write(cmnd)
@@ -107,13 +112,15 @@ def main():
         print (cmnd)
         rspns = com_port_recv_line()
         print (rspns)
-        if (not(re.search(r'Bootloader', rspns))):
+        if (not (re.search(r'Bootloader', rspns) or re.search(r'bootloader',rspns)) ):
             update_failure()
-
+    
+    print("writing disk")
     com_port_recv_line()
     if (not(writedisk())):
         update_failure()
 
+    print("erase flash")
     com_port_recv_line()
     cmnd = 'eraseflash'
     com_port.write(cmnd)
