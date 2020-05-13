@@ -146,8 +146,8 @@ void free_cryo_session() {
 void cryo_response_timeout() {
     strcpy(cryo_response, TIMEOUT);
 
-    //UARTSendBreak(UART2);
-    //UARTSendDataByte(UART2,'A'); 
+    UARTSendBreak(UART2);
+    UARTSendDataByte(UART2,'A'); 
     is_cryo_response_ready = true;
 
     poll_cryo_session = cryo_poll_idle;
