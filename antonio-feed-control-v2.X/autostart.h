@@ -61,6 +61,8 @@ void autostartgetstandbytime_command(char *args[]);
 void autostartsetstandbytime_command(char *args[]);
 void autostartgetturbotime_command(char *args[]);
 void autostartsetturbotime_command(char *args[]);
+void clearautostarterr_command(char *args[]);
+
 //static void autostartgetvactime_command(char *args[], int * timevar);
 //static void autostartsetvactime_command(char *args[], int * timevar,void (*savefun)(void));
 

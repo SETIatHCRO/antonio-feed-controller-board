@@ -15,6 +15,8 @@
 #include "fatfs/ff.h"
 #include "file_utils.h"
 
+extern int32_t autostart_machine_state;
+
 extern char TIMEOUT[];
 extern char *LINESEP;
 extern char *EOL;
@@ -145,6 +147,8 @@ void free_cryo_session() {
 
 void cryo_response_timeout() {
     strcpy(cryo_response, TIMEOUT);
+
+    autostart_machine_state |= 0x00400000;
 
     UARTSendBreak(UART2);
     UARTSendDataByte(UART2,'A'); 

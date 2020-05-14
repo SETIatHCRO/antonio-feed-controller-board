@@ -1,0 +1,7 @@
+
+SYNOPSIS
+    clrerr
+    clearerror 
+DESCRIPTION
+    clears the autostart error state bits
+

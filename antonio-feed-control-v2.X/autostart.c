@@ -73,7 +73,7 @@ int rot_speed_test = 0;
 /**
  * @brief autostart_machine_state the state that the autostart machine is at
  * stable states clears last 8 bits
- * errors are not cleared
+ * errors are not cleared (except with clrerr command)
  * 0x000000 - not initialized (or manual autostart)
  * 0x000001 - started initialization
  * 0x000002 - started vacuum pumping
@@ -97,6 +97,8 @@ int rot_speed_test = 0;
  * 0x080000 - e011 occurred
  * 0x100000 - temp readout problem (A5/A6)
  * 0x200000 - e012 cryo failure in low state
+ * 0x400000 - cryo comm problem (timeout)
+ * 0x800000 - vac comm problem (timeout)
  */
 int32_t autostart_machine_state = 0;
 
@@ -241,9 +243,15 @@ void auto_start_check_cryo_response()
     autostart_generic_cryo_response(0.0, auto_start_complete, auto_start_e012);
 }
 
+void clearautostarterr_command(char *args[])
+{
+    autostart_machine_state &= 0x000000FF;
+    send_to_rimbox(OK);
+    send_to_rimbox(EOL);
+}
+
 void autostart_command(char *args[])
 {
-    send_to_rimbox("\rtoggling to auto start\r\n");
     doing_startup = true;
     doing_shutdown = false;
     //if we were waiting for a timer - making sure timer ends in 3s

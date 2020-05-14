@@ -19,6 +19,8 @@ extern char *command;
 #define MAX_COMMAND_LEN 99
 #define MAX_RESPONSE_LEN 99
 
+extern int32_t autostart_machine_state;
+
 unsigned int vac_req_i = 0;
 char vac_request[MAX_COMMAND_LEN];
 
@@ -247,6 +249,8 @@ void vac_poll_get_response() {
 void vac_response_timeout() {
     strcpy(vac_response, TIMEOUT);
     
+    autostart_machine_state |= 0x00800000;
+
     UARTSendBreak(UART3);
     UARTSendDataByte(UART3,'A'); 
     is_vac_response_ready = true;

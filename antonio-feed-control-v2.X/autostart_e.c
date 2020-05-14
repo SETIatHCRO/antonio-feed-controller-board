@@ -177,12 +177,15 @@ void auto_start_e011()
 
 void auto_start_e012()
 {
+    //we are just noting the error, but doing nothing
+    //Acording to Alex's suggestions
     autostart_machine_state |= 0x00200000;
-    update_logs=true;
-    feedlog_always("e012");
-    feedlog("cryo error e012");
-    send_to_rimbox("error during cold\r\n");
-    relay_state = false;
-    mPORTGClearBits(BIT_0);
-    poll_auto_start = auto_start_error;
+    //update_logs=true;
+    //feedlog_always("e012");
+    //feedlog("cryo error e012");
+    //send_to_rimbox("error during cold\r\n");
+    //relay_state = false;
+    //mPORTGClearBits(BIT_0);
+    //poll_auto_start = auto_start_error;
+    poll_auto_start = auto_start_complete;
 }

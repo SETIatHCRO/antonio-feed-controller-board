@@ -35,4 +35,6 @@ OVERVIEW
     0x080000 - e011 occurred (cryo motor temp issue)
     0x100000 - temp readout problem (A5/A6)
     0x200000 - e012 occurred (cryo down while low) 
+    0x400000 - cryo comm problem (timeout)
+    0x800000 - vac comm problem (timeout)
 
