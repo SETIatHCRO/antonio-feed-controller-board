@@ -43,7 +43,7 @@ def com_port_recv_char():
 def com_port_recv_line(*arg):
     line = ""
 
-    timeout_N = 1000
+    timeout_N = 100
 
     timeout_count = 0
 
@@ -94,6 +94,8 @@ def main():
     com_port_recv_line()
     com_port.write(chr(0x0d))
     com_port_recv_line()
+
+    print('writing')
 
     cmnd = 'bootloader'
     com_port.write(cmnd)
@@ -197,7 +199,7 @@ def writedisk():
         else:
             com_port_recv_line()
             retry_count += 1
-        if (retry_count == 1):
+        if (retry_count == 1) or (retry_count == 2):
             continue
         if (retry_count > 2):
             return (False)

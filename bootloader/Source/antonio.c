@@ -14,6 +14,8 @@
 #include "adler.h"
 #include <string.h>
 
+#include <stdio.h>
+
 static char CR[]   = "\r";
 static char CRLF[] = "\r\n";
 static char VBAR[] = "|";
@@ -81,6 +83,8 @@ char ERROR[] = "error";
 char TIMEOUT[] = "timeout";
 char ACK[] = "ACK";
 char NAK[] = "NAK";
+char NAKA[] = "NAK-A";
+char NAKC[] = "NAK-C";
 
 //          1         2         3         4         5         6         7
 //0123456789012345678901234567890123456789012345678901234567890123456789012
@@ -323,10 +327,12 @@ static void writedisk_command(char *args[]) {
         enqueue_response_msg(EOL);
         return;
     }
-    char * foo;
-    chksum=strtol(args[2],foo,16);
+    
+    //char * foo;
+    //chksum=strtol(args[2],&foo,16);
     //chksum = xtoi(args[2]);
-
+    sscanf(args[2], "%x", &chksum);
+    
     if (args[3] == NULL) {
         enqueue_response_msg(EOL);
         return;
@@ -342,14 +348,19 @@ static void writedisk_command(char *args[]) {
         return;
     }
 
-    if (adler(decode_len, decode_bfr) != chksum) {
-        enqueue_response_msg(NAK);
+    unsigned int chksumres = adler(decode_len, decode_bfr);
+    if (chksumres != chksum) {
+        //enqueue_response_msg(args[2]);
+        //char msg[50];
+        //snprintf(msg,49,"_%x_%x_",chksum,chksumres);
+        //enqueue_response_msg(msg);
+        enqueue_response_msg(NAKC);
         enqueue_response_msg(EOL);
         return;
     }
 
     if ((offset > 0) && (offset != flash_write_addr)) {
-        enqueue_response_msg(NAK);
+        enqueue_response_msg(NAKA);
         enqueue_response_msg(EOL);
         return;
     }

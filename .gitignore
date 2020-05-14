@@ -8,3 +8,4 @@ antoniofsimage
 filesystem/support-files/fsdatetm.txt
 /bootloader/build/
 /bootloader/dist/
+/bootloader/nbproject/private/
