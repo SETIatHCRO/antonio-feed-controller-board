@@ -43,7 +43,7 @@ def com_port_recv_char():
 def com_port_recv_line(*arg):
     line = ""
 
-    timeout_N = 100
+    timeout_N = 1000
 
     timeout_count = 0
 

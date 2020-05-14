@@ -247,6 +247,8 @@ void vac_poll_get_response() {
 void vac_response_timeout() {
     strcpy(vac_response, TIMEOUT);
     
+    UARTSendBreak(UART3);
+    UARTSendDataByte(UART3,'A'); 
     is_vac_response_ready = true;
 
     poll_vac_session = vac_poll_idle;
