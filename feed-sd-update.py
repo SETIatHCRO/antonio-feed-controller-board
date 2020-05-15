@@ -71,7 +71,7 @@ def update_failure():
     sys.exit(1)
 
 def update_success():
-    raw_input("feed control board update successful - press any key to exit")
+    raw_input("feed control board SD update successful - press any key to exit")
     sys.exit(0)
 
 def main():
@@ -105,7 +105,7 @@ def main():
     print(rspns)
     print ("done")
 
-    if not ((re.search(r'Bootloader', rspns)) ):
+    if not ((re.search(r'Bootloader', rspns))):
         print('resetting')
         com_port_recv_line()
         cmnd = 'reset'
@@ -122,45 +122,8 @@ def main():
     if (not(writedisk())):
         update_failure()
 
-    print("erase flash")
-    com_port_recv_line()
-    cmnd = 'eraseflash'
-    com_port.write(cmnd)
-    com_port.write(chr(0x0d))
-    print (cmnd)
-    rspns = com_port_recv_line(70)
-    print (rspns)
-
-    if (not(re.search(r'OK', rspns))):
-        update_failure()
-
-    com_port_recv_line()
-    cmnd = 'programflash ANTONI~1.HEX'
-    com_port.write(cmnd)
-    com_port.write(chr(0x0d))
-    print (cmnd)
-    rspnsln1 = com_port_recv_line(70)
-    print (rspnsln1)
-    rspnsln2 = com_port_recv_line()
-    print (rspnsln2)
-
-    if (not(re.search(r'records', rspnsln1))):
-        update_failure()
-    if (not(re.search(r'OK', rspnsln2))):
-        update_failure()
-
-    com_port_recv_line()
-    cmnd = 'jumptoapp'
-    com_port.write(cmnd)
-    com_port.write(chr(0x0d))
-    print (cmnd)
-    rspns = com_port_recv_line(100)
-    print (rspns)
-
-    if (not(re.search(r'Monitor and Control Firmware', rspns))):
-        update_failure()
-
     update_success()
+
 
 def format_request(blk, offset):
     request = 'writedisk' + ' '

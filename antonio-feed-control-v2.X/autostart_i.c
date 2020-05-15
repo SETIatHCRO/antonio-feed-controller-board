@@ -245,12 +245,12 @@ void auto_start_i014_request()
         poll_auto_start = auto_start_s001_request;
         return;
     }
-    autostart_generic_vacuum_request("p701=000075",auto_start_i014_response);
+    autostart_generic_vacuum_request("p701=000080",auto_start_i014_response);
 }
 
 void auto_start_i014_response()
 {
-    autostart_generic_vacuum_response("000075", auto_start_v001_request, auto_start_e000);
+    autostart_generic_vacuum_response("000080", auto_start_v001_request, auto_start_e000);
 }
 
 //setting the stop mode to obey commands

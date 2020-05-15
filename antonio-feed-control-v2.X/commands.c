@@ -83,7 +83,7 @@ struct command_pair commands[] = {
 /*48*/    {"setturbotime", autostartsetturbotime_command, "setvctbt.txt"},
 /*49*/    {"man", help_command, NULL},
 /*50*/    {"clrerr", clearautostarterr_command, "clrerr.txt"},
-/*51*/    {"clrearerror", clearautostarterr_command, "clrerr.txt"},
+/*51*/    {"clearerror", clearautostarterr_command, "clrerr.txt"},
           {NULL, NULL, NULL}
     //,
    // {"setcryoprotect", setcryostopmode_command, NULL},

@@ -22,7 +22,7 @@ autostart
 shutdown                       getswitchtemp
                                setswitchtemp
 getbackingtime
-setbackingtime
+setbackingtime                 clrerr -or- clearerror
 getstandbytime
 setstandbytime
 getturbotime

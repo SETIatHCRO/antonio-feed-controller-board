@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function die
 {
 	local message=$1
@@ -9,7 +11,9 @@ function die
 CMND="mkdir mnt"
 echo $CMND
 eval $CMND
-CMND="dd if=/dev/zero of=antoniofsimage bs=512 count=1024 || die"
+#safe should be count=8192
+#CMND="dd if=/dev/zero of=antoniofsimage bs=512 count=1024 || die"
+CMND="dd if=/dev/zero of=antoniofsimage bs=512 count=2048 || die"
 echo $CMND
 eval $CMND
 CMND="mkfs.vfat -S 512 -I antoniofsimage || die"
@@ -52,3 +56,4 @@ eval $CMND
 CMND="sudo umount mnt || die"
 echo $CMND
 eval $CMND
+echo "filesystem image created"
