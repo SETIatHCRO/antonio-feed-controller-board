@@ -235,6 +235,7 @@ void vac_poll_get_response() {
         vac_response[vac_rspns_i] = 0;
         is_vac_response_ready = true;
         poll_vac_session = vac_poll_idle;
+        stop_timer(&vac_rspns_timeout_timer);
         return;
     }
 
