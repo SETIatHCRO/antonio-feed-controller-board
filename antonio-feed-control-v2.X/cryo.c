@@ -151,7 +151,7 @@ void cryo_response_timeout() {
     autostart_machine_state |= 0x00400000;
 
     UARTSendBreak(UART2);
-    UARTSendDataByte(UART2,'A'); 
+    UARTSendDataByte(UART2,'a'); 
     is_cryo_response_ready = true;
 
     poll_cryo_session = cryo_poll_idle;

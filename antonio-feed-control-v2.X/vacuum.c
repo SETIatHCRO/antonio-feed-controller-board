@@ -253,7 +253,7 @@ void vac_response_timeout() {
     autostart_machine_state |= 0x00800000;
 
     UARTSendBreak(UART3);
-    UARTSendDataByte(UART3,'A'); 
+    UARTSendDataByte(UART3,'a'); 
     is_vac_response_ready = true;
 
     poll_vac_session = vac_poll_idle;
