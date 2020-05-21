@@ -24,15 +24,11 @@ extern bool echo_mode;
 
 extern char *EOL;
 
-#define MAX_ARGS 99
-
-#define MAX_COMMAND_LEN 999
-#define MAX_RESPONSE_LEN 999
 
 unsigned int rimbox_cmnd_i = 0;
-char rimbox_command[MAX_COMMAND_LEN];
+char rimbox_command[MAX_RBOX_COMMAND_LEN];
 char *command;
-char *args[MAX_ARGS];
+char *cmd_args[MAX_ARGS];
 
 #define RIMBOX_SEND_FIFO_SIZE 1999
 
@@ -44,6 +40,13 @@ char rimbox_send_fifo[RIMBOX_SEND_FIFO_SIZE];
 
 void compute_checksum_if_requested(char *command);
 bool is_command_uppercase(char *command);
+
+void rimbox_poll_idle()
+{
+    return;
+}
+
+
 
 void purge_chars_from_rimbox() {
     char rimbox_recv_char;
@@ -85,11 +88,11 @@ void recv_cmnd_from_rimbox() {
             }
             return;
         }
-        if (rimbox_cmnd_i < MAX_COMMAND_LEN) {
+        if (rimbox_cmnd_i < MAX_RBOX_COMMAND_LEN) {
             rimbox_command[rimbox_cmnd_i] = rimbox_recv_char;
             rimbox_cmnd_i = rimbox_cmnd_i + 1;
         }
-        if ((rimbox_recv_char == 0x0D) || (rimbox_recv_char == 0x0A)) {
+        if ((rimbox_recv_char == 0x0D) || (rimbox_recv_char == 0x0A) || (rimbox_cmnd_i == MAX_RBOX_COMMAND_LEN) ) {
             rimbox_command[rimbox_cmnd_i - 1] = 0;  // terminate command string
             poll_recv_from_rimbox = parse_cmnd_from_rimbox;
             if (echo_mode) {
@@ -118,10 +121,10 @@ void parse_cmnd_from_rimbox() {
         return;
     }
 
-    args[args_i] = (char *)strtok(NULL, " ");
-    while (!(args[args_i] == NULL)) {
+    cmd_args[args_i] = (char *)strtok(NULL, " ");
+    while (!(cmd_args[args_i] == NULL)) {
         args_i = args_i + 1;
-        args[args_i] = (char *)strtok(NULL, " ");
+        cmd_args[args_i] = (char *)strtok(NULL, " ");
     }
 
     struct command_pair *commands = get_commands();
@@ -131,7 +134,7 @@ void parse_cmnd_from_rimbox() {
             break;
         }
         if (strcmp(command, commands[cmnds_i].name) == 0) {
-            commands[cmnds_i].function(args);
+            commands[cmnds_i].function(cmd_args);
             poll_recv_from_rimbox = purge_chars_from_rimbox;
             return;
         }

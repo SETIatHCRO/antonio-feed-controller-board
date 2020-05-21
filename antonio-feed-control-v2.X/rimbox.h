@@ -12,8 +12,12 @@
 extern "C" {
 #endif
 
+#define MAX_ARGS 99
+#define MAX_RBOX_COMMAND_LEN 999
+
 void wait_for_cryo_response();
-    
+
+void rimbox_poll_idle();
 void purge_chars_from_rimbox();
 void recv_cmnd_from_rimbox();
 void poll_send_to_rimbox();

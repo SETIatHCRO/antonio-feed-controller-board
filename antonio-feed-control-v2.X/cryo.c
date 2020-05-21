@@ -27,19 +27,15 @@ extern bool relay_state;
 struct oneshot_timer cryo_rspns_timeout_timer = {"cryo_response_timeout", 0, NULL, NULL};
 struct oneshot_timer cryo_rspns_eol_timer = {"cryo_eol_timeout", 0, NULL, NULL};
 
-#define MAX_COMMAND_LEN 999
-#define MAX_RESPONSE_LEN 999
-
 unsigned int cryo_req_i = 0;
-char cryo_request[MAX_COMMAND_LEN];
+char cryo_request[MAX_CRYO_COMMAND_LEN];
 unsigned int cryo_rspns_i = 0;
-char cryo_response[MAX_RESPONSE_LEN];
+char cryo_response[MAX_CRYO_RESPONSE_LEN];
 bool is_cryo_busy = false;
 bool is_cryo_response_ready = false;
 
-#define MAX_ARGS 99
-char *args[MAX_ARGS];
-char *command;
+extern char *cmd_args[MAX_ARGS];
+extern char *command;
 
 /*
 bool cryostopmode = false;
@@ -49,6 +45,8 @@ void send_cryostopmode_to_cryo();
 void load_cryostopmode();
 */
 
+//this function behaves as if the command was sent by rimbox.
+//and following function happens
 void cryo_init() {
     
     
@@ -56,7 +54,7 @@ void cryo_init() {
     mPORTGSetBits(BIT_0);
     relay_state = true;
     save_relay_state();
-    
+    cmd_args[0] = NULL;
     //Tell the cryo controller to not use the thermistor
     //command = "SET SSTOPM=0";
     // Tell cryo controller to stop if power removed from controller board. 
@@ -73,7 +71,7 @@ void wait_cryo_not_busy() {
         return;
     }
 
-    send_command_to_cryo(command, args);
+    send_command_to_cryo(command, cmd_args);
 
     poll_recv_from_rimbox = wait_for_cryo_response;
 }
@@ -106,7 +104,7 @@ void send_command_to_cryo(char *command, char *args[]) {
 }
 
 void wait_for_cryo_response() {
-    char *rspnslns[99];
+    char *rspnslns[MAX_CRYO_RESPONSE_LINES];
     
     unsigned int rspnsln_i = 0;
 
@@ -114,20 +112,21 @@ void wait_for_cryo_response() {
         return;
     }
 
+    //ensure that last byte of cryo response is 0
+    cryo_response[MAX_CRYO_RESPONSE_LEN-1] = '\0';
     rspnslns[rspnsln_i] = strtok(cryo_response, "\r");
 
-    while (!(rspnslns[rspnsln_i] == NULL)) {
+    while (!(rspnslns[rspnsln_i] == NULL) && rspnsln_i < MAX_CRYO_RESPONSE_LINES-1) {
         rspnsln_i = rspnsln_i + 1;
         rspnslns[rspnsln_i] = strtok(NULL, "\r");
     }
 
-    for (rspnsln_i = 0; rspnslns[rspnsln_i] != NULL; rspnsln_i++) {
+    for (rspnsln_i = 0; rspnslns[rspnsln_i] != NULL && rspnsln_i < MAX_CRYO_RESPONSE_LINES; rspnsln_i++) {
         send_to_rimbox(rspnslns[rspnsln_i]);
         if (rspnslns[rspnsln_i + 1] != NULL) {
             send_to_rimbox(LINESEP);
         }
     }
-
     send_to_rimbox(EOL);
 
     free_cryo_session();
@@ -146,7 +145,7 @@ void free_cryo_session() {
 }
 
 void cryo_response_timeout() {
-    strcpy(cryo_response, TIMEOUT);
+    strncpy(cryo_response, TIMEOUT, MAX_CRYO_RESPONSE_LEN-1);
 
     autostart_machine_state |= 0x00400000;
 
@@ -158,7 +157,12 @@ void cryo_response_timeout() {
 }
 
 void cryo_response_eol_timeout() {
-    cryo_response[cryo_rspns_i] = 0;
+    if(cryo_rspns_i < MAX_CRYO_RESPONSE_LEN)
+    {
+        cryo_response[cryo_rspns_i] = 0;
+    } else {
+        cryo_response[MAX_CRYO_RESPONSE_LEN-1] = 0;
+    }
 
     is_cryo_response_ready = true;
 
@@ -179,7 +183,13 @@ void cryo_poll_send_request() {
         return;
     }
 
-    char cryo_char = cryo_request[cryo_req_i++];
+    if( cryo_req_i < MAX_CRYO_COMMAND_LEN -1)
+    {
+        char cryo_char = cryo_request[cryo_req_i++];
+    } else {
+        //this should never happen. Just safety trigger
+        cryo_char = 0;
+    }
 
     if (cryo_char == 0) {
         cryo_char = 0x0d;
@@ -197,7 +207,7 @@ void cryo_poll_get_response_first_line() {
     char cryo_char = UARTGetDataByte(UART2);
 
     if (((cryo_char >= 0x20) && (cryo_char <= 0x7e)) || (cryo_char == 0x0d)){
-        if (cryo_rspns_i < (MAX_RESPONSE_LEN - 1)) {
+        if (cryo_rspns_i < (MAX_CRYO_RESPONSE_LEN - 1)) {
             cryo_response[cryo_rspns_i] = cryo_char;
             cryo_rspns_i++;
         }
@@ -220,7 +230,7 @@ void cryo_poll_get_response_remaining_lines() {
     char cryo_char = UARTGetDataByte(UART2);
 
     if (((cryo_char >= 0x20) && (cryo_char <= 0x7e)) || (cryo_char == 0x0d)){
-        if (cryo_rspns_i < (MAX_RESPONSE_LEN - 1)) {
+        if (cryo_rspns_i < (MAX_CRYO_RESPONSE_LEN - 1)) {
             cryo_response[cryo_rspns_i] = cryo_char;
             cryo_rspns_i++;
         }
@@ -231,10 +241,10 @@ void getcryoattemp_command(char *args[]) {
     char msg[19];
 
     if (mPORTFReadBits(BIT_13)) {
-        strcpy(msg, "yes");
+        strncpy(msg, "yes", 18);
     }
     else {
-        strcpy(msg, "no");
+        strncpy(msg, "no", 18);
     }
 
     send_to_rimbox(msg);

@@ -30,15 +30,12 @@ extern bool is_vac_busy;
 
 #define AUTOSTART_DEBUG_PRINT 0
 
-#define MAX_COMMAND_LEN 999
-#define MAX_RESPONSE_LEN 999
-
 extern bool is_cryo_busy;
 extern bool is_cryo_response_ready;
 
-extern char vac_request[99];
-extern char vac_response[99];
-extern char cryo_response[99];
+extern char vac_request[MAX_VAC_COMMAND_LEN];
+extern char vac_response[MAX_VAC_RESPONSE_LEN];
+extern char cryo_response[MAX_CRYO_RESPONSE_LEN];
 
 extern char *EOL;
 extern char OK[];
@@ -674,12 +671,13 @@ void auto_start_get_response_from_cryo() {
         strcpy (auto_start_response, rspnsln);
     }*/
     //instead we want to copy all string, if \r is in cryo_response
+    cryo_response[MAX_CRYO_RESPONSE_LEN-1] = '\0';
     if(strchr(cryo_response,'\r') == NULL) {
         strncpy(auto_start_response, "",AUTO_START_CMND_RSPNS_MAX_LEN-1);
     } else {
         strncpy(auto_start_response,cryo_response,AUTO_START_CMND_RSPNS_MAX_LEN-1);
     }
-
+    auto_start_response[AUTO_START_CMND_RSPNS_MAX_LEN-1] = '\0';
     feedlog(auto_start_response);
 
     free_cryo_session();

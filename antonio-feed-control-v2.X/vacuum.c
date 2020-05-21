@@ -16,16 +16,14 @@ extern char *EOL;
 extern char TIMEOUT[];
 extern char *command;
 
-#define MAX_COMMAND_LEN 99
-#define MAX_RESPONSE_LEN 99
 
 extern int32_t autostart_machine_state;
 
 unsigned int vac_req_i = 0;
-char vac_request[MAX_COMMAND_LEN];
+char vac_request[MAX_VAC_COMMAND_LEN];
 
 unsigned int vac_rspns_i = 0;
-char vac_response[MAX_RESPONSE_LEN];
+char vac_response[MAX_VAC_RESPONSE_LEN];
 
 bool is_vac_busy = false;
 
@@ -231,19 +229,25 @@ void vac_poll_get_response() {
 
     char vac_char = UARTGetDataByte(UART3);
 
+    if ((vac_char >= 0x20) && (vac_char <= 0x7e)) {
+        if (vac_rspns_i < (MAX_VAC_RESPONSE_LEN - 1)) {
+            vac_response[vac_rspns_i] = vac_char;
+            vac_rspns_i++;
+            return;
+        }
+        else
+        {
+            //this should never happen. Safety part
+            vac_rspns_i = MAX_VAC_RESPONSE_LEN -1;
+            vac_char = 0x0d;
+        }
+    }
     if (vac_char == 0x0d) {
         vac_response[vac_rspns_i] = 0;
         is_vac_response_ready = true;
         poll_vac_session = vac_poll_idle;
         stop_timer(&vac_rspns_timeout_timer);
         return;
-    }
-
-    if ((vac_char >= 0x20) && (vac_char <= 0x7e)) {
-        if (vac_rspns_i < (MAX_RESPONSE_LEN - 1)) {
-            vac_response[vac_rspns_i] = vac_char;
-            vac_rspns_i++;
-        }
     }
 }
 

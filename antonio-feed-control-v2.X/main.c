@@ -92,8 +92,13 @@ int main(void) {
 
     init_oneshot();
     
-    poll_recv_from_rimbox = purge_chars_from_rimbox;
+    //that will be overwritten in cryo_init()
+    //poll_recv_from_rimbox = purge_chars_from_rimbox;
+    poll_recv_from_rimbox = rimbox_poll_idle;
+
+    //that will be overwritten in cryo_init()
     poll_cryo_session = cryo_poll_idle;
+
     poll_vac_session = vac_poll_idle;
     poll_auto_start = auto_start_idle;
 
@@ -132,7 +137,7 @@ int main(void) {
     load_autostart_standby_time();
     load_autostart_turbo_time();
 
-    sprintf(msg, "feed start mode is %s",
+    snprintf(msg, 98, "feed start mode is %s",
         (get_auto_start_state() == true ? "automatic": "manual"));
     feedlog(msg);
     

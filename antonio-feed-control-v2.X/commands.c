@@ -21,6 +21,7 @@
 #include "cryo.h"
 #include "internal_osc.h"
 #include "rs232_test.h"
+#include "runtime_debug.h"
 #include "commands.h"
 
 extern char OK[];
@@ -84,6 +85,10 @@ struct command_pair commands[] = {
 /*49*/    {"man", help_command, NULL},
 /*50*/    {"clrerr", clearautostarterr_command, "clrerr.txt"},
 /*51*/    {"clearerror", clearautostarterr_command, "clrerr.txt"},
+#if RUNTIME_AUTOSTART_DEBUG
+/*52*/    {"debug", debug_command, NULL},
+/*53*/    {"debugclr", debugclr_command, NULL},
+#endif
           {NULL, NULL, NULL}
     //,
    // {"setcryoprotect", setcryostopmode_command, NULL},

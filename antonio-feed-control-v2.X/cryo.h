@@ -12,6 +12,10 @@
 extern "C" {
 #endif
     
+#define MAX_CRYO_COMMAND_LEN 999
+#define MAX_CRYO_RESPONSE_LEN 999
+#define MAX_CRYO_RESPONSE_LINES 99
+
 void (*poll_cryo_session)();
 
 void cryo_init();
