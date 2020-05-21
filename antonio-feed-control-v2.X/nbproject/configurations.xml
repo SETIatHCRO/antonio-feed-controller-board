@@ -25,6 +25,7 @@
       <itemPath>tc74.h</itemPath>
       <itemPath>file_utils.h</itemPath>
       <itemPath>voltages.h</itemPath>
+      <itemPath>runtime_debug.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -62,6 +63,7 @@
       <itemPath>autostart_s.c</itemPath>
       <itemPath>autostart_ud.c</itemPath>
       <itemPath>autostart_v.c</itemPath>
+      <itemPath>runtime_debug.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

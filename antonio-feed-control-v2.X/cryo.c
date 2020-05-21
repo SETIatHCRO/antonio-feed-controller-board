@@ -179,13 +179,13 @@ void cryo_poll_idle() {
 }
 
 void cryo_poll_send_request() {
+    char cryo_char;
     if (!(UARTTransmitterIsReady(UART2))) {
         return;
     }
-
     if( cryo_req_i < MAX_CRYO_COMMAND_LEN -1)
     {
-        char cryo_char = cryo_request[cryo_req_i++];
+        cryo_char = cryo_request[cryo_req_i++];
     } else {
         //this should never happen. Just safety trigger
         cryo_char = 0;

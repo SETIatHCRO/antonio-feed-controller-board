@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c rs232_test.c internal_osc.c autostart_e.c autostart_i.c autostart_s.c autostart_ud.c autostart_v.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c rs232_test.c internal_osc.c autostart_e.c autostart_i.c autostart_s.c autostart_ud.c autostart_v.c runtime_debug.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o ${OBJECTDIR}/rs232_test.o ${OBJECTDIR}/internal_osc.o ${OBJECTDIR}/autostart_e.o ${OBJECTDIR}/autostart_i.o ${OBJECTDIR}/autostart_s.o ${OBJECTDIR}/autostart_ud.o ${OBJECTDIR}/autostart_v.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/configuration_bits.o.d ${OBJECTDIR}/system.o.d ${OBJECTDIR}/interrupts.o.d ${OBJECTDIR}/fatfs/diskio.o.d ${OBJECTDIR}/fatfs/ff.o.d ${OBJECTDIR}/user.o.d ${OBJECTDIR}/oneshot.o.d ${OBJECTDIR}/rimbox.o.d ${OBJECTDIR}/cryo.o.d ${OBJECTDIR}/commands.o.d ${OBJECTDIR}/diode.o.d ${OBJECTDIR}/fan.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/temperature.o.d ${OBJECTDIR}/vacuum.o.d ${OBJECTDIR}/autostart.o.d ${OBJECTDIR}/accel_1.o.d ${OBJECTDIR}/relay.o.d ${OBJECTDIR}/tc74.o.d ${OBJECTDIR}/file_utils.o.d ${OBJECTDIR}/voltages.o.d ${OBJECTDIR}/rs232_test.o.d ${OBJECTDIR}/internal_osc.o.d ${OBJECTDIR}/autostart_e.o.d ${OBJECTDIR}/autostart_i.o.d ${OBJECTDIR}/autostart_s.o.d ${OBJECTDIR}/autostart_ud.o.d ${OBJECTDIR}/autostart_v.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o ${OBJECTDIR}/rs232_test.o ${OBJECTDIR}/internal_osc.o ${OBJECTDIR}/autostart_e.o ${OBJECTDIR}/autostart_i.o ${OBJECTDIR}/autostart_s.o ${OBJECTDIR}/autostart_ud.o ${OBJECTDIR}/autostart_v.o ${OBJECTDIR}/runtime_debug.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/configuration_bits.o.d ${OBJECTDIR}/system.o.d ${OBJECTDIR}/interrupts.o.d ${OBJECTDIR}/fatfs/diskio.o.d ${OBJECTDIR}/fatfs/ff.o.d ${OBJECTDIR}/user.o.d ${OBJECTDIR}/oneshot.o.d ${OBJECTDIR}/rimbox.o.d ${OBJECTDIR}/cryo.o.d ${OBJECTDIR}/commands.o.d ${OBJECTDIR}/diode.o.d ${OBJECTDIR}/fan.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/temperature.o.d ${OBJECTDIR}/vacuum.o.d ${OBJECTDIR}/autostart.o.d ${OBJECTDIR}/accel_1.o.d ${OBJECTDIR}/relay.o.d ${OBJECTDIR}/tc74.o.d ${OBJECTDIR}/file_utils.o.d ${OBJECTDIR}/voltages.o.d ${OBJECTDIR}/rs232_test.o.d ${OBJECTDIR}/internal_osc.o.d ${OBJECTDIR}/autostart_e.o.d ${OBJECTDIR}/autostart_i.o.d ${OBJECTDIR}/autostart_s.o.d ${OBJECTDIR}/autostart_ud.o.d ${OBJECTDIR}/autostart_v.o.d ${OBJECTDIR}/runtime_debug.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o ${OBJECTDIR}/rs232_test.o ${OBJECTDIR}/internal_osc.o ${OBJECTDIR}/autostart_e.o ${OBJECTDIR}/autostart_i.o ${OBJECTDIR}/autostart_s.o ${OBJECTDIR}/autostart_ud.o ${OBJECTDIR}/autostart_v.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/configuration_bits.o ${OBJECTDIR}/system.o ${OBJECTDIR}/interrupts.o ${OBJECTDIR}/fatfs/diskio.o ${OBJECTDIR}/fatfs/ff.o ${OBJECTDIR}/user.o ${OBJECTDIR}/oneshot.o ${OBJECTDIR}/rimbox.o ${OBJECTDIR}/cryo.o ${OBJECTDIR}/commands.o ${OBJECTDIR}/diode.o ${OBJECTDIR}/fan.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/temperature.o ${OBJECTDIR}/vacuum.o ${OBJECTDIR}/autostart.o ${OBJECTDIR}/accel_1.o ${OBJECTDIR}/relay.o ${OBJECTDIR}/tc74.o ${OBJECTDIR}/file_utils.o ${OBJECTDIR}/voltages.o ${OBJECTDIR}/rs232_test.o ${OBJECTDIR}/internal_osc.o ${OBJECTDIR}/autostart_e.o ${OBJECTDIR}/autostart_i.o ${OBJECTDIR}/autostart_s.o ${OBJECTDIR}/autostart_ud.o ${OBJECTDIR}/autostart_v.o ${OBJECTDIR}/runtime_debug.o
 
 # Source Files
-SOURCEFILES=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c rs232_test.c internal_osc.c autostart_e.c autostart_i.c autostart_s.c autostart_ud.c autostart_v.c
+SOURCEFILES=main.c configuration_bits.c system.c interrupts.c fatfs/diskio.c fatfs/ff.c user.c oneshot.c rimbox.c cryo.c commands.c diode.c fan.c adc.c temperature.c vacuum.c autostart.c accel_1.c relay.c tc74.c file_utils.c voltages.c rs232_test.c internal_osc.c autostart_e.c autostart_i.c autostart_s.c autostart_ud.c autostart_v.c runtime_debug.c
 
 
 
@@ -281,6 +281,12 @@ ${OBJECTDIR}/autostart_v.o: autostart_v.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/autostart_v.o 
 	@${FIXDEPS} "${OBJECTDIR}/autostart_v.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/autostart_v.o.d" -o ${OBJECTDIR}/autostart_v.o autostart_v.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/runtime_debug.o: runtime_debug.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/runtime_debug.o.d 
+	@${RM} ${OBJECTDIR}/runtime_debug.o 
+	@${FIXDEPS} "${OBJECTDIR}/runtime_debug.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/runtime_debug.o.d" -o ${OBJECTDIR}/runtime_debug.o runtime_debug.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -455,6 +461,12 @@ ${OBJECTDIR}/autostart_v.o: autostart_v.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/autostart_v.o.d 
 	@${RM} ${OBJECTDIR}/autostart_v.o 
 	@${FIXDEPS} "${OBJECTDIR}/autostart_v.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/autostart_v.o.d" -o ${OBJECTDIR}/autostart_v.o autostart_v.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/runtime_debug.o: runtime_debug.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/runtime_debug.o.d 
+	@${RM} ${OBJECTDIR}/runtime_debug.o 
+	@${FIXDEPS} "${OBJECTDIR}/runtime_debug.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -MMD -MF "${OBJECTDIR}/runtime_debug.o.d" -o ${OBJECTDIR}/runtime_debug.o runtime_debug.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 endif
 
