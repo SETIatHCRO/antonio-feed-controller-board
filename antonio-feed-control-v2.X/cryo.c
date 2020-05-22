@@ -14,6 +14,11 @@
 #include "relay.h"
 #include "fatfs/ff.h"
 #include "file_utils.h"
+#include "runtime_debug.h"
+
+#if RUNTIME_AUTOSTART_DEBUG
+extern char cryo_debug_response[MAX_CRYO_RESPONSE_LEN];
+#endif
 
 extern int32_t autostart_machine_state;
 
@@ -98,7 +103,7 @@ void send_command_to_cryo(char *command, char *args[]) {
 
     cryo_rspns_i = 0;
 
-    start_timer(&cryo_rspns_timeout_timer, cryo_response_timeout, 700);
+    start_timer(&cryo_rspns_timeout_timer, cryo_response_timeout, 800);
 
     poll_cryo_session = cryo_poll_send_request;
 }
@@ -145,6 +150,15 @@ void free_cryo_session() {
 }
 
 void cryo_response_timeout() {
+#if RUNTIME_AUTOSTART_DEBUG
+    if(cryo_rspns_i < MAX_CRYO_RESPONSE_LEN)
+    {
+        cryo_response[cryo_rspns_i] = 0;
+    } else {
+        cryo_response[MAX_CRYO_RESPONSE_LEN-1] = 0;
+    }
+    memcpy(cryo_debug_response,cryo_response,MAX_CRYO_RESPONSE_LEN);
+#endif
     strncpy(cryo_response, TIMEOUT, MAX_CRYO_RESPONSE_LEN-1);
 
     autostart_machine_state |= 0x00400000;
@@ -152,7 +166,6 @@ void cryo_response_timeout() {
     UARTSendBreak(UART2);
     UARTSendDataByte(UART2,'a'); 
     is_cryo_response_ready = true;
-
     poll_cryo_session = cryo_poll_idle;
 }
 
@@ -216,7 +229,7 @@ void cryo_poll_get_response_first_line() {
     if (cryo_char == 0x0d || cryo_char == 0x0a) {
         stop_timer(&cryo_rspns_timeout_timer);
         start_timer(&cryo_rspns_eol_timer,
-            cryo_response_eol_timeout, 200);
+            cryo_response_eol_timeout, 250);
         poll_cryo_session = cryo_poll_get_response_remaining_lines;
         return;
     }
