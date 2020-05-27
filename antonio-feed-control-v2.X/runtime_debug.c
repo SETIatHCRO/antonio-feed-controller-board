@@ -10,6 +10,8 @@
 
 extern unsigned int cryo_req_i;
 extern unsigned int cryo_rspns_i;
+unsigned int last_chr_dbg_req=0;
+unsigned int last_chr_dbg_resp=0;
 extern char cryo_request[MAX_CRYO_COMMAND_LEN];
 extern char cryo_response[MAX_CRYO_RESPONSE_LEN];
 char cryo_debug_response[MAX_CRYO_RESPONSE_LEN];
@@ -27,7 +29,7 @@ void debug_command(char *args[])
     send_to_rimbox(msg);
     m1 = UARTReceivedDataIsAvailable(UART2);
     m2 = UARTTransmitterIsReady(UART2);
-    snprintf(msg,98,"%d_%d\r\n",m1,m2);
+    snprintf(msg,98,"%d_%d_(%u_%u)\r\n",m1,m2,last_chr_dbg_req, last_chr_dbg_resp);
     send_to_rimbox(msg);
     strncpy(msg,cryo_debug_response,98);
     msg[98] = '\0';

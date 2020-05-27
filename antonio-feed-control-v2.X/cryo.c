@@ -18,6 +18,8 @@
 
 #if RUNTIME_AUTOSTART_DEBUG
 extern char cryo_debug_response[MAX_CRYO_RESPONSE_LEN];
+extern unsigned int last_chr_dbg_req;
+extern unsigned int last_chr_dbg_resp;
 #endif
 
 extern int32_t autostart_machine_state;
@@ -158,6 +160,8 @@ void cryo_response_timeout() {
         cryo_response[MAX_CRYO_RESPONSE_LEN-1] = 0;
     }
     memcpy(cryo_debug_response,cryo_response,MAX_CRYO_RESPONSE_LEN);
+    last_chr_dbg_req = cryo_req_i;
+    last_chr_dbg_resp = cryo_rspns_i;
 #endif
     strncpy(cryo_response, TIMEOUT, MAX_CRYO_RESPONSE_LEN-1);
 
