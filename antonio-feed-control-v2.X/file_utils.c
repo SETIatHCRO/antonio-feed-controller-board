@@ -19,8 +19,15 @@ extern char OK[];
 extern char VBAR[];
 extern char CR[];
 
+
+//for long cat command
+extern unsigned int rimbox_send_count;
+#define ALLOW_LONG_CAT 1
+#define CAT_READ_BFR_LEN 80
+
 bool update_logs = true;
 
+FIL cat_file_fp;
 /*
  * list files in directory of flash filesystem
  */
@@ -65,10 +72,8 @@ void cat_command(char *args[]) {
     unsigned int i;
     char cat_char;
 
-#define CAT_READ_BFR_LEN 80
     char read_bfr[CAT_READ_BFR_LEN];
 
-    FIL fp;
 
     FRESULT res;
     UINT read_count;
@@ -92,10 +97,17 @@ void cat_command(char *args[]) {
         return;
     }
 
-    res = f_open(&fp, args[0], FA_READ);
+    res = f_open(&cat_file_fp, args[0], FA_READ);
     if (res == FR_OK) {
         do {
-            res = f_read(&fp, read_bfr, (UINT) CAT_READ_BFR_LEN, &read_count);
+            //added check for the rimbox FIFO length and changing the command to
+            //cat_command_continue
+            if ((ALLOW_LONG_CAT) && (rimbox_send_count + CAT_READ_BFR_LEN > RIMBOX_SEND_FIFO_SIZE ))
+            {
+                poll_recv_from_rimbox = cat_command_continue;
+                return;
+            }
+            res = f_read(&cat_file_fp, read_bfr, (UINT) CAT_READ_BFR_LEN, &read_count);
             if (!(res == FR_OK)) {
                 break;
             }
@@ -115,6 +127,51 @@ void cat_command(char *args[]) {
     }
 
     send_to_rimbox(EOL);
+}
+
+void cat_command_continue()
+{
+    unsigned int i;
+    char cat_char;
+
+    char read_bfr[CAT_READ_BFR_LEN];
+
+    FRESULT res;
+    UINT read_count;
+
+    //we assume here that the file is properly opened here
+    //this code is copied from cat_command.
+    //it is done on purpose to distinguish between short and long cat command
+    //and behaviour of when res != FR_OK
+    do {
+        //added check for the rimbox FIFO length and changing the command to
+        //cat_command_continue
+        if ((ALLOW_LONG_CAT) && (rimbox_send_count + CAT_READ_BFR_LEN > RIMBOX_SEND_FIFO_SIZE ))
+        {
+            poll_recv_from_rimbox = cat_command_continue;
+            return;
+        }
+        res = f_read(&cat_file_fp, read_bfr, (UINT) CAT_READ_BFR_LEN, &read_count);
+        if (!(res == FR_OK)) {
+            break;
+        }
+        if (read_count > 0) {
+            for (i = 0; i < read_count; i++) {
+                cat_char = read_bfr[i];
+                if (cat_char == 0x0a) {
+                    send_to_rimbox(LINESEP);
+                }
+                if ((cat_char >= 0x20) && (cat_char <= 0x7e)) {
+                    send_char_to_rimbox(cat_char);
+                }
+            }
+        }
+    }
+    while (read_count == CAT_READ_BFR_LEN);
+
+    f_close(&cat_file_fp);
+    send_to_rimbox(EOL);
+    poll_recv_from_rimbox = purge_chars_from_rimbox;
 }
 
 /*

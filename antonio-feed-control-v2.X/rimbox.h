@@ -15,6 +15,8 @@ extern "C" {
 #define MAX_ARGS 99
 #define MAX_RBOX_COMMAND_LEN 999
 
+#define RIMBOX_SEND_FIFO_SIZE 1999
+
 void wait_for_cryo_response();
 
 void rimbox_poll_idle();

@@ -15,6 +15,7 @@ extern "C" {
 
 void ls_command(char *args[]);
 void cat_command(char *args[]);
+void cat_command_continue();
 void hyperterminal_command(char *args[]);
 void stty_command(char *args[]);
 void feedlog(char *msg);

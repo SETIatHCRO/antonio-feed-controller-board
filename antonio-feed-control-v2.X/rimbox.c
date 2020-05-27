@@ -30,7 +30,6 @@ char rimbox_command[MAX_RBOX_COMMAND_LEN];
 char *command;
 char *cmd_args[MAX_ARGS];
 
-#define RIMBOX_SEND_FIFO_SIZE 1999
 
 unsigned int rimbox_send_head_i = 0;
 unsigned int rimbox_send_tail_i = 0;
@@ -134,8 +133,10 @@ void parse_cmnd_from_rimbox() {
             break;
         }
         if (strcmp(command, commands[cmnds_i].name) == 0) {
-            commands[cmnds_i].function(cmd_args);
+            //switching it. It may be usefull for the extended cat
+            //routine
             poll_recv_from_rimbox = purge_chars_from_rimbox;
+            commands[cmnds_i].function(cmd_args);
             return;
         }
     }
@@ -193,6 +194,10 @@ void send_to_rimbox(char *msg) {
         if (!(rimbox_send_head_i < RIMBOX_SEND_FIFO_SIZE)) {
             rimbox_send_head_i = 0;
         }
+        //TODO: it may happen that this value exceeds RIMBOX_SEND_FIFO_SIZE
+        //in such case, some things will be overwritten
+        //if was only fixed for CAT command and that fix is not
+        //super neat
         rimbox_send_count = rimbox_send_count + 1;
     }
 }
