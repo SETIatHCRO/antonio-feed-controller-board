@@ -40,6 +40,9 @@ extern char cryo_response[MAX_CRYO_RESPONSE_LEN];
 extern char *EOL;
 extern char OK[];
 
+//rough solution for the bad conversion
+extern char TIMEOUT[];
+
 struct oneshot_timer auto_start_timer = {"auto_start_timer", 0, NULL, NULL};
 
 #ifndef MIN
@@ -478,6 +481,12 @@ int autostart_vac_getulongfromresp(unsigned long int * val)
     send_to_rimbox(msg);
 #endif
     int NN;
+    if (!strncmp(auto_start_response,TIMEOUT,AUTO_START_CMND_RSPNS_MAX_LEN-1))
+    {
+        NN = 1;
+        return NN;
+    }
+
     //tmpval = strtoul(auto_start_response,&foo);
     //TODO: i haven't try to investigate whan NN value will be set to if 
     //response is not represented by a string

@@ -37,7 +37,7 @@ extern "C" {
 #define MAX_STANDBY_POWER_TRIES 20
 
 #define AUTO_START_CMND_RSPNS_MAX_LEN 99
-#define AUTO_START_CMND_RSPNS_MAX_TRIES 2
+#define AUTO_START_CMND_RSPNS_MAX_TRIES 3
 
 void (*auto_start_next_state)();
 void (*auto_start_save_next_state)();
