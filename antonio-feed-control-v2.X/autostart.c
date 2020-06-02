@@ -74,31 +74,33 @@ int rot_speed_test = 0;
  * @brief autostart_machine_state the state that the autostart machine is at
  * stable states clears last 8 bits
  * errors are not cleared (except with clrerr command)
- * 0x000000 - not initialized (or manual autostart)
- * 0x000001 - started initialization
- * 0x000002 - started vacuum pumping
- * 0x000004 - init cooling
- * 0x000008 - cooling down - power
- * 0x000010 - cooling down - temp (reaching stable state clears previous bits)
- * 0x000020 - heating up
- * 0x000040 - switching off
- * 0x000080 - stable high temp (shutdown) state
- * 0x000100 - e000 occurred
- * 0x000200 - e001 occurred
- * 0x000400 - e002 occurred
- * 0x000800 - e003 occurred
- * 0x001000 - e004 occurred
- * 0x002000 - e005 occurred
- * 0x004000 - e006 occurred
- * 0x008000 - e007 occurred
- * 0x010000 - e008 occurred
- * 0x020000 - e009 occurred
- * 0x040000 - e010 occurred
- * 0x080000 - e011 occurred
- * 0x100000 - temp readout problem (A5/A6)
- * 0x200000 - e012 cryo failure in low state
- * 0x400000 - cryo comm problem (timeout)
- * 0x800000 - vac comm problem (timeout)
+ * 0x00000000 - not initialized (or manual autostart)
+ * 0x00000001 - started initialization
+ * 0x00000002 - started vacuum pumping
+ * 0x00000004 - init cooling
+ * 0x00000008 - cooling down - power
+ * 0x00000010 - cooling down - temp (reaching stable state clears previous bits)
+ * 0x00000020 - heating up
+ * 0x00000040 - switching off
+ * 0x00000080 - stable high temp (shutdown) state
+ * 0x00000100 - e000 occurred
+ * 0x00000200 - e001 occurred
+ * 0x00000400 - e002 occurred
+ * 0x00000800 - e003 occurred
+ * 0x00001000 - e004 occurred
+ * 0x00002000 - e005 occurred
+ * 0x00004000 - e006 occurred
+ * 0x00008000 - e007 occurred
+ * 0x00010000 - e008 occurred
+ * 0x00020000 - e009 occurred
+ * 0x00040000 - e010 occurred
+ * 0x00080000 - e011 occurred
+ * 0x00100000 - temp readout problem (A5/A6)
+ * 0x00200000 - e012 cryo failure in low state
+ * 0x00400000 - cryo comm problem (timeout)
+ * 0x00800000 - vac comm problem (timeout)
+ * 0x01000000 - cryo overrun happened
+ * 0x02000000 - vac overrun happened
  */
 int32_t autostart_machine_state = 0;
 

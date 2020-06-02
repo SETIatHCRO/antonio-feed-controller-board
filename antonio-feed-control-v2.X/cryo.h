@@ -19,8 +19,9 @@ extern "C" {
 void (*poll_cryo_session)();
 
 void cryo_init();
-
+int cryo_test_uart_err();
 void wait_cryo_not_busy();
+
 void send_command_to_cryo(char *command, char *args[]);
 void free_cryo_session();
 void cryo_response_timeout();

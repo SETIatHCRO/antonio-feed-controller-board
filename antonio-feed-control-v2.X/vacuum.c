@@ -11,6 +11,7 @@
 #include "rimbox.h"
 #include "adc.h"
 #include "oneshot.h"
+#include "runtime_debug.h"
 
 extern char *EOL;
 extern char TIMEOUT[];
@@ -116,6 +117,40 @@ void getvacuum_command(char *args[]) {
     send_to_rimbox(EOL);
 }
 
+/*
+ * With the active pull code and version 5 of the software, we discovered
+ * potential overflow condition. The best solution would be to change
+ * the UART part to interruption based. We are taking shortcut and while still
+ * sticking with the active pull, we are checking for overflow and (most probably)
+ * forcing a timeout of the command while still resetting Rx. It is possible to
+ * skip that by changing U3MODE bit 16 (RUNOVF) to 1, but that way we wouldn't be able to
+ * detect unreliable transmission
+ */
+extern int32_t autostart_machine_state;
+#if RUNTIME_AUTOSTART_DEBUG
+extern unsigned int debug_vac_overflow_cnt;
+#endif
+
+int vac_test_uart_err()
+{
+    char chr;
+    //we are checking for OERR, FERR and PERR
+    //PERR should never happen, but OERR and FERR may
+    //we assume that data is unreliable
+    if(U3STA & 0x000E) {
+        U3STAbits.URXEN = 0;
+        U3STAbits.URXEN = 1;
+        U3STAbits.OERR = 0;
+
+        autostart_machine_state |= 0x02000000;
+#if RUNTIME_AUTOSTART_DEBUG
+        debug_vac_overflow_cnt++;
+#endif
+        return 1;
+    }
+    return 0;
+}
+
 
 void wait_vacuum_not_busy() {
     if (is_vac_busy) {
@@ -202,6 +237,7 @@ void parse_vacuum_response(char *vacuum_response) {
 
 
 void vac_poll_idle() {
+    cryo_test_uart_err();
     if (UARTReceivedDataIsAvailable(UART3)) {
         UARTGetDataByte(UART3);
     }
@@ -223,6 +259,13 @@ void vac_poll_send_request() {
 }
 
 void vac_poll_get_response() {
+    if(vac_test_uart_err())
+    {
+        poll_vac_session = vac_response_timeout;
+        stop_timer(&vac_rspns_timeout_timer);
+        return;
+    }
+
     if (!(UARTReceivedDataIsAvailable(UART3))) {
         return;
     }

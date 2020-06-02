@@ -14,8 +14,10 @@ unsigned int last_chr_dbg_req=0;
 unsigned int last_chr_dbg_resp=0;
 extern char cryo_request[MAX_CRYO_COMMAND_LEN];
 extern char cryo_response[MAX_CRYO_RESPONSE_LEN];
-char cryo_debug_response[MAX_CRYO_RESPONSE_LEN];
 extern char *EOL;
+
+unsigned int debug_vac_overflow_cnt = 0;
+unsigned int debug_cryo_overflow_cnt = 0;
 
 void debug_command(char *args[])
 {
@@ -23,16 +25,11 @@ void debug_command(char *args[])
     int m1, m2;
     snprintf(msg,98,"(%u)(%u):%s_%s\r\n",cryo_req_i,cryo_rspns_i,cryo_request,cryo_response);
     send_to_rimbox(msg);
-    snprintf(msg,98,"(%x)(%x)(%x):(%x)(%x)(%x)\r\n",
-            cryo_request[1],cryo_request[2],cryo_request[3],
-            cryo_response[1],cryo_response[2],cryo_response[3]);
-    send_to_rimbox(msg);
     m1 = UARTReceivedDataIsAvailable(UART2);
     m2 = UARTTransmitterIsReady(UART2);
     snprintf(msg,98,"%d_%d_(%u_%u)\r\n",m1,m2,last_chr_dbg_req, last_chr_dbg_resp);
     send_to_rimbox(msg);
-    strncpy(msg,cryo_debug_response,98);
-    msg[98] = '\0';
+    snprintf(msg,98,"vof: %u cof: %u\r\n",debug_vac_overflow_cnt,debug_cryo_overflow_cnt);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
@@ -40,7 +37,8 @@ void debug_command(char *args[])
 void debugclr_command(char *args[])
 {
     //next iteration - shorten and extend the timeout
-
+    debug_vac_overflow_cnt = 0;
+    debug_cryo_overflow_cnt = 0;
 }
 
 #endif

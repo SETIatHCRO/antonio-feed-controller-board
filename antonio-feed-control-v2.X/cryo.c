@@ -71,6 +71,39 @@ void cryo_init() {
 
 }
 
+/*
+ * With the active pull code and version 5 of the software, we discovered
+ * potential overflow condition. The best solution would be to change
+ * the UART part to interruption based. We are taking shortcut and while still
+ * sticking with the active pull, we are checking for overflow and (most probably)
+ * forcing a timeout of the command while still resetting Rx. It is possible to
+ * skip that by changing U2MODE bit 16 (RUNOVF) to 1, but that way we wouldn't be able to
+ * detect unreliable transmission
+ */
+#if RUNTIME_AUTOSTART_DEBUG
+extern unsigned int debug_cryo_overflow_cnt;
+#endif
+
+int cryo_test_uart_err()
+{
+    char chr;
+    //we are checking for OERR, FERR and PERR
+    //PERR should never happen, but OERR and FERR may
+    //we assume that data is unreliable
+    if(U2STA & 0x000E) {
+        U2STAbits.URXEN = 0;
+        U2STAbits.URXEN = 1;
+        U2STAbits.OERR = 0;
+
+        autostart_machine_state |= 0x01000000;
+#if RUNTIME_AUTOSTART_DEBUG
+        debug_cryo_overflow_cnt++;
+#endif
+        return 1;
+    }
+    return 0;
+}
+
 void wait_cryo_not_busy() {
     unsigned int i;
     
@@ -153,13 +186,6 @@ void free_cryo_session() {
 
 void cryo_response_timeout() {
 #if RUNTIME_AUTOSTART_DEBUG
-    if(cryo_rspns_i < MAX_CRYO_RESPONSE_LEN)
-    {
-        cryo_response[cryo_rspns_i] = 0;
-    } else {
-        cryo_response[MAX_CRYO_RESPONSE_LEN-1] = 0;
-    }
-    memcpy(cryo_debug_response,cryo_response,MAX_CRYO_RESPONSE_LEN);
     last_chr_dbg_req = cryo_req_i;
     last_chr_dbg_resp = cryo_rspns_i;
 #endif
@@ -190,6 +216,9 @@ void cryo_response_eol_timeout() {
 
 
 void cryo_poll_idle() {
+
+    cryo_test_uart_err();
+
     if (UARTReceivedDataIsAvailable(UART2)) {
         UARTGetDataByte(UART2);
     }
@@ -217,6 +246,16 @@ void cryo_poll_send_request() {
 }
 
 void cryo_poll_get_response_first_line() {
+
+    if(cryo_test_uart_err())
+    {
+        //if overrun or error occured, we should act similar as if timeout occured
+        //because data is unreliable.
+        poll_cryo_session = cryo_response_timeout;
+        stop_timer(&cryo_rspns_timeout_timer);
+        return;
+    }
+
     if (!(UARTReceivedDataIsAvailable(UART2))) {
         return;
     }
@@ -240,6 +279,11 @@ void cryo_poll_get_response_first_line() {
 }
 
 void cryo_poll_get_response_remaining_lines() {
+    //here we don't really care if we are missing some data.
+    //well. we probably should care, but it shouldn't break anything
+    //further in the code.
+    cryo_test_uart_err();
+
     if (!(UARTReceivedDataIsAvailable(UART2))) {
         return;
     }

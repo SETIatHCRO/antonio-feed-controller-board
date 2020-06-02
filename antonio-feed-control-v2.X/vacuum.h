@@ -16,6 +16,7 @@ extern "C" {
 #define MAX_VAC_RESPONSE_LEN 99
 
 void getvacuum_command(char *args[]);
+int vac_test_uart_err();
 void wait_vacuum_not_busy();
 void send_command_to_vacuum(char *command);
 void wait_for_vacuum_response();
