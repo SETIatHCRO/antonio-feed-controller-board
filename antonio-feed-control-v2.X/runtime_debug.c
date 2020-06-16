@@ -23,6 +23,7 @@ void debug_command(char *args[])
 {
     char msg[99];
     int m1, m2;
+    unsigned int s1,s2;
     snprintf(msg,98,"(%u)(%u):%s_%s\r\n",cryo_req_i,cryo_rspns_i,cryo_request,cryo_response);
     send_to_rimbox(msg);
     m1 = UARTReceivedDataIsAvailable(UART2);
@@ -30,6 +31,14 @@ void debug_command(char *args[])
     snprintf(msg,98,"%d_%d_(%u_%u)\r\n",m1,m2,last_chr_dbg_req, last_chr_dbg_resp);
     send_to_rimbox(msg);
     snprintf(msg,98,"vof: %u cof: %u\r\n",debug_vac_overflow_cnt,debug_cryo_overflow_cnt);
+    send_to_rimbox(msg);
+    s1 = U2STA;
+    s2 = U3STA;
+    snprintf(msg,98,"v_sta: 0x%x c_sta: 0x%x\r\n",s2,s1);
+    send_to_rimbox(msg);
+    s1 = U2TXREG;
+    s2 = U3TXREG;
+    snprintf(msg,98,"v_txreg: 0x%x c_txreg: 0x%x\r\n",s2,s1);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
