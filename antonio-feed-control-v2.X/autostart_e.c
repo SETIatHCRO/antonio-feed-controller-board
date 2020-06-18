@@ -11,7 +11,8 @@ extern bool doing_shutdown;
 extern bool relay_state;
 extern bool update_logs;
 extern bool error_shutdown;
-
+extern char *LINESEP;
+extern char *EOL;
 /**
  * @file autostart_e.h
  * @author Janusz S. Kulpa
@@ -28,9 +29,12 @@ void auto_start_e000()
     doing_startup = false;
     update_logs=true;
     feedlog_always("e000");
-    send_to_rimbox("\r\nautostart error 000\r\n");
-    send_to_rimbox("init routines failed\r\n");
-    send_to_rimbox("shutting down\r\n");
+    send_to_rimbox("autostart error 000");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("init routines failed");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("shutting down");
+    send_to_rimbox(EOL);
     error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
@@ -41,9 +45,12 @@ void auto_start_e001()
     doing_startup = false;
     update_logs=true;
     feedlog_always("e001");
-    send_to_rimbox("\r\nautostart error 001\r\n");
-    send_to_rimbox("vacuum routines failed\r\n");
-    send_to_rimbox("shutting down\r\n");
+    send_to_rimbox("autostart error 001");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("vacuum routines failed");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("shutting down");
+    send_to_rimbox(EOL);
     error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
@@ -54,9 +61,12 @@ void auto_start_e002()
     doing_startup = false;
     update_logs=true;
     feedlog_always("e002");
-    send_to_rimbox("\r\nautostart error 002\r\n");
-    send_to_rimbox("turbo RPM not attained\r\n");
-    send_to_rimbox("shutting down\r\n");
+    send_to_rimbox("autostart error 002");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("turbo RPM not attained");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("shutting down");
+    send_to_rimbox(EOL);
     error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
@@ -67,9 +77,12 @@ void auto_start_e003()
     doing_startup = false;
     update_logs=true;
     feedlog_always("e003");
-    send_to_rimbox("\r\nautostart error 003\r\n");
-    send_to_rimbox("turbo low power not attained\r\n");
-    send_to_rimbox("shutting down\r\n");
+    send_to_rimbox("autostart error 003");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("turbo low power not attained");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("shutting down");
+    send_to_rimbox(EOL);
     error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
@@ -80,8 +93,10 @@ void auto_start_e004()
     update_logs=true;
     feedlog_always("e004");
     feedlog("Serious error during shutdown 004");
-    send_to_rimbox("\r\nautostart error\r\n");
-    send_to_rimbox("error during shutting down\r\n");
+    send_to_rimbox("autostart error");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("error during shutting down");
+    send_to_rimbox(EOL);
     relay_state = false;
     mPORTGClearBits(BIT_0);
     poll_auto_start = auto_start_error;
@@ -94,9 +109,12 @@ void auto_start_e005()
     doing_shutdown = false;
     update_logs=true;
     feedlog_always("e005");
-    send_to_rimbox("\r\ncryo/turbo\r\n");
-    send_to_rimbox("turbo low rpm while cryo on\r\n");
-    send_to_rimbox("shutting down\r\n");
+    send_to_rimbox("cryo/turbo");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("turbo low rpm while cryo on");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("shutting down");
+    send_to_rimbox(EOL);
     error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
@@ -107,9 +125,12 @@ void auto_start_e006()
     doing_startup = false;
     update_logs=true;
     feedlog_always("e006");
-    send_to_rimbox("\r\nautostart error 006\r\n");
-    send_to_rimbox("cryo setup failed\r\n");
-    send_to_rimbox("shutting down\r\n");
+    send_to_rimbox("autostart error 006");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("cryo setup failed");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("shutting down");
+    send_to_rimbox(EOL);
     error_shutdown = true;
     poll_auto_start = auto_start_s001_request;
 }
@@ -121,9 +142,12 @@ void auto_start_e007()
     doing_shutdown = true;
     update_logs=true;
     feedlog_always("e007");
-    send_to_rimbox("\r\nautostart error 007\r\n");
-    send_to_rimbox("cryo cooling routines failed\r\n");
-    send_to_rimbox("trying to heat up\r\n");
+    send_to_rimbox("autostart error 007");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("cryo cooling routines failed");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("trying to heat up");
+    send_to_rimbox(EOL);
     poll_auto_start = auto_start_u001_request;
 }
 
@@ -134,8 +158,10 @@ void auto_start_e008()
     doing_shutdown = true;
     update_logs=true;
     feedlog_always("e008");
-    send_to_rimbox("\r\nautostart error 008\r\n");
-    send_to_rimbox("error during cold start init\r\n");
+    send_to_rimbox("autostart error 008");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("error during cold start init");
+    send_to_rimbox(EOL);
     poll_auto_start = auto_start_u001_request;
 }
 
@@ -146,8 +172,10 @@ void auto_start_e009()
     doing_shutdown = true;
     update_logs=true;
     feedlog_always("e009");
-    send_to_rimbox("\r\nautostart error 009\r\n");
-    send_to_rimbox("vac error during cold start\r\n");
+    send_to_rimbox("autostart error 009");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("vac error during cold start");
+    send_to_rimbox(EOL);
     poll_auto_start = auto_start_u001_request;
 }
 
@@ -158,8 +186,10 @@ void auto_start_e010()
     doing_shutdown = true;
     update_logs=true;
     feedlog_always("e010");
-    send_to_rimbox("\r\nautostart error 010\r\n");
-    send_to_rimbox("vac oscilation error\r\n");
+    send_to_rimbox("autostart error 010");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("vac oscilation error");
+    send_to_rimbox(EOL);
     poll_auto_start = auto_start_u001_request;
 }
 
@@ -170,8 +200,10 @@ void auto_start_e011()
     doing_shutdown = true;
     update_logs=true;
     feedlog_always("e011");
-    send_to_rimbox("\r\nautostart error 011\r\n");
-    send_to_rimbox("cryo temp\r\n");
+    send_to_rimbox("autostart error 011");
+    send_to_rimbox(LINESEP);
+    send_to_rimbox("cryo temp");
+    send_to_rimbox(EOL);
     poll_auto_start = auto_start_u001_request;
 }
 
@@ -183,7 +215,7 @@ void auto_start_e012()
     //update_logs=true;
     //feedlog_always("e012");
     //feedlog("cryo error e012");
-    //send_to_rimbox("error during cold\r\n");
+    //send_to_rimbox("error during cold");
     //relay_state = false;
     //mPORTGClearBits(BIT_0);
     //poll_auto_start = auto_start_error;

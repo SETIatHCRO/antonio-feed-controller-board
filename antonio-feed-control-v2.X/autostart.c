@@ -125,7 +125,6 @@ bool error_shutdown = false;
 int fore_vacuum_try = 0;
 int turbo_power_try = 0;
 int standby_power_try = 0;
-// TODO: embed scripting engine for auto start procedure
 
 void auto_start_idle() {
     if (auto_start_state == true) {
@@ -133,7 +132,8 @@ void auto_start_idle() {
                 AUTO_START_1_MIN);
         auto_start_next_state = auto_start_i000_request;
         poll_auto_start = auto_start_delay;
-        send_to_rimbox("\r\nautostart in 1 minute\r\n");
+        send_to_rimbox("autostart in 1 minute");
+	send_to_rimbox(EOL);
         return;
     }
     if ( (auto_start_state == false ) && (auto_start_manual_shutdown==false) )
@@ -142,7 +142,8 @@ void auto_start_idle() {
                 AUTO_START_1_MIN);
         auto_start_next_state = auto_start_m001_request;
         poll_auto_start = auto_start_delay;
-        send_to_rimbox("\r\nmanual shutdown 1 min\r\n");
+        send_to_rimbox("manual shutdown 1 min");
+	send_to_rimbox(EOL);
         return;
     }
 }
@@ -159,8 +160,8 @@ void auto_start_timer_callback() {
 void auto_start_error() {
 
     if(should_report_complete) {
-        send_to_rimbox("\r\nautostart error\r\n");
-        send_to_rimbox("hanging\r\n");
+        send_to_rimbox("autostart error. Hanging");
+	send_to_rimbox(EOL);
         should_report_complete = false;
         doing_startup = false;
     }
@@ -174,7 +175,8 @@ void auto_start_complete() {
         autostart_machine_state &= 0xFFFFFF00;
         autostart_machine_state |= 0x00000010;
         autostart_cold_start=false;
-        send_to_rimbox("\r\nautostart complete\r\n");
+        send_to_rimbox("autostart complete");
+	send_to_rimbox(EOL);
         should_report_complete = false;
         update_logs = false;
     }
@@ -216,7 +218,8 @@ void shutdown_complete() {
     if(should_report_complete) {
         autostart_machine_state &= 0xFFFFFF00;
         autostart_machine_state |= 0x00000080;
-        send_to_rimbox("\r\nshutdown complete\r\n");
+        send_to_rimbox("shutdown complete");
+	send_to_rimbox(EOL);
         should_report_complete = false;
     }
     if (doing_startup) {
@@ -294,7 +297,7 @@ void autostartgetturbotime_command(char *args[])
 static void autostartgetvactime_command(char *args[], int * timevar)
 {
     char msg[19];
-    snprintf(msg, 18, "\r%d", *timevar);
+    snprintf(msg, 18, "%d", *timevar);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
@@ -326,14 +329,14 @@ static void autostartsetvactime_command(char *args[], int * timevar,void (*savef
 
     N = sscanf(args[0],"%d",&next_vac_time);
     if (!N) {
-        //snprintf(msg, 18, "\rBad N(%d)%s\r\n",N,args[0]);
+        //snprintf(msg, 18, "Bad N(%d)%s",N,args[0]);
         //send_to_rimbox(msg);
         send_to_rimbox(EOL);
         return;
     }
     if( (next_vac_time < AUTO_START_MIN_VAC_TIME_MIN ) || ( next_vac_time > AUTO_START_MAX_VAC_TIME_MIN ) )
     {
-        //snprintf(msg, 18, "\rHERE%3.2f\r\n", next_temp);
+        //snprintf(msg, 18, "HERE%3.2f", next_temp);
         //send_to_rimbox(msg);
         send_to_rimbox(EOL);
         return;
@@ -347,7 +350,7 @@ static void autostartsetvactime_command(char *args[], int * timevar,void (*savef
 void getswitchtemp_command(char *args[])
 {
     char msg[19];
-    snprintf(msg, 18, "\r%3.2f", autostart_switchTemp);
+    snprintf(msg, 18, "%3.2f", autostart_switchTemp);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
@@ -376,7 +379,7 @@ void setswitchtemp_command(char *args[])
     }
     if( (next_temp < AUTO_START_SWITCH_TEMP_LIMIT_LOW_K ) || (next_temp > AUTO_START_SWITCH_TEMP_LIMIT_HIGH_K ) )
     {
-        //snprintf(msg, 18, "\rHERE%3.2f\r\n", next_temp);
+        //snprintf(msg, 18, "HERE%3.2f", next_temp);
         //send_to_rimbox(msg);
         send_to_rimbox(EOL);
         return;
@@ -390,7 +393,7 @@ void setswitchtemp_command(char *args[])
 void autostartgetstate_command(char *args[])
 {
     char msg[19];
-    snprintf(msg, 18, "\r0x%x", autostart_machine_state);
+    snprintf(msg, 18, "0x%x", autostart_machine_state);
     send_to_rimbox(msg);
     send_to_rimbox(EOL);
 }
@@ -401,8 +404,9 @@ void autostart_generic_vacuum_request(char* vac_cmd, void (*next_fun)(void)) {
 
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgvcs:%s\n\r\n",vac_cmd);
+    snprintf(msg, 30, "dbgvcs:%s",vac_cmd);
     send_to_rimbox(msg);
+    send_to_rimbox(EOL);
 #endif
 
     auto_start_cmnd_rspns_tries = 0;
@@ -415,8 +419,9 @@ void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), v
 
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgvcr:%s\n\r\n",auto_start_response);
+    snprintf(msg, 30, "dbgvcr:%s",auto_start_response);
     send_to_rimbox(msg);
+    send_to_rimbox(EOL);
 #endif
 
     if (strcmp(auto_start_response, vac_resp) == 0) {
@@ -437,8 +442,9 @@ void autostart_generic_vacuum_response(char* vac_resp, void (*next_fun)(void), v
 void autostart_timed_vacuum_response(char* vac_resp, void (*next_fun)(void), void (*err_fun)(void), int32_t delayticks) {
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgvct:%s\n\r\n",auto_start_response);
+    snprintf(msg, 30, "dbgvct:%s",auto_start_response);
     send_to_rimbox(msg);
+    send_to_rimbox(EOL);
 #endif
     if (strcmp(auto_start_response, vac_resp) == 0) {
         feedlog("waiting...");
@@ -463,8 +469,9 @@ void autostart_generic_cryo_request(char* cryo_cmd, void (*next_fun)(void)) {
     strncpy(auto_start_request, cryo_cmd, AUTO_START_CMND_RSPNS_MAX_LEN-1);
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
-    snprintf(msg, 30, "dbgcrs:%s\n\r\n",cryo_cmd);
+    snprintf(msg, 30, "dbgcrs:%s",cryo_cmd);
     send_to_rimbox(msg);
+    send_to_rimbox(EOL);
 #endif
 
     auto_start_cmnd_rspns_tries = 0;
@@ -479,7 +486,7 @@ int autostart_vac_getulongfromresp(unsigned long int * val)
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
     
-    snprintf(msg, 30, "dbgvcu:%s\n\r\n",auto_start_response);
+    snprintf(msg, 30, "dbgvcu:%s",auto_start_response);
     send_to_rimbox(msg);
 #endif
     int NN;
@@ -494,9 +501,10 @@ int autostart_vac_getulongfromresp(unsigned long int * val)
     //response is not represented by a string
     NN = !sscanf(auto_start_response,"%lu",val);
 #if AUTOSTART_DEBUG_PRINT
-    //snprintf(msg, 30, "dbgvcu:got %u(%d)\n\r\n",*val,auto_start_response == foo);
-    snprintf(msg, 30, "dbgvcu:got %u(%d)\n\r\n",*val,NN);
+    //snprintf(msg, 30, "dbgvcu:got %u(%d)",*val,auto_start_response == foo);
+    snprintf(msg, 30, "dbgvcu:got %u(%d)",*val,NN);
     send_to_rimbox(msg);
+    send_to_rimbox(EOL);
 #endif
     
     return NN;
@@ -513,7 +521,7 @@ int autostart_cryo_getfloatfromresp(float * val)
 #if AUTOSTART_DEBUG_PRINT
     char msg[31];
     
-    snprintf(msg, 30, "dbgcrf:%s\n\r\n",auto_start_response);
+    snprintf(msg, 30, "dbgcrf:%s",auto_start_response);
     send_to_rimbox(msg);
 #endif
     
@@ -531,10 +539,11 @@ int autostart_cryo_getfloatfromresp(float * val)
     tmpval = strtof(crsp,&foo);
     sscanf(crsp,"%f",val);
 #if AUTOSTART_DEBUG_PRINT
-    snprintf(msg, 30, "dbgcrf:got '%s'\n\r\n",crsp);
+    snprintf(msg, 30, "dbgcrf:got '%s'",crsp);
     send_to_rimbox(msg);
-    snprintf(msg, 30, "dbgcrf:got %.2f(%d)\n\r\n",*val,crsp == foo);
+    snprintf(msg, 30, "dbgcrf:got %.2f(%d)",*val,crsp == foo);
     send_to_rimbox(msg);
+    send_to_rimbox(EOL);
 #endif
     //if those are equal, that means the conversion failed
     return (crsp == foo);
@@ -557,6 +566,7 @@ void autostart_generic_cryo_response(float cryo_resp, void (*next_fun)(void), vo
 #if AUTOSTART_DEBUG_PRINT
         snprintf(msg, 30, "dbgcr2:%d_%3.2f_%3.2f\n\r\n",Ncr,cryo_flt_rspns,cryo_resp);
         send_to_rimbox(msg);
+    	send_to_rimbox(EOL);
 #endif
         poll_auto_start = next_fun;
         return;

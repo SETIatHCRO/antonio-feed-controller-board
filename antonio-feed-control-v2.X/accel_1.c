@@ -684,7 +684,7 @@ static void accel_report_one_sec(bool on_or_off) {
 static void accel_one_sec_report_callback() {
     
     if(!one_second_report) return;
-    send_to_rimbox("\r\n");
+    send_to_rimbox(EOL);
     get_accel_process(NULL);
     start_timer(&accel_report_timer, accel_one_sec_report_callback, 1000);
 }
