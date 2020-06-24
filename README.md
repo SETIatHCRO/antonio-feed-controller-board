@@ -14,6 +14,15 @@ Requirements for the feed controller project, as of Jan 18, 2019
   - Windows 10
   - Pickit4 programmer
 
+The project may be also imported and compiled in linux. They require several libraries. for linux (ubuntu) such libraries may be installed by:
+
+```
+dpkg --add-architecture i386
+apt-get update
+apt install libc6:i386 libx11-6:i386 libxext6:i386 libstdc++6:i386 libexpat1:i386
+```
+
+
 ## Useful Links
 
 The processor is the Microchip 32MX795F512L
@@ -22,6 +31,10 @@ The processor is the Microchip 32MX795F512L
   - PIC32MX family reference manual: http://hades.mech.northwestern.edu/images/2/21/61132B_PIC32ReferenceManual.pdf
   - Falsh programming spec: http://ww1.microchip.com/downloads/en/DeviceDoc/PIC32-Flash-%20Programming-%20Specification-DS60001145W.pdf
   - Compiler User's Guide: http://hades.mech.northwestern.edu/images/c/cc/XC32_Compiler_Users_Guide.pdf
+
+  - ide: https://www.microchip.com/mplab/mplab-x-ide
+  - compiler (needs to be installed separately): https://www.microchip.com/mplab/compilers
+  - peripherials library (needs to be installed after compiler and with proper path): https://www.microchip.com/SWLibraryWeb/product.aspx?product=PIC32%20Peripheral%20Library
 
 ## Notes
 
