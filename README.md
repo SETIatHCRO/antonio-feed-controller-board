@@ -69,6 +69,18 @@ There are 3 UARTS, parameters defines in user.c
   - Tech manual: https://www.nxp.com/docs/en/data-sheet/MMA8452Q.pdf
   - Board wiring: https://github.com/SETIatHCRO/antonio-feed-controller-board/blob/master/Items%20collected%20by%20MCF/accel.pdf
 
+## Minicom
 
+in test bench, it's possible to comunicate with the feed via minicom. The settings for the minicom are as follows:
+
+```
+# Machine-generated file - use "minicom -s" to change parameters.
+pu port             /dev/ttyUSB0
+pu baudrate         19200
+pu bits             8
+pu parity           N
+pu stopbits         1
+pu rtscts           No
+```
 
 
