@@ -199,7 +199,18 @@ INT main(void)
 //	InitLED();
 	
 	// Enter firmware upgrade mode if there is a trigger or if the application is not valid
-	if(CheckTrigger() || !ValidAppPresent())
+    
+    /* TODO: README
+     * JSK: the intended use of the bootloader is to have both bootloader and feed firmware
+     * "merged" in the project design. One can do that in mplab to program both into the image
+     * However we don't want to have a bootloader on working feeds (we choose to physically 
+     * connect to the feeds with jtag when we need to reprogram it). 
+     * In normal condition setting sw reset flag would trigger the Check Trigger and
+     * move the code to the bootloader (see bootloader or restart commands on feed firmware). 
+     * What we do here is to use bootloader mainly to populate the SD memory and then
+     * reprogram the feed control app
+     */
+	if(CheckTrigger() || !ValidAppPresent() || 1)
 	{
 		// Initialize the transport layer - UART/USB/Ethernet
 		TRANS_LAYER_Init(pbClk);
