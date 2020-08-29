@@ -111,110 +111,128 @@ ${OBJECTDIR}/Source/antonio.o: Source/antonio.c  nbproject/Makefile-${CND_CONF}.
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/antonio.o.d 
 	@${RM} ${OBJECTDIR}/Source/antonio.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/antonio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/antonio.o.d" -o ${OBJECTDIR}/Source/antonio.o Source/antonio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/antonio.o.d" -o ${OBJECTDIR}/Source/antonio.o Source/antonio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/antonio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/BootLoader.o: Source/BootLoader.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/BootLoader.o.d 
 	@${RM} ${OBJECTDIR}/Source/BootLoader.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/BootLoader.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/BootLoader.o.d" -o ${OBJECTDIR}/Source/BootLoader.o Source/BootLoader.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/BootLoader.o.d" -o ${OBJECTDIR}/Source/BootLoader.o Source/BootLoader.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/BootLoader.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/diskio.o: Source/diskio.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/diskio.o.d 
 	@${RM} ${OBJECTDIR}/Source/diskio.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/diskio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/diskio.o.d" -o ${OBJECTDIR}/Source/diskio.o Source/diskio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/diskio.o.d" -o ${OBJECTDIR}/Source/diskio.o Source/diskio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/diskio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/pff.o: Source/pff.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/pff.o.d 
 	@${RM} ${OBJECTDIR}/Source/pff.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/pff.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/pff.o.d" -o ${OBJECTDIR}/Source/pff.o Source/pff.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/pff.o.d" -o ${OBJECTDIR}/Source/pff.o Source/pff.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/pff.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/Uart/Uart.o: Source/Uart/Uart.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source/Uart" 
 	@${RM} ${OBJECTDIR}/Source/Uart/Uart.o.d 
 	@${RM} ${OBJECTDIR}/Source/Uart/Uart.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/Uart/Uart.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/Uart/Uart.o.d" -o ${OBJECTDIR}/Source/Uart/Uart.o Source/Uart/Uart.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/Uart/Uart.o.d" -o ${OBJECTDIR}/Source/Uart/Uart.o Source/Uart/Uart.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/Uart/Uart.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/adler.o: Source/adler.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/adler.o.d 
 	@${RM} ${OBJECTDIR}/Source/adler.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/adler.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/adler.o.d" -o ${OBJECTDIR}/Source/adler.o Source/adler.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/adler.o.d" -o ${OBJECTDIR}/Source/adler.o Source/adler.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/adler.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/FrameWork/Framework.o: Source/FrameWork/Framework.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source/FrameWork" 
 	@${RM} ${OBJECTDIR}/Source/FrameWork/Framework.o.d 
 	@${RM} ${OBJECTDIR}/Source/FrameWork/Framework.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/FrameWork/Framework.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/FrameWork/Framework.o.d" -o ${OBJECTDIR}/Source/FrameWork/Framework.o Source/FrameWork/Framework.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/FrameWork/Framework.o.d" -o ${OBJECTDIR}/Source/FrameWork/Framework.o Source/FrameWork/Framework.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/FrameWork/Framework.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/NVMem.o: Source/NVMem.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/NVMem.o.d 
 	@${RM} ${OBJECTDIR}/Source/NVMem.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/NVMem.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/NVMem.o.d" -o ${OBJECTDIR}/Source/NVMem.o Source/NVMem.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/NVMem.o.d" -o ${OBJECTDIR}/Source/NVMem.o Source/NVMem.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/NVMem.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/base64.o: Source/base64.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/base64.o.d 
 	@${RM} ${OBJECTDIR}/Source/base64.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/base64.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/base64.o.d" -o ${OBJECTDIR}/Source/base64.o Source/base64.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/base64.o.d" -o ${OBJECTDIR}/Source/base64.o Source/base64.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/base64.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 else
 ${OBJECTDIR}/Source/antonio.o: Source/antonio.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/antonio.o.d 
 	@${RM} ${OBJECTDIR}/Source/antonio.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/antonio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/antonio.o.d" -o ${OBJECTDIR}/Source/antonio.o Source/antonio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/antonio.o.d" -o ${OBJECTDIR}/Source/antonio.o Source/antonio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/antonio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/BootLoader.o: Source/BootLoader.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/BootLoader.o.d 
 	@${RM} ${OBJECTDIR}/Source/BootLoader.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/BootLoader.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/BootLoader.o.d" -o ${OBJECTDIR}/Source/BootLoader.o Source/BootLoader.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/BootLoader.o.d" -o ${OBJECTDIR}/Source/BootLoader.o Source/BootLoader.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/BootLoader.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/diskio.o: Source/diskio.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/diskio.o.d 
 	@${RM} ${OBJECTDIR}/Source/diskio.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/diskio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/diskio.o.d" -o ${OBJECTDIR}/Source/diskio.o Source/diskio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/diskio.o.d" -o ${OBJECTDIR}/Source/diskio.o Source/diskio.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/diskio.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/pff.o: Source/pff.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/pff.o.d 
 	@${RM} ${OBJECTDIR}/Source/pff.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/pff.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/pff.o.d" -o ${OBJECTDIR}/Source/pff.o Source/pff.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/pff.o.d" -o ${OBJECTDIR}/Source/pff.o Source/pff.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/pff.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/Uart/Uart.o: Source/Uart/Uart.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source/Uart" 
 	@${RM} ${OBJECTDIR}/Source/Uart/Uart.o.d 
 	@${RM} ${OBJECTDIR}/Source/Uart/Uart.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/Uart/Uart.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/Uart/Uart.o.d" -o ${OBJECTDIR}/Source/Uart/Uart.o Source/Uart/Uart.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/Uart/Uart.o.d" -o ${OBJECTDIR}/Source/Uart/Uart.o Source/Uart/Uart.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/Uart/Uart.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/adler.o: Source/adler.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/adler.o.d 
 	@${RM} ${OBJECTDIR}/Source/adler.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/adler.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/adler.o.d" -o ${OBJECTDIR}/Source/adler.o Source/adler.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/adler.o.d" -o ${OBJECTDIR}/Source/adler.o Source/adler.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/adler.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/FrameWork/Framework.o: Source/FrameWork/Framework.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source/FrameWork" 
 	@${RM} ${OBJECTDIR}/Source/FrameWork/Framework.o.d 
 	@${RM} ${OBJECTDIR}/Source/FrameWork/Framework.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/FrameWork/Framework.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/FrameWork/Framework.o.d" -o ${OBJECTDIR}/Source/FrameWork/Framework.o Source/FrameWork/Framework.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/FrameWork/Framework.o.d" -o ${OBJECTDIR}/Source/FrameWork/Framework.o Source/FrameWork/Framework.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/FrameWork/Framework.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/NVMem.o: Source/NVMem.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/NVMem.o.d 
 	@${RM} ${OBJECTDIR}/Source/NVMem.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/NVMem.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/NVMem.o.d" -o ${OBJECTDIR}/Source/NVMem.o Source/NVMem.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/NVMem.o.d" -o ${OBJECTDIR}/Source/NVMem.o Source/NVMem.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/NVMem.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/Source/base64.o: Source/base64.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/Source" 
 	@${RM} ${OBJECTDIR}/Source/base64.o.d 
 	@${RM} ${OBJECTDIR}/Source/base64.o 
-	@${FIXDEPS} "${OBJECTDIR}/Source/base64.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/base64.o.d" -o ${OBJECTDIR}/Source/base64.o Source/base64.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -D_SUPPRESS_PLIB_WARNING -I"/home/sonata/antonio-feed-controller-board/bootloader/Include" -MMD -MF "${OBJECTDIR}/Source/base64.o.d" -o ${OBJECTDIR}/Source/base64.o Source/base64.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	@${FIXDEPS} "${OBJECTDIR}/Source/base64.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ 
 	
 endif
 
@@ -229,12 +247,12 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/bootloader.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE) -g   -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/bootloader.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)   -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC02000:0x1FC02FEF -mreserve=boot@0x1FC02000:0x1FC024FF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
+	${MP_CC} $(MP_EXTRA_LD_PRE) -g   -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/bootloader.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)   -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC02000:0x1FC02FEF -mreserve=boot@0x1FC02000:0x1FC024FF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml -mdfp="${DFP_DIR}"
 	
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/bootloader.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/bootloader.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/bootloader.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=_min_heap_size=1024,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml -mdfp="${DFP_DIR}"
 	${MP_CC_DIR}/xc32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/bootloader.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
 endif
 
