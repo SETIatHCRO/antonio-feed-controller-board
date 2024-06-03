@@ -1,4 +1,4 @@
-#!/usr/bin/python 
+#!/usr/bin/python3
 
 from select import select
 import sys
@@ -80,9 +80,8 @@ def com_port_recv_line():
         if ( (ord(recv_char) == 0x0d) ): 
             break
         if ((ord(recv_char) >= 0x20) and (ord(recv_char) <= 0x7e)):
-            line = line + recv_char
+            line = line + recv_char.decode()
             timeout_count = 0
-
     return (line)
 
 
@@ -142,10 +141,10 @@ def main():
 
     term_io_func_ptr = term_io_handle_keycode
 
-    com_port.write(chr(0x0d))
+    com_port.write(chr(0x0d).encode())
     time.sleep(0.2)
-    com_port.write('minex')
-    com_port.write(chr(0x0d))
+    com_port.write('minex'.encode())
+    com_port.write(chr(0x0d).encode())
 
     next_status_min = (get_minute() + AUTO_STATUS_PERIOD) % 60
 
@@ -166,7 +165,7 @@ def main():
                 term_io_func_ptr(keycode)
         recv_data = com_port_recv_char()
         if (len(recv_data) > 0):
-            sys.stdout.write(recv_data)
+            sys.stdout.write(recv_data.decode())
             sys.stdout.flush()
         if (get_minute() == next_status_min):
             next_status_min = (next_status_min + AUTO_STATUS_PERIOD) % 60
@@ -204,7 +203,7 @@ def term_io_handle_keycode(keycode):
 
     if ((keycode >= 0x20) and (keycode <= 0x7e)):
         command = command + chr(keycode)
-        com_port.write(chr(keycode))
+        com_port.write(chr(keycode).encode())
         return
 
     if (keycode == 0x0d):
@@ -214,7 +213,7 @@ def term_io_handle_keycode(keycode):
     if ( sys.platform.startswith('linu') and (keycode == 0x0a) ):
         #in linux CR is not added to LF
         term_io_cr()
-        com_port.write(chr(keycode))
+        com_port.write(chr(keycode).encode())
         return
 
 
@@ -236,7 +235,7 @@ def term_io_backspace():
     if (len(command) > 0):
         command = command[0:-1]
 
-    com_port.write(chr(0x08))
+    com_port.write(chr(0x08).encode())
 
 
 def term_io_get_status():
@@ -252,7 +251,7 @@ def term_io_cr():
     global status_line_num
     global done
 
-    com_port.write(chr(0x0d))
+    com_port.write(chr(0x0d).encode())
 
     command = command.strip()
     #print(command)
@@ -405,10 +404,9 @@ def get_and_print_status():
 def get_vacuum():
     vac_str = ''
 
-    com_port.write('getvacuum' + '\r')
+    com_port.write(('getvacuum' + '\r').encode())
     com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
-
     try:
         if (not (len(line) > 0)):
             raise Exception('')
@@ -424,10 +422,9 @@ def get_vacuum():
 def get_vac_p316():
     p316_str = ''
 
-    com_port.write('p316' + '\r')
+    com_port.write(('p316' + '\r').encode())
     com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
-
     try:
         if (not (len(line) > 0)):
             raise Exception('')
@@ -442,7 +439,7 @@ def get_vac_p316():
 def get_vac_p398():
     p398_str = ''
 
-    com_port.write('p398' + '\r')
+    com_port.write(('p398' + '\r').encode())
     com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 
@@ -460,7 +457,7 @@ def get_vac_p398():
 def get_vac_p346():
     p346_str = ''
 
-    com_port.write('p346' + '\r')
+    com_port.write(('p346' + '\r').encode())
     com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 
@@ -478,7 +475,7 @@ def get_vac_p346():
 def get_temp(address):
     temp_str = ''
 
-    com_port.write('gettemp' + ' ' + address + '\r')
+    com_port.write(('gettemp' + ' ' + address + '\r').encode())
     com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 
@@ -497,7 +494,7 @@ def get_temp(address):
 def get_tc():
     tc_str = ''
 
-    com_port.write('TC' + '\r')
+    com_port.write(('TC' + '\r').encode())
     l1=com_port_recv_line()  # throw away echoed command
     l3=com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
@@ -519,7 +516,7 @@ def get_e():
     min_str = ''
     cur_str = ''
 
-    com_port.write('E' + '\r')
+    com_port.write(('E' + '\r').encode())
     l1=com_port_recv_line()  # throw away echoed command
     l3=com_port_recv_line()  # throw away echoed command
     max_line = com_port_recv_line()
@@ -559,7 +556,7 @@ def get_e():
 def get_diode():
     diode_str = ''
 
-    com_port.write('getdiode -v' + '\r')
+    com_port.write(('getdiode -v' + '\r').encode())
     com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 
@@ -578,7 +575,7 @@ def get_diode():
 def get_pwm():
     pwm_str = ''
 
-    com_port.write('getfanpwm' + '\r')
+    com_port.write(('getfanpwm' + '\r').encode())
     l1 = com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 
@@ -596,7 +593,7 @@ def get_pwm():
 def get_rpm():
     rpm_str = ''
 
-    com_port.write('getfanrpm' + '\r')
+    com_port.write(('getfanrpm' + '\r').encode())
     com_port_recv_line()  # throw away echoed command
     line = com_port_recv_line()
 

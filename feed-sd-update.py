@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import getopt
 import struct
@@ -61,17 +61,16 @@ def com_port_recv_line(*arg):
         if (ord(recv_char) == 0x0d):
             break
         if ((ord(recv_char) >= 0x20) and (ord(recv_char) <= 0x7e)):
-            line = line + recv_char
+            line = line + recv_char.decode()
             timeout_count = 0
-
     return (line)
 
 def update_failure():
-    raw_input("feed control board update FAILED - press any key to exit")
+    input("feed control board update FAILED - press any key to exit")
     sys.exit(1)
 
 def update_success():
-    raw_input("feed control board SD update successful - press any key to exit")
+    input("feed control board SD update successful - press any key to exit")
     sys.exit(0)
 
 def main():
@@ -85,21 +84,21 @@ def main():
     print("got port")
     try:
         fd = open(filename, 'rb')
-    except Exception, e:
+    except Exception as e:
         print ('unable to open disk image ' + filename)
         update_failure()
     print('got file')
 
-    com_port.write(chr(0x0d))
+    com_port.write(chr(0x0d).encode())
     com_port_recv_line()
-    com_port.write(chr(0x0d))
+    com_port.write(chr(0x0d).encode())
     com_port_recv_line()
 
     print('writing')
 
     cmnd = 'bootloader'
-    com_port.write(cmnd)
-    com_port.write(chr(0x0d))
+    com_port.write(cmnd.encode())
+    com_port.write(chr(0x0d).encode())
     print (cmnd)
     rspns = com_port_recv_line()
     print(rspns)
@@ -109,8 +108,8 @@ def main():
         print('resetting')
         com_port_recv_line()
         cmnd = 'reset'
-        com_port.write(cmnd)
-        com_port.write(chr(0x0d))
+        com_port.write(cmnd.encode())
+        com_port.write(chr(0x0d).encode())
         print (cmnd)
         rspns = com_port_recv_line()
         print (rspns)
@@ -126,13 +125,13 @@ def main():
 
 
 def format_request(blk, offset):
-    request = 'writedisk' + ' '
-    request += str(offset)
-    request += ' '
-    request += str(BLOCK_SIZE)
-    request += ' '
-    request += '{0:08x}'.format(zlib.adler32(blk) & 0xffffffff)
-    request += ' '
+    request = ('writedisk' + ' ').encode()
+    request += str(offset).encode()
+    request += ' '.encode()
+    request += str(BLOCK_SIZE).encode()
+    request += ' '.encode()
+    request += '{0:08x}'.format(zlib.adler32(blk) & 0xffffffff).encode()
+    request += ' '.encode()
     request += base64.b64encode(blk)
     return (request)
 
@@ -152,9 +151,9 @@ def writedisk():
 
     while (blk):
         request = format_request(blk, offset)
-        print (request[0:54] + ' ... ' + request[-16:] + ' ')
+        print (request[0:54].decode() + ' ... ' + request[-16:].decode() + ' ')
         com_port.write(request)
-        com_port.write(chr(0x0d))
+        com_port.write(chr(0x0d).encode())
         rspns = com_port_recv_line()
         print (rspns)
         if (re.search(r'ACK', rspns)):
